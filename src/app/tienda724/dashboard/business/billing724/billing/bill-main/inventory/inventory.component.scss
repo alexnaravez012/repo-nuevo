@@ -1,0 +1,19 @@
+.my-col {
+    flex: 0 0 4px;
+    padding:4px;
+    margin-right:5px;
+    margin-left:13px;
+    margin-top:10px;
+    margin-bottom:10px;
+  }
+
+.ColumnasTablas{
+  max-width: 30vw;
+}
+
+:host ::ng-deep .mat-sort-header-container {
+  display: flex;
+  justify-content: center;
+  font-size: larger;
+  font-weight: 800 !important;
+}

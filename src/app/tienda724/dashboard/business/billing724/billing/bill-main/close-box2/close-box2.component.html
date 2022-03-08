@@ -1,0 +1,145 @@
+<div>
+  <mat-card >
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+      <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">
+        Opciones de Caja</mat-card-title>
+    </mat-card-header>
+  </mat-card>
+  <mat-card>
+  <mat-card-content style="padding:25px">
+
+    <mat-tab-group>
+      <mat-tab label="Movimientos de caja">
+        <h4>Estas a punto de hacer un nuevo movimiento de caja.</h4>
+        <mat-form-field>
+          <mat-label>Select an option</mat-label>
+          <mat-select [(value)]="movementType">
+            <mat-option value="c">Egreso</mat-option>
+            <mat-option value="d">Ingreso</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <input currencyMask [options]="{ precision: 0 }" [(ngModel)]="movementMoney" matInput class="text-center" type="text" placeholder="Cantidad"
+            id="reader" autofocus type="text" (click)="$event.target.select()">
+        </mat-form-field>
+        <mat-form-field>
+          <input [(ngModel)]="movementNotes" matInput class="text-center" type="text" placeholder="Notas" id="reader"
+            autofocus type="text">
+        </mat-form-field>
+        <button mat-stroked-button color="primary" type="button" (click)="openDetailsDialog()">Ver Otros Movimientos</button>
+        <button [disabled]="!(movementMoney>0 && movementNotes.length>0) || buttonoff" mat-stroked-button color="primary" type="button" (click)="openBox()">Añadir Movimiento</button>
+      </mat-tab>
+      <mat-tab label="Cierre de caja">
+        <!-- <div class="col">
+        <h2>Mi Balance es {{ balances - total2 + movementBill + movementCoin + tarjCred + tarjDeb + devoluciones| currency  : 'USD' : 'symbol' : '1.0' }}</h2>
+        </div>   -->
+        <div class="row">
+          <div class="col-12">
+            <!--<h4 class="text-center">Cajero: {{ closeboxinfo.cajero }}</h4>
+            <h4 class="text-center">Caja: {{ nombreCaja }}</h4>
+            <h4 class="text-center">Tienda: {{ nombreTienda }}</h4>
+            <h4 class="text-center">Fecha apertura: {{closeboxinfo.starting_DATE | date:'dd/MM/yyyy H:mm'}} </h4>
+             <h4 class="text-center">Dinero base: {{ base | currency  : 'USD' : 'symbol' : '1.0' }} </h4>
+            <h4 class="text-center">Devoluciones : {{ devoluciones | currency  : 'USD' : 'symbol' : '1.0' }} </h4>                 -->
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th class="text-center"><b>Tienda: {{ nombreTienda }}</b></th>
+                  </tr>
+                  <tr>
+                    <th class="text-center"><b>Caja: {{ nombreCaja }}</b></th>
+                  </tr>
+                  <tr>
+                    <th class="text-center"><b>Cajero: {{ closeboxinfo.cajero.replace('null',' ') }}</b> </th>
+                  </tr>
+                  <tr>
+                    <th class="text-center"><b>Fecha apertura: {{closeboxinfo.starting_DATE | date:'dd/MM/yyyy H:mm'}}</b></th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+          </div>
+          <div class="col-6" [hidden]="true">
+              <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th class="text-center"><b></b></th>
+                      <th class="text-center"><b>Ventas</b></th>
+                      <th class="text-center"><b>Devoluciones</b></th>
+                      <th class="text-center"><b></b></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">
+                          <b>Efectivo: </b>
+                        </th>
+                        <th class="text-center"> {{ efectivo | currency  : 'USD' : 'symbol' : '1.0' }}</th>
+                        <th class="text-center"> {{ devoluciones | currency  : 'USD' : 'symbol' : '1.0' }} </th>
+                        <th class="text-center"> {{ efectivo-devoluciones | currency  : 'USD' : 'symbol' : '1.0' }} </th>
+                      </tr>
+                      <tr>
+                        <th class="text-center">
+                          <b>Tarjeta Debito: </b>
+                        </th>
+                        <th class="text-center"> {{ tarjDeb| currency  : 'USD' : 'symbol' : '1.0' }}</th>
+                        <th class="text-center"> {{ devolucionesDebt | currency  : 'USD' : 'symbol' : '1.0' }} </th>
+                        <th class="text-center"> {{ tarjDeb-devolucionesDebt | currency  : 'USD' : 'symbol' : '1.0' }} </th>
+                      </tr>
+                      <tr>
+                        <th class="text-center">
+                          <b>Tarjeta Credito: </b>
+                        </th>
+                        <th class="text-center"> {{ tarjCred | currency  : 'USD' : 'symbol' : '1.0' }}</th>
+                        <th class="text-center"> {{ devolucionesCred | currency  : 'USD' : 'symbol' : '1.0' }} </th>
+                        <th class="text-center"> {{ tarjCred-devolucionesCred | currency  : 'USD' : 'symbol' : '1.0' }} </th>
+                      </tr>
+                      <tr>
+                        <th class="text-center">
+                          <b> </b>
+                        </th>
+                        <th class="text-center"><h4><b>{{ (tarjCred+tarjDeb+efectivo) | currency  : 'USD' : 'symbol' : '1.0' }}</b></h4></th>
+                        <th class="text-center"><h4><b>{{ (devoluciones+devolucionesDebt+devolucionesCred) | currency  : 'USD' : 'symbol' : '1.0' }}</b></h4></th>
+                        <th class="text-center"><h4><b>{{ (tarjCred+tarjDeb+efectivo)-(devoluciones+devolucionesDebt+devolucionesCred) | currency  : 'USD' : 'symbol' : '1.0' }}</b></h4></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+
+                  </tbody>
+              </table>
+            <!-- <h4 class="text-center">Ventas es {{ total2 | currency  : 'USD' : 'symbol' : '1.0' }}</h4>
+            <h4 class="text-center">Efectivo es {{ efectivo | currency  : 'USD' : 'symbol' : '1.0' }}</h4>
+            <h4 class="text-center">Tarjeta Crédito es {{ tarjCred| currency  : 'USD' : 'symbol' : '1.0' }}</h4>
+            <h4 class="text-center">Tarjeta Débito es {{ tarjDeb| currency  : 'USD' : 'symbol' : '1.0' }}</h4>
+            <h4 class="text-center">Valores Crédito: {{ credits | currency  : 'USD' : 'symbol' : '1.0' }} </h4>
+            <h4 class="text-center">Valores Débito: {{ debts | currency  : 'USD' : 'symbol' : '1.0' }} </h4>   -->
+          </div>
+        </div>
+  <!-- <mat-card-content>
+    <div class="table-responsive">
+
+      </div>
+    </mat-card-content>  -->
+    <div class="row">
+      <div class="col-6">
+        <mat-form-field>
+          <input currencyMask [options]="{ precision: 0 }" [(ngModel)]="movementBill" (ngModelChange)="calculateaux1()" matInput class="text-center"
+            type="number" placeholder="Cantidad en Billetes" autofocus type="text" (click)="$event.target.select()">
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field>
+          <input currencyMask [options]="{ precision: 0 }" [(ngModel)]="movementCoin" (ngModelChange)="calculateaux2()" matInput class="text-center"
+            type="number" placeholder="Cantidad en Monedas" autofocus type="text" (click)="$event.target.select()">
+        </mat-form-field>
+      </div>
+    </div>
+        <mat-form-field [hidden]="true">
+          <input currencyMask [options]="{ precision: 0 }" [(ngModel)]="movementTrans" (ngModelChange)="calculateBalance()" matInput class="text-center"
+            type="number" placeholder="Cantidad en transacciones" autofocus type="text">
+        </mat-form-field>
+        <button mat-stroked-button color="primary" type="button" (click)="closeBox()" [hidden]="this.boxDisabled" [disabled]="!locStorage.getBoxStatus()">Cerrar Caja</button>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>
+</div>

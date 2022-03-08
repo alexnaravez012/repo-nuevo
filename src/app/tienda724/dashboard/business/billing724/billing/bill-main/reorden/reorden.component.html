@@ -1,0 +1,79 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="margin-top:-10vh">
+  <mat-card style="height: 100%;width:100%;padding:0">
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+      <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Generador de Reorden</mat-card-title>
+    </mat-card-header>
+  </mat-card>
+  <mat-card style="padding:20px">
+
+  <mat-tab-group>
+    <mat-tab label="Re Orden">
+      <mat-form-field>
+        <mat-label>Seleccione tienda</mat-label>
+        <mat-select [(ngModel)]="SelectedStore">
+          <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+            {{elem.store_NAME}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="pickerP1" placeholder="Fecha Inicial" [(ngModel)]="dateP1">
+        <mat-datepicker-toggle matSuffix [for]="pickerP1"></mat-datepicker-toggle>
+        <mat-datepicker #pickerP1 disabled="false"></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="pickerP2" placeholder="Fecha Final" [(ngModel)]="dateP2">
+        <mat-datepicker-toggle matSuffix [for]="pickerP2"></mat-datepicker-toggle>
+        <mat-datepicker #pickerP2 disabled="false"></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Ordenar por </mat-label>
+        <mat-select [(ngModel)]="type">
+          <mat-option value="1">
+            Linea
+          </mat-option>
+          <mat-option value="2">
+            Categoria
+          </mat-option>
+          <mat-option value="3">
+            Marca
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+        <button mat-stroked-button color="primary" type="button" (click)="getRepProdList()">Generar Re Orden</button>
+        <mat-card-content *ngIf=" isListProdFull === true ">
+          <div class="table-responsive">
+              <table class="table table-hover">
+                  <thead>
+                      <tr>
+                        <th class="text-center"><b>Codigo De Barras</b></th>
+                        <th class="text-center"><b>Producto</b></th>
+                        <th class="text-center"><b>Linea</b></th>
+                        <th class="text-center"><b>Categoria</b></th>
+                        <th class="text-center"><b>Marca</b></th>
+                        <th class="text-center"><b>Presentacion</b></th>
+                        <th class="text-center"><b>Costo</b></th>
+                        <th class="text-center"><b>Cantidad</b></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let elem of ListReportProd">
+                        <td class="text-center"> {{elem.id_PRODUCT_STORE}} </td>
+                        <td style="text-align: left"> {{elem.producto}} </td>
+                        <td class="text-center"> {{elem.linea}} </td>
+                        <td class="text-center"> {{elem.categoria}} </td>
+                        <td class="text-center"> {{elem.marca}} </td>
+                        <td class="text-center"> {{elem.presentacion}} </td>
+                        <td class="text-center"> {{elem.costo}} </td>
+                        <td class="text-center"> {{elem.cantidad}} </td>
+                      </tr>
+                    </tbody>
+              </table>
+            </div>
+        </mat-card-content>
+    </mat-tab>
+
+  </mat-tab-group>
+  </mat-card>
+  </div>

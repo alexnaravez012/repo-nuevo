@@ -1,0 +1,257 @@
+<mat-card style="height: 100%;width:100%;padding:0">
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+        <mat-card-title style="font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Crear Producto</mat-card-title>
+        <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;color:white;margin-bottom:0">Completar el formulario para crear un producto nuevo.</mat-card-subtitle>
+    </mat-card-header>
+</mat-card>
+<mat-card>
+  <mat-tab-group>
+      <mat-tab label="Crear Producto">
+          <mat-card-content>
+            <div >
+              <div style="display: flex;">
+                  <div style="width: 33%">
+                      <mat-form-field style="width: 95%">
+                          <input matInput class="text-center" type="text" placeholder="Código de barras" [(ngModel)]="barcode" >
+                      </mat-form-field>
+                  </div>
+                  <div style="width: 33%">
+                      <mat-form-field style="width: 95%">
+                          <input matInput class="text-center" type="text" placeholder="Nombre Producto" [(ngModel)]="prodname" >
+                      </mat-form-field>
+                  </div>
+                  <div style="width: 33%">
+                    <mat-form-field *ngIf="storeIva=='N'" style="width: 95%">
+                      <input currencyMask [options]="{ precision: 2 }" matInput class="text-center" type="text" placeholder="Costo tras IVA" [(ngModel)]="cost" >
+                    </mat-form-field>
+                    <mat-form-field *ngIf="storeIva=='S'" style="width: 95%">
+                      <input (click)="$event.target.select()" currencyMask [options]="{ precision: 2 }" matInput class="text-center" type="text" placeholder="Costo antes de IVA" [(ngModel)]="cost" >
+                    </mat-form-field>
+                </div>
+              </div>
+              <div style="display: flex;">
+                <div style="width: 33%">
+                      <mat-form-field style="width: 95%" *ngIf="storeIva=='N'">
+                        <input currencyMask [options]="{ precision: 2 }" matInput class="text-center" type="text" placeholder="Precio tras IVA" [(ngModel)]="price" >
+                      </mat-form-field>
+                      <mat-form-field style="width: 95%" *ngIf="storeIva=='S'">
+                        <input (click)="$event.target.select()" currencyMask [options]="{ precision: 2 }" matInput class="text-center" type="text" placeholder="Precio antes de IVA" [(ngModel)]="price" >
+                      </mat-form-field>
+                  </div>
+                  <div style="width: 33%">
+                      <mat-form-field style="width: 95%">
+                          <mat-label>
+                              Seleccione IVA
+                          </mat-label>
+                          <mat-select [(ngModel)]="tax">
+                              <mat-option value=0>0%</mat-option>
+                              <mat-option value=5>5%</mat-option>
+                              <mat-option value=10>10%</mat-option>
+                              <mat-option value=19>19%</mat-option>
+                              <mat-option value=21>21%</mat-option>
+                              <mat-option value=48.64>48.64 %</mat-option>
+                              <mat-option value=50.13>50.13 %</mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                  </div>
+                  <div style="width: 33%">
+                    <!-- <mat-label *ngIf="storeIva=='S'">
+                      Costo tras IVA
+                    </mat-label>
+                    <p style="text-align: center;"> {{(cost+(cost*tax)/100)}} </p> -->
+                    <mat-form-field style="width: 95%">
+                      <input [disabled]=true matInput class="text-center" type="number" placeholder="Costo tras IVA" [value]="(cost+(cost*tax)/100)" >
+                    </mat-form-field>
+                </div>
+
+              </div>
+              <div style="display: flex;">
+                <div style="width: 33%">
+                  <!-- <mat-label style="text-align: center" *ngIf="storeIva=='S'">
+                    Precio tras IVA
+                  </mat-label>
+                    <p style="text-align: center"> {{(price+(price*tax)/100)}} </p> -->
+                  <mat-form-field style="width: 95%">
+                    <input [disabled]=true matInput class="text-center" type="number" placeholder="Precio tras IVA" [value]="(price+(price*tax)/100)" >
+                  </mat-form-field>
+                </div>
+                <div style="width: 33%">
+                  <mat-form-field style="width: 95%">
+                    <input  matInput class="text-center" type="number" placeholder="Cantidad" [(ngModel)]="quantity" >
+                  </mat-form-field>
+                </div>
+                <div style="width: 33%">
+                  <mat-form-field style="width: 95%" class="center-text text-center">
+                    <mat-label>Seleccione Unidad de Medida</mat-label>
+                    <mat-select [(ngModel)]="SelectedMun">
+                      <mat-option [value]="-1">Sin Unidad de medida</mat-option>
+                      <mat-option *ngFor="let measureUnit of measureUnitList" [value]="measureUnit.id_MEASURE_UNIT">
+                          {{measureUnit.measure_UNIT}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div style="display: flex;">
+                <div style="width: 33%">
+                  <mat-form-field style="width: 95%" class="center-text text-center">
+                    <mat-label>Seleccione Linea</mat-label>
+                    <mat-select [(ngModel)]="SelectedLine" (selectionChange) = "getSecondLvlCategory()">
+                      <mat-option [value]="-1">Sin linea</mat-option>
+                      <mat-option *ngFor="let elem of CategoryFirstLvlList" [value]="elem.id_CATEGORY" [hidden]="elem.id_CATEGORY == 1108">
+                        {{elem.category}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div style="width: 33%" *ngIf="SelectedLine != -1">
+                  <!--  SELECTOR CATEGORIA-->
+                  <mat-form-field style="width: 95%" class=" center-text text-center">
+                    <mat-label>Seleccione categoria</mat-label>
+                    <mat-select [(ngModel)]="SelectedSubCategory">
+                      <mat-option [value]="-1">Sin categoria</mat-option>
+                      <mat-option *ngFor="let elem of SubCategoryList" [value]="elem.id_CATEGORY">
+                        {{elem.category}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div style="width: 33%">
+                  <mat-form-field style="width: 95%" class=" center-text text-center">
+                    <mat-label>Seleccione Marca</mat-label>
+                    <mat-select [(ngModel)]="SelectedBrand">
+                      <mat-option [value]="-1">Sin Marca</mat-option>
+                      <mat-option *ngFor="let elem of brands" [value]="elem.id_BRAND" [hidden]="elem.id_BRAND == 4368">
+                        {{elem.brand}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div style="display: flex;">
+                <div style="width: 33%">
+                  <!--						BOTON-->
+                  <button style="margin: auto; width: 95%" (click)="searchClient2()" mat-stroked-button color="primary" type="submit">Buscar Proveedor</button>
+                </div>
+
+                <div style="width: 33%">
+                  <!--						BUSCADOR-->
+                  <mat-form-field style="margin: auto; width: 95%">
+                    <input matInput class="text-center" type="text"  placeholder="Documento Proveedor"  (keyup.enter)="searchClient($event)" [(ngModel)]="ccClient" >
+                  </mat-form-field>
+                </div>
+
+                <div style="width: 33%">
+                  <mat-form-field style="width:100%" *ngIf="StoresProv.length>1">
+                    <mat-label>Seleccione tienda proveedor</mat-label>
+                    <mat-select [(ngModel)]="SelectedStore" >
+                      <mat-option *ngFor="let elem of StoresProv" [value]="elem.id_STORE">
+                        {{elem.store_NAME}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div style="display: flex;text-align: center;">
+
+                <mat-form-field style=" width: 100%;margin: auto;">
+                  <input matInput class="text-center" type="text"  placeholder="Código de proveedor" [(ngModel)]="provCode" >
+                </mat-form-field>
+              </div>
+              <div style="display: flex;text-align: center;">
+
+                <div style=" width: 100%;text-align: center;">
+                  <h5 style=" width: 100%;margin-left: 1%; margin-top: 2%;" >
+                    Proveedor Seleccionado: {{cliente}}
+                  </h5>
+                </div>
+              </div>
+              <div style="display: flex;">
+                <div style="width: 10%">
+                  <input type="file" (change)="setFileImage($event)" #myInput id="file" [hidden]=true>
+                  <label for="file" class="left-scroll" style="text-align: center;" >
+                    <mat-icon>file_copy</mat-icon><div> Cargar Imagen </div>
+                  </label>
+
+                </div>
+                <div style="width: 90%">
+                  <h5 style="margin-left: 1%; margin-top: 2%;" >
+                    {{urlUploaded}}
+                  </h5>
+                </div>
+              </div>
+              <div style="display: flex;">
+                <div style="width: 25%">
+                </div>
+                <div style="width: 25%">
+                  <button style="width: 95%;font-size: 200%;" mat-stroked-button color="primary" type="button" (click)="acept()" >Crear</button>
+                </div>
+                <div style="width: 25%">
+                  <button style="width: 95%;font-size: 200%;" mat-stroked-button color="warn" type="button" (click)="cancel()">Cancelar</button>
+                </div>
+                <div style="width: 25%">
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+      </mat-tab>
+      <mat-tab label="Ver Productos Nuevos">
+        <div style="padding: 10px;height: calc(100vh - 180px);">
+          <div style="height: 100%;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);">
+            <div style="height: 8%">
+              <mat-form-field style="margin-left: 20px;">
+                <!--suppress TypeScriptUnresolvedVariable -->
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscador">
+              </mat-form-field>
+              <mat-label style="color: gray; font-size: 13px;  text-align: center; margin-left: 20px;">De click sobre un pedido para ver más opciones</mat-label>
+            </div>
+            <div class="ScrollBar" style="height: 84%;overflow: auto;">
+              <div [hidden]="products.length == 0" style="overflow: visible;">
+                <!--            MAT_TABLE-->
+                <table mat-table multiTemplateDataRows [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width: 100%;box-shadow: unset;">
+                  <!--              CREO LAS COLUMNAS DINAMICAMENTE-->
+                  <ng-container *ngFor="let col of listTable" matColumnDef="{{col}}">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">
+                      <div *ngIf="col == 'product_STORE_NAME'">Nombre</div>
+                      <div *ngIf="col == 'id_CODE'">Código Rapido</div>
+                      <div *ngIf="col == 'code'">Código de Barras</div>
+                    </th>
+                    <td mat-cell *matCellDef="let element" style="word-break: break-word;padding: 0 !important;color: inherit" [style.text-align]="'center'">
+                      {{element[col]}}
+                    </td>
+                  </ng-container>
+
+                  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+                  <ng-container matColumnDef="expandedDetail">
+                    <td mat-cell *matCellDef="let element" [attr.colspan]="GetKeys().length">
+                      <div style="background-color: #f1f1f1;border-radius: 20px;" class="example-element-detail" [ngClass]="element == expandedElement ? '' : 'collapsed'">
+                        <div style="width: 100%; height: 40px; margin: 5px; display: flex;">
+                          <mat-label style="margin: auto;">De click para actualizar este producto:</mat-label>
+                          <button style="margin: auto;" mat-stroked-button type="button" (click)="updateButton(element)" >
+                            Actualizar Producto
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="GetKeys(); sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: GetKeys();" class="example-element-row" [class.example-expanded-row]="expandedElement === row" (click)="expandedElement = expandedElement === row ? null : row"> </tr>
+                  <tr mat-row *matRowDef="let row2; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                </table>
+              </div>
+              <div [hidden]="products.length != 0" style="height: 100%;">
+                <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                  <mat-icon style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">search</mat-icon>
+                </div>
+                <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                  <mat-label style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Acá aparecerán sus productos nuevos</mat-label>
+                </div>
+              </div>
+            </div>
+            <mat-paginator style="height: 8%;" [pageSizeOptions]="[15, 20, 25, 50, 100]"></mat-paginator>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+</mat-card>

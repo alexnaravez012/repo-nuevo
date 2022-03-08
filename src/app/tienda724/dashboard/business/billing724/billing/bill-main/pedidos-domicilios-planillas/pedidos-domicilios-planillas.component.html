@@ -1,0 +1,62 @@
+<div style="">
+    <mat-card style="height: 100%;width:100%;padding:0">
+        <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+          <mat-card-title style="font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Planilla</mat-card-title>
+        </mat-card-header>
+      </mat-card>
+    <mat-card>
+        <div>
+            <!--						FILA QUE CONTIENE DATOS CLIENTE-->
+            <div style="display: flex">
+                <!--          PERTE DERECHA-->
+                <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;width: 100%;display: flex;">
+                    <div style="margin: 0 auto;padding: 0 5px">
+                        <h5>Fecha Inicio Planilla: </h5>{{planillaDetails[0].fecha_INICIO}}
+                    </div>
+                    <div style="margin: 0 auto;padding: 0 5px">
+                        <h5>Domiciliario: </h5>{{planillaDetails[0].domiciliario}}
+                    </div>
+                    <div style="margin: 0 auto;padding: 0 5px">
+                        <h5>Numero Planilla: </h5>{{planillaDetails[0].numplanilla}}
+                    </div>
+                    <div style="margin: 0 auto;padding: 0 5px" *ngIf="planillaDetails[0].status == 'O'">
+                        <h5>Estado: </h5>Abierta
+                    </div>
+                    <div style="margin: 0 auto;padding: 0 5px" *ngIf="planillaDetails[0].status == 'R'">
+                        <h5>Estado: </h5>En Camino
+                    </div>
+                    <div style="margin: 0 auto;padding: 0 5px" *ngIf="planillaDetails[0].status != 'O' &&  planillaDetails[0].status != 'R'">
+                        <h5>Estado: </h5>Cerrada
+                    </div>
+                </div>
+            </div>   
+            <br>
+            <div style="display: flex">
+                <!--          PERTE DERECHA-->
+                <div class="card-content table-responsive">
+                    <table class="table table-hover" style="text-align: center;">
+                        <tr>
+                            <th>Numero de Factura</th>
+                            <th>Numero de Pedido</th>
+                            <th>Total Precio</th>
+                        </tr>
+                        <tr *ngFor="let item of planillaDetails">
+                            <td (click)="PDF(item)" style="color: blueviolet;">{{item.numfactura}}</td>
+                            <td>{{item.numpedido}}</td>
+                            <td>{{item.totalprice | currency : 'USD' : 'symbol' : '1.0'}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div> 
+            <br>
+            <div style="display: flex">
+                <!--          PERTE DERECHA-->
+                <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;width: 100%;display: flex;">
+                    <div style="margin: 0 auto;padding: 0 5px;text-align: center;">
+                        <h5>Total: </h5>{{total | currency : 'USD' : 'symbol' : '1.0'}}
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </mat-card>
+</div>

@@ -1,0 +1,38 @@
+<!-- <mat-card>
+  <mat-card-title>Buscar Producto</mat-card-title>
+  <mat-card-content> -->
+<div class="card card-nav-tabs" style="max-height: 85vh">
+    <div class="card-header card-header-danger" style ="background: linear-gradient(60deg, rgb(5, 53, 107), rgb(5, 53, 107))">
+      <h4 class="title">Busca el producto con los siguientes filtros</h4>
+    </div>
+  
+    <div class="card-body" style="max-height: 85vh">
+      <div class="row">
+        <div class="col-4">
+            <mat-form-field>
+              <input matInput placeholder="Nombre" [matMenuTriggerFor]="menu2" [(ngModel)]="searchInput" (change)="searchFilter(1)">
+            </mat-form-field>
+            <mat-menu #menu2="matMenu">
+              <button mat-menu-item *ngFor="let data of searchData">
+                {{data.product.code}}
+              </button>
+            </mat-menu>
+        </div>
+        <div class="col-4">
+          <mat-form-field>
+            <input matInput placeholder="Codigo">
+          </mat-form-field>
+        </div>
+        <div class="col-4">
+          <mat-form-field>
+            <input matInput placeholder="Descripcion">
+          </mat-form-field>
+        </div>
+      </div>
+  <!-- </mat-card-content> -->
+    <div class="float-right">
+      <button mat-dialog-close class="btn btn-secundary">Cancelar</button>
+      <button class="btn btn-primary">Buscar</button>
+    </div>
+<!-- </mat-card> -->
+</div>

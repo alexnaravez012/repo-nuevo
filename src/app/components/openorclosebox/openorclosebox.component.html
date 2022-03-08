@@ -1,0 +1,24 @@
+<div class="card card-nav-tabs">
+    <div class="card-header card-header-danger" style ="background-color:rgb(5, 53, 107)">
+      <h4 class="title">Abrir caja</h4>
+      <p class="title">Usted tiene la caja {{this.data.answering[0].caja }} de la tienda {{this.data.answering[0].tienda}} abierta, desea continuar en esta o cerrarla y abrir otra?.</p>
+  </div>
+
+  <div class="row" style="text-align: center; margin-top: 20px;margin-bottom: 20px;margin-left: unset;margin-right: unset" *ngIf="!isMobile()">
+    <div class="col-6">
+      <button mat-stroked-button color="primary" type="button" (click)="close(true)">Continuar con caja abierta</button>
+    </div>
+    <div class="col-6">
+      <button mat-stroked-button color="primary" type="button" (click)="close(false)">Cerrar la caja</button>
+    </div>
+  </div>
+
+  <div *ngIf="isMobile()">
+    <div class="DivMobile">
+      <button class="Boton" mat-stroked-button color="primary" type="button" (click)="close(true)">Continuar con caja abierta</button>
+    </div>
+    <div class="DivMobile">
+      <button class="Boton" mat-stroked-button color="primary" type="button" (click)="close(false)">Cerrar la caja</button>
+    </div>
+  </div>
+</div>

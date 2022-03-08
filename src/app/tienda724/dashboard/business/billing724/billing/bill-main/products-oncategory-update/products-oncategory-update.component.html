@@ -1,0 +1,303 @@
+<div style="margin-top:-10vh">
+    <span *ngIf="tipoFactura=='compra'">
+
+      <mat-card style="padding-top: 100px">
+      <mat-card-content>
+        <div class="row" >
+          <div class="col">
+                   <div class="row" *ngIf="tab == 0">
+                      <div class="col">
+                        <div class="row">
+                        <div class="col-3">
+                          <mat-form-field *ngIf="this.locStorage.getRol()[0].id_rol!=8888">
+                            <mat-label>Seleccione tienda</mat-label>
+                            <mat-select [(ngModel)]="SelectedStore" (selectionChange) = "getInventoryList2()" >
+                              <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+                                {{elem.store_NAME}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-3">
+                          <mat-form-field>
+                            <input (keyup)="applyFilter($event.target.value)" [(ngModel)]="inputForCode" matInput class="text-center" type="text" placeholder="Producto" #nameit (keyup.enter)="addDetail($event)">
+                          </mat-form-field>
+                        </div>
+
+                        <div class="col-6 text-align:right;">
+                          <button mat-stroked-button color="primary" type="button" (click)="openCategories2()">Busqueda de Productos</button>
+                          <button mat-stroked-button color="primary" type="button" (click)="openDialogTransactionConfirm()" [disabled]="!setObject.length">Actualizar Inventario</button>
+                          <button mat-stroked-button color="primary" type="button" (click)="cancel()">Cancelar</button>
+                          <button mat-stroked-button color="primary" type="button" (click)="copiar()" *ngIf="SelectedStore==49007">Copiar</button>
+                        </div>
+
+                        </div>
+
+                          <div class="row" >
+                            <div class="col-12" >
+                              <div class="ScrollBar" style="max-height: 115px; overflow-y: scroll; margin-top: -15px;text-align: center;" *ngIf="listaElem.length != 0" >
+                                <div style="margin: 0;padding: 0;text-align: center;border-bottom: solid;border-bottom-color: #d8d8d8;border-bottom-width: thin;" *ngFor="let item of listaElem" class="example-element-row">
+                                  <div class="col" style="text-align: center;" *ngIf="!disableDoubleClickSearch" (click)="addDetail2(item)">
+                                    {{item.product_STORE_NAME}} - {{item.ownbarcode}} - {{item.product_STORE_CODE}}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                           </div>
+                      </div>
+
+
+
+
+
+                     <div class="row" style="text-align:center;width: 100%">
+                      <div class="col">
+                            <h5 class="left-scroll">
+                              Nombre
+                            </h5>
+                            <h3 class="left-scroll">
+                              <mat-form-field style="width:15vw">
+                                <input [(ngModel)]="nombreProducto" matInput class="text-center" type="text">
+                              </mat-form-field>
+                            </h3>
+                          </div>
+                          <div class="col">
+                            <h5 class="left-scroll">
+                              Codigo acceso rapido
+                            </h5>
+                            <h3 class="left-scroll">
+                              <mat-form-field style="width:15vw">
+                                <input [(ngModel)]="quickCode" matInput class="text-center" type="text">
+                              </mat-form-field>
+                            </h3>
+                          </div>
+                      <div class="col">
+                          <h5 class="left-scroll">
+                              Codigo de barras
+                          </h5>
+                          <h3 class="left-scroll">
+                            <mat-form-field style="width:15vw">
+                              <input disabled = true [(ngModel)]="ownnbarcode" matInput class="text-center" type="text">
+                            </mat-form-field>
+                          </h3>
+                      </div>
+                      <div class="col">
+                        <h5 class="left-scroll" *ngIf="storeIva=='S'">
+                          Precio Venta Antes de IVA
+                        </h5>
+                        <h5 class="left-scroll" *ngIf="storeIva=='N'">
+                          Precio Despues de IVA
+                        </h5>
+                        <h3 class="left-scroll">
+                          <mat-form-field style="width:15vw">
+                            <input (click)="$event.target.select()" currencyMask [options]="{ precision: 2 }" [(ngModel)]="precio" matInput class="text-center" type="number" type="text">
+                          </mat-form-field>
+                        </h3>
+                      </div>
+                    </div>
+                     <div class="row" style="text-align:center;width: 100%">
+
+                          <div class="col">
+                            <h5 class="left-scroll" *ngIf="storeIva=='S'">
+                              Costo Antes de IVA
+                            </h5>
+                            <h5 class="left-scroll" *ngIf="storeIva=='N'">
+                              Costo Despues de IVA
+                            </h5>
+                            <h3 class="left-scroll">
+                              <mat-form-field style="width:15vw">
+                                <input (click)="$event.target.select()" currencyMask [options]="{ precision: 2 }" [(ngModel)]="costo" matInput class="text-center" type="number" type="text">
+                              </mat-form-field>
+                            </h3>
+                          </div>
+                      <div class="col">
+                          <h5 class="left-scroll">
+                              Cantidad
+                          </h5>
+                          <h3 class="left-scroll">
+                            <mat-form-field style="width:15vw">
+                              <input  [(ngModel)]="cantidad" matInput class="text-center" type="number" type="text">
+                            </mat-form-field>
+                          </h3>
+                      </div>
+                      <div class="col">
+                        <h5 class="left-scroll">
+                          Margen Venta
+                        </h5>
+                        <h3 class="left-scroll">
+                          <mat-form-field style="width:15vw">
+                            <input [(ngModel)]="margenVentaS" matInput class="text-center" type="number" type="text">
+                            <span matSuffix>% &nbsp;</span>
+                          </mat-form-field>
+                        </h3>
+                      </div>
+                      <div class="col">
+                          <h5 class="left-scroll">
+                            Margen Costo
+                          </h5>
+                          <h3 class="left-scroll">
+                            <mat-form-field style="width:15vw">
+                              <input [(ngModel)]="margenCostoS" matInput class="text-center" type="number" type="text">
+                              <span matSuffix>% &nbsp;</span>
+                            </mat-form-field>
+                          </h3>
+                        </div>
+                    </div>
+
+                        <div class="row" style="text-align:center;width: 100%">
+
+                              <div class="col">
+                                  <h5 class="left-scroll">
+                                    Margen Minima
+                                  </h5>
+                                  <h3 class="left-scroll">
+                                    <mat-form-field style="width:15vw">
+                                      <input [(ngModel)]="margenMinS" matInput class="text-center" type="number" type="text">
+                                      <span matSuffix>% &nbsp;</span>
+                                    </mat-form-field>
+                                  </h3>
+                                </div>
+                                <div class="col">
+                                  <h5 class="left-scroll">
+                                    IVA%   {{IVA}}
+                                  </h5>
+                                  <h3 class="left-scroll">
+                                    <mat-form-field style="width:15vw">
+                                      <mat-select [(ngModel)]="IVA" style="text-align: center;">
+                                        <mat-option value="0.00">0%</mat-option>
+                                        <mat-option value="5.00">5%</mat-option>
+                                        <mat-option value="10.00">10%</mat-option>
+                                        <mat-option value="19.00">19%</mat-option>
+                                        <mat-option value="21.00">21%</mat-option>
+                                        <mat-option value="48.64">48.64%</mat-option>
+                                        <mat-option value="50.13">50.13%</mat-option>
+                                    </mat-select>
+                                    </mat-form-field>
+                                  </h3>
+                                </div>
+
+
+                                <div class="col">
+                                  <h5 class="left-scroll">
+                                    Seleccione Estado
+                                  </h5>
+                                  <h3 class="left-scroll">
+                                  <mat-form-field style="width:15vw">
+                                    <mat-select [(ngModel)]="status" >
+                                      <mat-option value="INACTIVO">
+                                        Inactivo
+                                      </mat-option>
+                                      <mat-option value="ACTIVO">
+                                        Activo
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </h3>
+                                </div>
+                                <div class="col" style="margin-top: 2% ">
+                                </div>
+                        </div>
+                        <div class="row" style="text-align:center;width: 100%">
+
+                          <div class="col" style="margin-top: 2% ;">
+
+                            <div class="row">
+                              <input type="file" (change)="setFileImage($event)" #myInput id="file" >
+                              <label for="file" class="left-scroll"  >
+                                <mat-icon>file_copy</mat-icon><div> Cargar Imagen </div>
+                              </label>
+                              <h5 style="margin-left: 1%; margin-top: 4%;" >
+                                {{urlUploaded}}
+                              </h5>
+
+                            </div>
+                          </div>
+                          <div class="col" style="margin-top: 2% ">
+                            <img #blah src= {{imgurl}} *ngIf="imgurl!='https://tienda724.com/'" style="width: 25%; height: 25%;" >
+                          </div>
+                          <div class="col" style="margin-top: 2% ">
+                          </div>
+                          <div class="col" style="margin-top: 2% ">
+                          </div>
+                        </div>
+                    </div>
+                <!-- <div class="row">
+                  <div class="col" *ngIf="tab == 0">
+                      <div class="float-left">
+                        <button mat-stroked-button color="primary" type="submit" (click)="openDialogSearchProduct()">Busqueda</button>
+                      </div>
+                      <div class="float-right">
+                        <button mat-stroked-button color="primary" type="submit" (click)="openDialogClient()">Registrar Cliente</button>
+                        <button mat-stroked-button color="primary" type="submit" (click)="openDialogSearchClient()">Cargar Cliente</button>
+                      </div>
+                  </div>
+
+                </div> -->
+
+
+
+
+      <!--
+                    <mat-tab label="Busqueda de Productos">
+
+
+
+                        <div class="row">
+                            <div class="col-4">
+                                <mat-form-field>
+                                  <input matInput placeholder="Nombre" [matMenuTriggerFor]="menu2" [(ngModel)]="searchInput" (change)="searchFilter(1)">
+                                </mat-form-field>
+                                <mat-menu #menu2="matMenu">
+                                  <button mat-menu-item *ngFor="let data of searchData">
+                                    {{data.product.code}}
+                                  </button>
+                                </mat-menu>
+                            </div>
+                            <div class="col-4">
+                              <mat-form-field>
+                                <input matInput placeholder="Codigo">
+                              </mat-form-field>
+                            </div>
+                            <div class="col-4">
+                              <mat-form-field>
+                                <input matInput placeholder="Descripcion">
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+                        <div class="float-right">
+                          <button mat-dialog-close class="btn btn-secundary">Cancelar</button>
+                          <button class="btn btn-primary">Buscar</button>
+                        </div>
+
+
+
+                    </mat-tab> -->
+
+
+
+
+
+
+
+            <!-- <div class="row">
+              <div class="col-12">
+
+              </div>
+              <div class="col-12">
+
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    </span>
+
+
+
+
+
+
+
+

@@ -1,0 +1,28 @@
+<mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+    <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Editar costo</mat-card-title>
+    <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;text-emphasis: left; color:white;margin-bottom:0px">Te encuentras editando el costo asociado al producto {{psName}} </mat-card-subtitle>
+</mat-card-header>
+<div>
+  <div class="row" style="text-align:center;width: 100%">
+    <div class="col">
+      <h5 class="left-scroll">
+          Costo Actual
+      </h5>
+      <h3 class="left-scroll">
+          {{costoActual | currency}}
+      </h3>
+    </div>
+  </div>
+  <div class="row" style="text-align: center; width: 100%">
+    <div class="col">
+      <mat-form-field>
+        <input matInput currencyMask [options]="{ precision: 2 }" placeholder="Nuevo Costo del Producto" [(ngModel)]="newCost" autofocus type="text">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row" style="text-align: center; width: 100%">
+    <div class="col">
+      <button mat-stroked-button color="primary" type="submit" (click)="updateStandardPrice()" [disabled]="newCost==costoActual">Actualizar Costo</button>
+    </div>
+  </div>
+</div>

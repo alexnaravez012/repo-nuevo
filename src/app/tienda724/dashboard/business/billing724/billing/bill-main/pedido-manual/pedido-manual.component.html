@@ -1,0 +1,59 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="margin-top:-10vh">
+  <mat-card style="height: 100%;width:100%;padding:0">
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+      <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Generador de Reorden</mat-card-title>
+    </mat-card-header>
+  </mat-card>
+  <mat-card style="padding:20px">
+      <mat-form-field style="width:5vw">
+        <input [(ngModel)]="hours2" matInput type="number" step="2" id="reader" autofocus class="no-spin text-center">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Ordenar por </mat-label>
+        <mat-select [(ngModel)]="type2">
+          <mat-option value="1">
+            Linea
+          </mat-option>
+          <mat-option value="2">
+            Categoria
+          </mat-option>
+          <mat-option value="3">
+            Marca
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+        <button mat-stroked-button color="primary" type="button" (click)="getRepProdList2()">Generar Re Orden</button>
+        <button mat-stroked-button color="primary" type="button" (click)="genPedido()" *ngIf="isListProdFull2 === true">Generar Pedido</button>
+        <mat-card-content *ngIf=" isListProdFull2 === true ">
+          <div class="table-responsive">
+              <table class="table table-hover">
+                  <thead>
+                      <tr>
+                        <th class="text-center"><b>Codigo De Barras</b></th>
+                        <th class="text-center"><b>Producto</b></th>
+                        <th class="text-center"><b>Linea</b></th>
+                        <th class="text-center"><b>Categoria</b></th>
+                        <th class="text-center"><b>Marca</b></th>
+                        <th class="text-center"><b>Presentacion</b></th>
+                        <th class="text-center"><b>Costo</b></th>
+                        <th class="text-center"><b>Cantidad</b></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let elem of ListReportProd2">
+                        <td class="text-center"> {{elem.ownbarcode}} </td>
+                        <td style="text-align: left"> {{elem.producto}} </td>
+                        <td class="text-center"> {{elem.linea}} </td>
+                        <td class="text-center"> {{elem.categoria}} </td>
+                        <td class="text-center"> {{elem.marca}} </td>
+                        <td class="text-center"> {{elem.presentacion}} </td>
+                        <td class="text-center"> {{elem.costo}} </td>
+                        <td class="text-center"> {{elem.cantidad}} </td>
+                      </tr>
+                    </tbody>
+              </table>
+            </div>
+        </mat-card-content>
+  </mat-card>
+  </div>

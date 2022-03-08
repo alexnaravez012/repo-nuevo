@@ -1,0 +1,35 @@
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+      <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">{{storeName}}</mat-card-title>
+      <mat-card-subtitle  style="font-size: 0.8em;font-weight: 300;text-emphasis: left; color:white;margin-bottom:0px">Por favor seleccione un inventario</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                  <th style="width: 50%" class="text-center">Nombre</th>
+                  <th style="width: 50%" class="text-center">Opciones</th>
+                </tr>
+              </thead>
+        </table>
+      </div>
+    <span *ngFor="let storage of currentStorages">
+
+        <div class="table-responsive">
+        <table class="table table-hover" style="text-align: center">
+          <tbody>
+            <tr>
+              <td style="width: 50%"class="text-center">{{storage.storage_name}}</td>
+              <td style="width: 50%"class="text-center">
+                <div>
+                    <button mat-icon-button color="primary" (click)="showStorage(storage)">
+                        <mat-icon aria-label="Example icon-button with a heart icon">keyboard_arrow_down</mat-icon>
+                    </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </span>
+    </mat-card-content>

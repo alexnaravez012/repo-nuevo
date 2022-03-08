@@ -1,0 +1,221 @@
+<div style="">
+<mat-card style="height: 100%;width:100%;padding:0" *ngIf="!subCategoryTitle">
+  <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+    <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">
+      <span *ngIf="selectedTab === 0">Categorías</span><span *ngIf="selectedTab === 1">Marcas</span><span
+        *ngIf="selectedTab === 2">Unidades de Medida</span></mat-card-title>
+    <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;text-emphasis: left; color:white;margin-bottom:0px">Por
+      favor seleccione una <span *ngIf="selectedTab === 0">categoria</span><span
+        *ngIf="selectedTab === 1">marca</span><span *ngIf="selectedTab === 2">unidad de medida</span>.
+    </mat-card-subtitle>
+  </mat-card-header>
+</mat-card>
+<mat-card style="height: 100%;width:100%;padding:0" *ngIf="subCategoryTitle">
+  <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+    <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">
+      {{subCategoryTitle}}</mat-card-title>
+    <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;text-emphasis: left; color:white;margin-bottom:0px">
+      </mat-card-subtitle>
+  </mat-card-header>
+</mat-card>
+<mat-card>
+  <!-- BRANDS PAPUS -->
+
+
+
+  <mat-tab-group (selectedTabChange)="tabChanged($event)">
+    <mat-tab label="Categorias">
+      <div class="row" style="padding:20px">
+        <div class="col my-col" *ngIf="categoryStack && categoryStack.length > 0" style="padding-top: 40px;padding-left: 14px;padding-right: 14px;">
+            <button mat-flat-button color="primary" (click)="gotoFatherCategory()">Volver</button>
+        </div>
+        <div class="col my-col" *ngIf="categoryStack && categoryStack.length > 0" style="padding-top: 40px;padding-left: 14px;padding-right: 14px;">
+            <button mat-flat-button color="primary" (click)="gotoAddModal()">Productos</button>
+        </div>
+        <div class="col my-col" *ngFor="let category of generalCategories">
+          <mat-card (click)="loadCategory(category)" style="width:120px;max-height:120px; overflow: visible; padding:0;" matTooltip={{category.category}}>
+            <img *ngIf="!editing" src='{{category.img_URL}}' style="width:100%;height:80px"  alt=""/>
+            <mat-card-header style="width:100%;max-height:100%">
+              <mat-card-title *ngIf="editing">
+                <mat-icon  style="color:rgb(126,126,126)">edit</mat-icon>
+              </mat-card-title>
+              <mat-card-title style="padding-top:10px;font-size: 12px;line-height: 100%; text-align: center" text-wrap>
+                {{category.category}}</mat-card-title>
+            </mat-card-header>
+          </mat-card>
+        </div>
+        <div class="col my-col" style="padding-top: 40px;padding-left: 14px;padding-right: 14px;">
+          <button *ngIf="!editing" mat-flat-button color="primary" (click)="editing = true">Editar</button>
+          <button *ngIf="editing" mat-flat-button color="primary" (click)="editing = false">Cancelar</button>
+        </div>
+        <div *ngIf="!editing" class="col my-col"style="padding-top: 40px;padding-left: 14px;padding-right: 14px;">
+            <button mat-flat-button color="primary" (click)="gotoAddCategory()">Agregar</button>
+        </div>
+
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Marcas">
+
+
+
+        <div class="row" style="padding:20px">
+          <!-- <div class="col my-col" *ngIf="lastBrand && lastBrand.length > 0 && !editingBrand">
+            <mat-card color="toolbar" (click)="gotoFatherBrand()" float-right style="width:120px;height: 120px;">
+              <mat-card-header style="word-wrap: break-word;">
+                <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px">
+                  <mat-icon style="color:rgb(126,126,126)">backspace</mat-icon>
+                </mat-card-title>
+                <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>Volver</mat-card-title>
+              </mat-card-header>
+            </mat-card>
+          </div> -->
+          <div class="col my-col" *ngIf="lastBrand && lastBrand.length > 0 && !editingBrand" style="padding-top: 40px;padding-left: 14px;padding-right: 14px;">
+              <button mat-flat-button color="primary" (click)="gotoFatherBrand()">Volver</button>
+          </div>
+
+          <div class="col my-col" *ngFor="let brand of brands">
+            <mat-card color="toolbar" float-right style="width:120px;max-height: 120px;overflow: visible; padding:0"
+              (click)="gotoSubBrand(brand)">
+              <img *ngIf="!editingBrand" src={{brand.url_IMG}} style="width:100%;height:80px" />
+              <mat-card-header style="word-wrap: break-word;">
+                <mat-card-title *ngIf="editingBrand" style="font-size: 2em; padding-bottom: 0px; padding-top: 10px">
+                  <mat-icon style="color:rgb(126,126,126)">edit</mat-icon>
+                </mat-card-title>
+                <mat-card-title style="padding-top: 0px;font-size: 12px;" text-wrap matTooltip={{brand.brand}}>
+                  {{brand.brand}}</mat-card-title>
+              </mat-card-header>
+            </mat-card>
+          </div>
+
+          <div class="col my-col" style="padding-top: 40px;padding-left: 14px;padding-right: 14px;">
+              <button mat-flat-button color="primary" (click)="gotoAddBrand()">Agregar</button>
+          </div>
+          <!-- <div class="col my-col">
+            <mat-card color="toolbar" (click)="gotoAddBrand()" float-right style="width:120px;height: 120px;">
+              <mat-card-header style="word-wrap: break-word;">
+                <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px">
+                  <mat-icon style="color:rgb(126,126,126)">add</mat-icon>
+                </mat-card-title>
+                <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>Agregar</mat-card-title>
+              </mat-card-header>
+            </mat-card>
+          </div> -->
+          <!-- <div class="col my-col">
+    <mat-card color="toolbar" (click)="gotoModal5()" float-right style="width:120px;height: 120px;">
+      <mat-card-header style="word-wrap: break-word;">
+        <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px"><mat-icon>add</mat-icon></mat-card-title>
+        <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>Agregar</mat-card-title>
+      </mat-card-header>
+    </mat-card>
+  </div> -->
+  <div class="col my-col" *ngIf="!editingBrand" style="padding-top: 40px;padding-left: 14px;padding-right: 14px;">
+      <button mat-flat-button color="primary" (click)="editingBrand = true">Editar</button>
+  </div>
+          <!-- <div class="col my-col" *ngIf="!editingBrand">
+            <mat-card color="toolbar" (click)="editingBrand = true;" float-right style="width:120px;height: 120px;">
+              <mat-card-header style="word-wrap: break-word;">
+                <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px">
+                  <mat-icon style="color:rgb(126,126,126)">edit</mat-icon>
+                </mat-card-title>
+                <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>Editar</mat-card-title>
+              </mat-card-header>
+            </mat-card>
+          </div> -->
+        </div>
+
+
+    </mat-tab>
+
+
+
+
+
+
+
+
+    <mat-tab label="Unidades de Medida">
+        <div class="row" style="padding:20px">
+
+        <!-- <div class="col my-col" *ngIf="lastMeasure && lastMeasure.length > 0 && !editingMeasure" style="padding-top: 40px;padding-left: 14px;padding-right: 14px;">
+            <button mat-flat-button color="primary" (click)="gotoFatherMeasure()">Volver</button>
+        </div>
+
+        <div class="col my-col" *ngFor="let measure of measures">
+            <mat-card color="toolbar" float-right style="width:120px;height: 120px; overflow: hidden"
+              (click)="gotoSubMeasure(measure)">
+              <mat-card-header style="word-wrap: break-word;">
+                <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px">
+                  <mat-icon *ngIf="!editingMeasure" style="color:rgb(126,126,126)">room</mat-icon>
+                  <mat-icon *ngIf="editingMeasure" style="color:rgb(126,126,126)">edit</mat-icon>
+                </mat-card-title>
+                <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap matTooltip={{measure.measure_UNIT}}>
+                  {{measure.measure_UNIT}}</mat-card-title>
+              </mat-card-header>
+            </mat-card>
+          </div>
+          <div class="col my-col" *ngIf="!editingMeasure" style="padding-top: 40px;padding-left: 14px;padding-right: 14px;">
+              <button mat-flat-button color="primary" (click)="editingMeasure = true;">Editar</button>
+          </div>
+           <div class="col my-col" *ngIf="!editingMeasure">
+            <mat-card color="toolbar" (click)="editingMeasure = true;" float-right style="width:120px;height: 120px;">
+              <mat-card-header style="word-wrap: break-word;">
+                <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px">
+                  <mat-icon style="color:rgb(126,126,126)">edit</mat-icon>
+                </mat-card-title>
+                <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>Editar</mat-card-title>
+              </mat-card-header>
+            </mat-card>
+          </div>
+          <div class="col my-col" style="padding-top: 40px;padding-left: 14px;padding-right: 14px;">
+              <button mat-flat-button color="primary" (click)="gotoAddMeasure()">Agregar</button>
+          </div>
+           <div class="col my-col">
+            <mat-card color="toolbar" (click)="gotoAddMeasure()" float-right style="width:120px;height: 120px;">
+              <mat-card-header style="word-wrap: break-word;">
+                <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px">
+                  <mat-icon style="color:rgb(126,126,126)">add</mat-icon>
+                </mat-card-title>
+                <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>Agregar</mat-card-title>
+              </mat-card-header>
+            </mat-card>
+          </div>
+
+        <br> -->
+
+        <mat-card-content>
+          <div class="row">
+
+            <div class="col-10">
+              <div class="table-responsive text-center">
+                  <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th class="text-center"><b>Nombre</b></th>
+                          <th class="text-center"><b>Descripcion</b></th>
+                          <th class="text-center"><b>Opciones</b></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let measure of measures">
+                          <td class="text-center"> {{measure.measure_UNIT}} </td>
+                          <td class="text-center"> {{measure.description}} </td>
+                          <td class="text-center">
+                            <button mat-flat-button color="primary" (click)="gotoAddMeasure2(measure.id_MEASURE_UNIT,measure.measure_UNIT,measure.description,measure.id_measure_unit_father)">Editar</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="col-2" style="padding-left: 125px;padding-top: 50px;">
+                <button mat-flat-button color="primary" (click)="gotoAddMeasure()">Agregar</button>
+              </div>
+            </div>
+          </mat-card-content>
+        </div>
+    </mat-tab>
+
+
+
+  </mat-tab-group>

@@ -1,0 +1,228 @@
+<div class="ContenedorSidebar" *ngIf="EstiloPanel == 1 || isMobileMenu()">
+    <div class="UsarEspacioFijo">
+        <!--        tarjeta que contiene toda la parte de arriba-->
+        <mat-card [style.width]="compressed? '75px':(isMobileMenuNav() ? 'unset':'17vw')" style="z-index: 10;padding:15px;margin-right:0;max-width: 250px;" id="leftcol">
+            <!--            Tarjeta que contiene titulo, listado de tiendas y nombre usuario-->
+            <mat-card-content style="">
+              <!--suppress HtmlRequiredAltAttribute, HtmlDeprecatedAttribute -->
+              <div (click)="openFile()" *ngIf="this.locStorage.getRol()[0].id_rol==21 || this.locStorage.getRol()[0].id_rol ==23">
+                <img [src]='imgurl' onError="this.src='https://pruebas.tienda724.com/logos/802.jpg'" class="logo"/>
+                <input type="file" style="display:none"  (change)="setFileImage($event)">
+              </div>
+              <div *ngIf="!(this.locStorage.getRol()[0].id_rol==21 || this.locStorage.getRol()[0].id_rol ==23)">
+                <img [src]='imgurl' onError="this.src='https://pruebas.tienda724.com/logos/802.jpg'" class="logo"/>
+              </div>
+              <!--                Nombre de tienda-->
+              <mat-card-title *ngIf="!compressed" style="font-size: 1.2em; font-weight: 700; margin-bottom:10px;text-align: center;"> {{thirdFather?.info.fullname ? thirdFather?.info.fullname: 'Tienda 724'}}</mat-card-title>
+              <mat-card-title *ngIf="!compressed && locStorage.getRol()[0].id_rol==8888" style="font-size: 1.2em; font-weight: 700; margin-bottom:10px"> {{storeName}}</mat-card-title>
+              <!--                Contenedor listado de tiendas-->
+              <mat-form-field *ngIf=" !compressed && locStorage.getRol()[0].id_rol!=8888 && locStorage.getOnline()" style="width: 100%;">
+                  <mat-label>Seleccione tienda</mat-label>
+                  <mat-select [(ngModel)]="SelectedStore" (selectionChange) = "setIdStore()">
+                      <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+                          {{elem.store_NAME}}
+                      </mat-option>
+                  </mat-select>
+              </mat-form-field>
+              <!--                Expandible en el nombre de usuario-->
+              <mat-expansion-panel *ngIf="!compressed" style="border:0;box-shadow: none !important; width:100%;padding:0;margin:0;margin-top:-20px;margin-bottom:-10px;">
+                  <!--                    Mostrar nombre-->
+                  <mat-expansion-panel-header style="padding:0;margin:0">
+                      <mat-panel-title style="font-weight: 300;">
+                          {{person?.first_name}} {{person?.first_lastname}}
+                      </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <!--                    Opciones del expandible-->
+                  <mat-list>
+                      <!--                        Primera opción, los ROLES-->
+                      <mat-list-item>
+                          <mat-icon mat-list-icon style="color: lightslategrey">supervised_user_circle</mat-icon>
+                          <h4 mat-line style="color: lightslategrey">Sus roles son:</h4>
+                          <p mat-line *ngFor="let rol of token.roles" style="color: lightslategrey">{{token.roles.length>1? rol.rol+"/":rol.rol}}</p>
+                      </mat-list-item>
+                      <!--                        Segunda opción, datos-->
+                      <mat-list-item>
+                          <mat-icon mat-list-icon style="color: lightslategrey">assignment_ind</mat-icon>
+                          <h4 mat-line style="color: lightslategrey">Sus documento es:</h4>
+                          <p mat-line style="color: lightslategrey" *ngIf="person.info.type_document && person.info.document_number">{{person?.info.type_document}}: {{person?.info.document_number}}</p>
+                          <p mat-line style="color: lightslategrey">Id de usuario: {{person?.uuid.UUID}}</p>
+                      </mat-list-item>
+                  </mat-list>
+                  <!--                    Boton de cerrar sesión-->
+                  <mat-list style="margin-left:-10px" >
+                      <mat-list-item (click)="logout()" style="cursor:pointer;" [hidden]="!locStorage.getOnline()">
+                          <mat-icon mat-list-icon style="color: lightslategrey">exit_to_app</mat-icon>
+                          <h4 style="font-weight: 700;font-size:0.9em; color:rgb(43, 43, 43)" mat-line>Cerrar Sesión</h4>
+                      </mat-list-item>
+                  </mat-list>
+              </mat-expansion-panel>
+              <!--                Otro boton de cerrar sesión-->
+              <mat-list *ngIf="compressed" style="margin-left:-10px" >
+                  <mat-list-item (click)="logout()" style="cursor:pointer;">
+                      <mat-icon mat-list-icon style="color: lightslategrey">exit_to_app</mat-icon>
+                      <!-- <h4 style="font-weight: 700;font-size:0.9em; color:rgb(43, 43, 43)" mat-line>Cerrar Sesión</h4> -->
+                  </mat-list-item>
+              </mat-list>
+            </mat-card-content>
+        </mat-card>
+    </div>
+<!--Contenedor ya de los menus del sidebar-->
+    <div [ngClass]="!compressed ? 'UsarRestoEspacio':'UsarRestoEspacioColapsado'" [style.width]="isMobileMenuNav() ? '100%':'17vw'">
+<!--        Tarjeta que contiene todas las opciones-->
+        <mat-card class="ScrollBar" id="ScrollBar" [style.width]="compressed? '75px':(isMobileMenuNav() ? 'unset':'17vw')" [style.height]="isMobileMenuNav() ? '100%':'calc(100% - 55px)'" style="z-index: 1;padding:15px;margin-right:0; overflow-y: auto;background: none;max-width: 250px;">
+<!--            Tarjeta que se instancia Fpara cada opción del sidebar, esto es un item-->
+            <mat-card *ngFor="let menu of menusLista" class="itemContainer">
+                <mat-list style="margin-left:-10px;margin-right:-10px">
+                    <mat-list-item [hidden]="!locStorage.getOnline()" (click)="gotoMenu(menu)" style="cursor:pointer;" [ngClass]="this.menuSeleccionado == menu ? 'item_active':'item'">
+                        <mat-icon mat-list-icon style="">{{menu.icono}}</mat-icon>
+                        <h4 *ngIf="!compressed" style="font-weight: 700;font-size:0.9em;" mat-line>{{menu.nombre}}</h4>
+                    </mat-list-item>
+                </mat-list>
+            </mat-card>
+        </mat-card >
+        <!--            Tarjeta que contiene el icono del avatar-->
+        <mat-card *ngIf="!isMobileMenu()" class="ContenedorBarraInferior" [style.width]="compressed? '75px':'17vw'" style="max-width: 250px;">
+<!--            <div [style.margin-left]="compressed? '2px':'0px'" mat-card-avatar class="avatar-img"></div>-->
+<!--          <div mat-card-avatar class="avatar-img"></div>-->
+          <button *ngIf="!compressed" class="BotonCerrar" style="color: white !important;border-color: white !important; width: 75%;margin-right: auto" mat-stroked-button type="button" (click)="CambiarVista()">Panel de Control</button>
+          <div (click)="ComprimirSidebar()" [style.margin]="compressed? 'auto':'unset'" style="border-color: white !important;border: 1px solid currentColor;border-radius: 5px;height: 36px;width: 36px;">
+            <mat-icon class="icono_toggle" [style.transform]="compressed? 'scale(1, 1)':'scale(-1, 1)'" [style.margin-left]="compressed? '-4px':'unset'">play_arrow</mat-icon>
+          </div>
+        </mat-card>
+    </div>
+</div>
+
+<div *ngIf="EstiloPanel == 2 && !isMobileMenu()">
+  <!-- Boton el cual está siempre disponible para mostrar el panel -->
+  <button *ngIf="locStorage.getOnline()" class="BotonMostrarPanel" mat-raised-button color="primary" (click)="ClickShowOptions()"> <mat-icon>keyboard_backspace</mat-icon> Mostrar Opciones</button>
+
+  <!-- Panel -->
+  <div class="ContenedorPanel" [hidden]="!MostrarPanel">
+    <mat-card class="ContenedorMatCard">
+      <mat-card-content style="width: 100%;display: flex">
+        <div class="Header" #ContenedorHeader>
+          <div style="height: 45%;overflow: auto;" class="ScrollBar">
+            <!--               EL TITULO-->
+            <div style="height: 20%;display: flex;flex-direction: column">
+              <mat-card-title style="font-size: 2.4vh; font-weight: 700; margin-bottom:0; color:white;text-align: center;flex: auto"> {{thirdFather?.info.fullname ? thirdFather?.info.fullname: 'Tienda 724'}}</mat-card-title>
+              <mat-card-title *ngIf="locStorage.getRol()[0].id_rol==8888" style="flex: auto;font-size: 1.2em; font-weight: 700; margin-bottom:10px; color:white; text-align: center"> {{storeName}}</mat-card-title>
+            </div>
+            <!--                Contenedor listado de tiendas-->
+            <mat-card class="CardLogo">
+              <!--suppress HtmlRequiredAltAttribute, HtmlDeprecatedAttribute -->
+              <div (click)="openFile()" *ngIf="this.locStorage.getRol()[0].id_rol==21 || this.locStorage.getRol()[0].id_rol ==23">
+                <img  [src]='imgurl' onError="this.src='https://pruebas.tienda724.com/logos/802.jpg'" class="logo"/>
+                <input type="file" style="display:none"  (change)="setFileImage($event)">
+              </div>
+              <div *ngIf="!(this.locStorage.getRol()[0].id_rol==21 || this.locStorage.getRol()[0].id_rol ==23)">
+                <img [src]='imgurl' onError="this.src='https://pruebas.tienda724.com/logos/802.jpg'" class="logo"/>
+              </div>
+            </mat-card>
+            <mat-card class="CardTiendas">
+              <mat-form-field *ngIf="locStorage.getRol()[0].id_rol!=8888" style="width: 100%;">
+                <mat-label>Seleccione tienda</mat-label>
+                <mat-select [(ngModel)]="SelectedStore" (selectionChange) = "setIdStore()">
+                  <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+                    {{elem.store_NAME}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </mat-card>
+          </div>
+          <!--                Expandible en el nombre de usuario-->
+          <div style="height: 34%;margin-top: 5px;overflow: hidden">
+            <mat-card class="CardUsuario">
+              <div style="width: 100%;display: flex;align-items: center;height: 13%;max-width: 300px">
+                <mat-card-title style="margin: 0 auto;font-size: 1.3em; font-weight: 700; color:black">{{person?.first_name}} {{person?.first_lastname}}</mat-card-title>
+              </div>
+              <mat-list style="flex:auto;margin: auto 0;overflow: auto;padding: 0;height: 70%" class="ScrollBar">
+                <!--                        Primera opción, los ROLES-->
+                <mat-list-item>
+                  <mat-icon mat-list-icon style="color: lightslategrey">supervised_user_circle</mat-icon>
+                  <h4 mat-line style="color: lightslategrey">Sus roles son:</h4>
+                  <p mat-line *ngFor="let rol of token.roles" style="color: lightslategrey">{{token.roles.length>1? rol.rol+"/":rol.rol}}</p>
+                </mat-list-item>
+                <!--                        Segunda opción, datos-->
+                <mat-list-item>
+                  <mat-icon mat-list-icon style="color: lightslategrey">assignment_ind</mat-icon>
+                  <h4 mat-line style="color: lightslategrey">Sus documento es:</h4>
+                  <p mat-line style="color: lightslategrey" *ngIf="person.info.type_document && person.info.document_number">{{person?.info.type_document}}: {{person?.info.document_number}}</p>
+                  <p mat-line style="color: lightslategrey">Id de usuario: {{person?.uuid.UUID}}</p>
+                </mat-list-item>
+              </mat-list>
+              <!--                    Boton de cerrar sesión-->
+              <mat-list style="align-items: center;display: flex;height: 13%;padding: 0;">
+                <mat-list-item (click)="logout()" style="cursor:pointer;">
+                  <mat-icon mat-list-icon style="color: lightslategrey">exit_to_app</mat-icon>
+                  <h4 style="font-weight: 700;font-size:0.9em; color:rgb(43, 43, 43)" mat-line>Cerrar Sesión</h4>
+                </mat-list-item>
+              </mat-list>
+            </mat-card>
+          </div>
+          <div style="height: 19%;overflow: auto;margin: auto 0;display: flex;flex-direction: column"  class="ScrollBar">
+            <mat-card-title style="font-size: 1.3em; font-weight: 700; color:white;margin: auto 0">Panel De Opciones</mat-card-title>
+            <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;color:white;margin-bottom: 10px;">Seleccione el menú que desea ver</mat-card-subtitle>
+            <button class="BotonCerrar" style="color: white !important;border-color: white !important; margin-bottom: 5px;" mat-stroked-button type="button" (click)="CambiarVista()">Menú</button>
+            <button class="BotonCerrar" style="color: white !important;border-color: white !important;" mat-stroked-button type="button" (click)="CerrarPanel()">Cerrar Panel</button>
+          </div>
+        </div>
+        <div  #ContenedorMatCard style="flex:auto;border-bottom-right-radius: 25px;border-top-right-radius: 25px;background-color: gainsboro;">
+          <div [style.width.px]="AnchoOpcionPanel" [style.height.px]="AltoOpcionPanel" class="ContenedorOpcion" *ngFor="let tile of menusLista" (click)="gotoMenu(tile)">
+            <mat-card class="OpcionMatCard" style="cursor:pointer;" [ngClass]="{'item_active2': this.menuSeleccionado == tile, 'item2': this.menuSeleccionado != tile}">
+              <div class="Opcion">
+                <mat-icon class="mat-icon material-icons IconoOpcion" role="img" aria-hidden="true">{{tile.icono}}</mat-icon>
+              </div>
+              <div class="Opcion" style="height: 30%">
+                <mat-label class="TextoOpcion">{{tile.nombre}}</mat-label>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+<div class="ContenedorLoading" *ngIf="mostrandoCargando">
+  <div class="wrapper2">
+    <mat-card style="background-color: white;margin: auto;margin-bottom: 5vh">
+      <mat-card-content>
+        <!--suppress HtmlRequiredAltAttribute, HtmlDeprecatedAttribute -->
+        <div (click)="openFile()" *ngIf="this.locStorage.getRol()[0].id_rol==21 || this.locStorage.getRol()[0].id_rol ==23">
+          <img [src]='imgurl' onError="this.src='https://pruebas.tienda724.com/logos/802.jpg'" class="logo"/>
+          <input type="file" style="display:none"  (change)="setFileImage($event)">
+        </div>
+        <div *ngIf="!(this.locStorage.getRol()[0].id_rol==21 || this.locStorage.getRol()[0].id_rol ==23)">
+          <img [src]='imgurl' onError="this.src='https://pruebas.tienda724.com/logos/802.jpg'" class="logo"/>
+        </div>
+      
+      </mat-card-content>
+    </mat-card>
+    <div class='ThePreLoader'>
+      <div class='loader--dot'></div>
+      <div class='loader--dot'></div>
+      <div class='loader--dot'></div>
+      <div class='loader--dot'></div>
+      <div class='loader--dot'></div>
+      <div class='loader--dot'></div>
+      <div class='loader--text'></div>
+    </div>
+  </div>
+</div>
+
+<!--Esto es para colocar el nombre de la tienda en todos los headers-->
+<div *ngIf="mostrandoNombreTiendaFlotante" style="position: fixed;top: 25px;z-index: 1;max-width: 250px;width: 18vw;margin: auto 0 auto auto;background-color: white;border-radius: 30px;display: flex;flex-direction: column" [style.left]="AjusteLeftTiendaFlotante">
+  <mat-card-title style="text-align: center; height: 100%; margin: auto;font-size: larger;">
+    Tienda Actual
+<!--      GetNameFromIDStore()-->
+  </mat-card-title>
+
+  <mat-form-field color="primary" style="margin: auto;margin-top: -20px; margin-bottom: 10px;  height: 4vh;text-align: center;">
+    <mat-select  [(ngModel)]="SelectedStore" (selectionChange)="setLocStorageStore()">
+      <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE" >
+        {{elem.store_NAME}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

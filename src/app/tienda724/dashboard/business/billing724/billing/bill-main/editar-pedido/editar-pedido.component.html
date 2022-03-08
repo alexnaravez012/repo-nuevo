@@ -1,0 +1,45 @@
+<div style="">
+    <!--  HEADER-->
+    <mat-card style="height: 100%;width:100%;padding:0">
+        <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+    <!--      TITULO DEL HEADER-->
+            <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Editar Pedido</mat-card-title>
+        </mat-card-header>
+    </mat-card>
+    <mat-card style="height: 100%;width:100%;text-align: center;">
+        <div style="display: flex;">
+            <div style="width: 24%;text-align: center;">
+                <mat-form-field style="width: 100%;">
+                    <mat-label>
+                        Seleccione estado
+                    </mat-label>
+                    <mat-select [(ngModel)]="setStatus">
+                        <mat-option  value="1501">
+                            EN PROCESO
+                        </mat-option>
+                        <mat-option  value="1503">
+                            ENTREGADO EN MESA
+                        </mat-option>
+                        <mat-option  value="1502">
+                            ENTREGADO A MESERO
+                        </mat-option>
+                        <mat-option  value="1599">
+                            CANCELADO
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>    
+            <div style="width: 24%;">
+                <mat-form-field style="width: 100%;">
+                    <input matInput class="text-center" type="text"  placeholder="Notas"  [(ngModel)]="notas" >
+                </mat-form-field>
+                </div>    
+            <div style="width: 24%; text-align: center;">
+                <button mat-button (click)="send()">Aceptar</button>
+            </div>    
+            <div style="width: 24%; text-align: center;">
+                <button mat-button (click)="close()">Cancelar</button>
+            </div>    
+        </div>
+    </mat-card>
+</div>

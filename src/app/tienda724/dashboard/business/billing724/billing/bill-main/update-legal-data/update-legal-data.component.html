@@ -1,0 +1,71 @@
+<div style="max-height: 85vh">
+  <div class="row" style="margin-top:10px">
+    <div class="col">
+      <mat-form-field>
+        <input matInput placeholder="Ciudad" style="font-size: 1.5em">
+      </mat-form-field>
+    </div>
+  <div class="col">
+      <mat-form-field>
+        <input matInput placeholder="País" style="font-size: 1.5em">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <mat-form-field>
+          <input matInput placeholder="Dirección" style="font-size: 1.5em" [(ngModel)]="legalData.address">
+      </mat-form-field>
+    </div>
+    <div class="col">
+        <mat-form-field>
+            <input matInput placeholder="Teléfono" style="font-size: 1.5em" [(ngModel)]="legalData.phone1">
+        </mat-form-field>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col">
+        <mat-form-field>
+            <input matInput placeholder="Resolución DIAN" style="font-size: 1.5em" [(ngModel)]="legalData.resolucion_dian">
+        </mat-form-field>
+      </div>
+      <div class="col">
+          <mat-form-field>
+              <input matInput placeholder="Régimen Tributario" style="font-size: 1.5em" [(ngModel)]="legalData.regimen_tributario">
+          </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+          <mat-form-field>
+              <input matInput placeholder="Autoretenedor" style="font-size: 1.5em" [(ngModel)]="legalData.autoretenedor">
+          </mat-form-field>
+        </div>
+        <div class="col">
+            <mat-form-field>
+                <input matInput placeholder="URL del logo" style="font-size: 1.5em" [(ngModel)]="legalData.url_logo">
+            </mat-form-field>
+          </div>
+      </div>
+    <div class="row">
+      <div class="col">
+          <mat-form-field>
+              <input matInput placeholder="Prefijo de factura" style="font-size: 1.5em" [(ngModel)]="legalData.prefix_bill">
+          </mat-form-field>
+        </div>
+    </div>
+  <div class="row">
+    <div class="col">
+        <mat-form-field>
+            <input matInput placeholder="Correo electronico" style="font-size: 1.5em" [(ngModel)]="legalData.email">
+        </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col">
+          <mat-form-field>
+              <input matInput placeholder="Notas" style="font-size: 1.5em" [(ngModel)]="legalData.notes">
+          </mat-form-field>
+      </div>
+    </div>
+</div>

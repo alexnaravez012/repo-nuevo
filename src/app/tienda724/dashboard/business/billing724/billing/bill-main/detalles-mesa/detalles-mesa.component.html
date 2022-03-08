@@ -1,0 +1,144 @@
+<div style="">
+    <!--  HEADER-->
+    <mat-card style="height: 100%;width:100%;padding:0">
+        <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+    <!--      TITULO DEL HEADER-->
+            <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">{{data.item.mesa}}</mat-card-title>
+        </mat-card-header>
+    </mat-card>
+    <mat-card style="height: 100%;width:100%;padding:0">
+      <div style="width:100%">
+        <div class="row" *ngIf="(locStorage.getRol()[0].id_rol == 21 || locStorage.getRol()[0].id_rol == 23)">
+          <!--              BUSCADOR-->
+          <div class="col-6" style="text-align: center;">
+            <mat-form-field>
+              <input matInput class="text-center" type="text"  placeholder="Documento Tercero"  (keyup.enter)="searchClient($event)" [(ngModel)]="ccClient" #nameot>
+            </mat-form-field>
+            <button (click)="searchClient2()" mat-stroked-button color="primary" type="submit">Buscar</button>
+            <div>
+              Cliente: {{this.cliente}}
+            </div>
+          </div>
+          <!--              BOTONES-->
+          <div class="col-6" style="text-align: center;">
+            <div class="col" style="padding-left: 25px;padding-right: 25px">
+              <label>Selecciona la forma de pago</label>
+              <mat-radio-group [(ngModel)]="wayToPay">
+                <mat-radio-button value="contado" (click)="clickedOn('efectivo')">Efectivo</mat-radio-button>
+                <mat-radio-button value="credito" (click)="clickedOn('credito')">T. Credito</mat-radio-button>
+                <mat-radio-button value="debito" (click)="clickedOn('debito')">T. Debito</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="(locStorage.getRol()[0].id_rol == 21 || locStorage.getRol()[0].id_rol == 23)">
+          <div class="col-4" style="text-align: center;">
+            <mat-form-field>
+              <input matInput class="text-center" type="text"  placeholder="Notas" [(ngModel)]="nota" >
+            </mat-form-field>
+          </div>
+          <div class="col-4" style="text-align: center;">
+            <mat-form-field>
+              <input matInput class="text-center" type="text"  placeholder="Descuento" [(ngModel)]="discount" >
+            </mat-form-field>
+          </div>
+          <div class="col-4" *ngIf="wayToPay == 'credito' || wayToPay == 'debito'" style="text-align: center;">
+            <mat-form-field>
+              <input matInput class="text-center" type="text"  placeholder="Código de Aprobación" [(ngModel)]="appCode">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12" style="text-align: center;">
+            <div style="width: 100%;">
+              <h4>
+                Mesero: {{data.item.mesero}} <button [disabled]="(locStorage.getRol()[0].id_rol != 21 && locStorage.getRol()[0].id_rol != 23)" mat-button color="primary" (click)="openDialogEditMeserio()">
+                  <mat-icon style="font-size: 25px;">person_pin</mat-icon>
+                  Cambiar Mesero
+                </button>
+              </h4>
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12" style="text-align: center;">
+            <h2>
+              Tiempo: {{getDateInMinutes(data.item.purchase_DATE)}} Minutos.
+            </h2>
+          </div>
+        </div>
+      </div>
+      <div class="example-button-container" style="text-align: center;">
+        <!-- <button *ngIf="(locStorage.getRol()[0].id_rol == 21 || locStorage.getRol()[0].id_rol == 23)" mat-button color="primary"  (click)="cancelTable()">
+           -->
+        <button mat-button color="primary"  (click)="cancelTable()">
+          <mat-icon style="font-size: 25px;">cancel_presentation</mat-icon>
+          Cancelar
+        </button>
+        <button mat-button color="primary"  (click)="openAddDetails()">
+          <mat-icon style="font-size: 25px;">library_add</mat-icon>
+          Agregar Productos
+        </button>
+        <button *ngIf="locStorage.getBoxStatus() && (this.rolesCajeros.length>0)" mat-button color="primary" (click)="closeBill()" [disabled]="disabled()">
+          <mat-icon style="font-size: 25px;">add_task</mat-icon>
+          Facturar
+        </button>
+        <button mat-button color="primary" (click)="printBill()" [disabled]="disabledComanda()">
+          <mat-icon style="font-size: 25px;">add_task</mat-icon>
+          Imprimir Comanda
+        </button>
+      </div>
+      <div class="example-container">
+        <table mat-table [dataSource]="productListToShow">
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="producto" style="text-align: center;">
+            <th mat-header-cell *matHeaderCellDef> Producto </th>
+            <ng-container *matCellDef="let element" >
+              <td mat-cell *ngIf="element.ownbarcode != '45000198'" [ngStyle]="{'background': element.ownbarcode == '45000198' ? 'white':(element.color == 'AZUL' ? '#71b8eb': (element.color == 'AMARILLO' ? '#ebeb5e': (element.color == 'ROJO'  ? '#eb5e5e':'#f59e47' )))}"> {{element.producto}} </td>
+            </ng-container>
+           </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="notas" style="text-align: center;">
+            <th mat-header-cell *matHeaderCellDef> Notas </th>
+            <ng-container *matCellDef="let element" >
+              <td mat-cell *ngIf="element.ownbarcode != '45000198'" [ngStyle]="{'background': element.ownbarcode == '45000198' ? 'white':(element.color == 'AZUL' ? '#71b8eb': (element.color == 'AMARILLO' ? '#ebeb5e': (element.color == 'ROJO'  ? '#eb5e5e':'#f59e47' )))}" (click)="openNotes(element)" style="color:#6a329f"> {{getNota(element)}} </td>
+            </ng-container>
+           </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="estado" style="text-align: center;">
+            <th mat-header-cell *matHeaderCellDef> Estado </th>
+            <ng-container *matCellDef="let element" >
+              <td mat-cell *ngIf="element.ownbarcode != '45000198'" [ngStyle]="{'background': element.ownbarcode == '45000198' ? 'white':(element.color == 'AZUL' ? '#71b8eb': (element.color == 'AMARILLO' ? '#ebeb5e': (element.color == 'ROJO'  ? '#eb5e5e':'#f59e47' )))}"> {{element.estado}} </td>
+            </ng-container>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="fecha" style="text-align: center;">
+            <th mat-header-cell *matHeaderCellDef> Fecha </th>
+            <ng-container *matCellDef="let element" >
+              <td mat-cell *ngIf="element.ownbarcode != '45000198'" [ngStyle]="{'background': element.ownbarcode == '45000198' ? 'white':(element.color == 'AZUL' ? '#71b8eb': (element.color == 'AMARILLO' ? '#ebeb5e': (element.color == 'ROJO'  ? '#eb5e5e':'#f59e47' )))}"> {{element.fecha_EVENTO}} </td>
+            </ng-container>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="opciones" style="text-align: center;">
+            <th mat-header-cell *matHeaderCellDef>  </th>
+            <ng-container *matCellDef="let element" >
+              <td mat-cell *ngIf="element.ownbarcode != '45000198'" [ngStyle]="{'background': element.ownbarcode == '45000198' ? 'white':(element.color == 'AZUL' ? '#71b8eb': (element.color == 'AMARILLO' ? '#ebeb5e': (element.color == 'ROJO'  ? '#eb5e5e':'#f59e47' )))}">
+                <mat-icon  style="font-size: 35px;" *ngIf="element.estado != 'CANCELADO' && locStorage.getIdStore() != 45001 && locStorage.getIdStore() != 46803" aria-hidden="false" (click)="cancel(element)" aria-label="Example home icon">cancel_presentation</mat-icon>
+                <mat-icon style="font-size: 35px;margin-left: 20px;" *ngIf="element.estado != 'CANCELADO'" aria-hidden="false" (click)="editStatus(element)" aria-label="Example home icon">edit_location</mat-icon>
+                <mat-icon style="font-size: 35px;margin-left: 20px;" *ngIf="element.estado != 'CANCELADO' && element.estado != 'ENTREGADO EN MESA'" aria-hidden="false" (click)="nextStatus(element)" aria-label="Example home icon">next_plan</mat-icon>
+              </td>
+            </ng-container>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </mat-card>
+</div>

@@ -1,0 +1,48 @@
+
+  <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+    <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">
+      {{category}}</mat-card-title>
+    <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;text-emphasis: left; color:white;margin-bottom:0px">
+      Mis productos en categoría</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content style="padding:25px">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th style="width: 25%" class="text-center">Nombre</th>
+            <th style="width: 25%" class="text-center">Codigo Propio</th>
+            <th style="width: 25%" class="text-center">Codigo de Barras</th>
+            <th style="width: 25%" class="text-center">Unidad de Medida</th>
+            <th style="width: 25%" class="text-center">Marca</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let subproduct of productsOnCategory">
+            <td style="width: 25%" class="text-center" (click)="setCode(subproduct.ownbarcode)">
+              {{subproduct.product_STORE_NAME === null? "Sin Nombre" : subproduct.product_STORE_NAME}}</td>
+            <td style="width: 25%" class="text-center" (click)="setCode(subproduct.ownbarcode)">
+              {{subproduct.ownbarcode}}
+              <!-- <input *ngIf="last" id="lastDetailQuantity" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)">
+                  <input *ngIf="! last" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)"> -->
+            </td>
+            <td style="width: 25%" class="text-center" (click)="setCode(subproduct.ownbarcode)">
+              {{subproduct.code}}
+              <!-- <input *ngIf="last" id="lastDetailQuantity" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)">
+                  <input *ngIf="! last" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)"> -->
+            </td>
+            <td style="width: 25%" class="text-center" (click)="setCode(subproduct.ownbarcode)">
+              {{subproduct.mun}}
+              <!-- <input *ngIf="last" id="lastDetailQuantity" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)">
+                  <input *ngIf="! last" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)"> -->
+            </td>
+            <td style="width: 25%" class="text-center" (click)="setCode(subproduct.ownbarcode)">
+              {{subproduct.brand}}
+              <!-- <input *ngIf="last" id="lastDetailQuantity" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)">
+                  <input *ngIf="! last" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)"> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-card-content>

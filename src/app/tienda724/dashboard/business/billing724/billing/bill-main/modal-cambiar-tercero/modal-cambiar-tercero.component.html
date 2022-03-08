@@ -1,0 +1,16 @@
+<div style="height: 100%;width:100%;padding:0">
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+        <mat-card-title style="font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Cambiar Proveedor</mat-card-title>
+        <mat-card-subtitle style="font-size: 1em;font-weight: 300;color:white;margin-bottom:0">Está por Cambiar de proveedor, hacer esto limpiará su Carrito. </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class= "col" style="display:flex">
+            <div style="width: 50%">
+                <button style="width:100%;font-size: 200%;" mat-stroked-button color="primary" type="button" (click)="acept()" >Aceptar</button>
+            </div>
+            <div style="width: 50%">
+                <button style="width:100%;font-size: 200%;" mat-stroked-button color="warn" type="button" (click)="close()">Cancelar</button>
+            </div>
+        </div>
+    </mat-card-content>
+</div>

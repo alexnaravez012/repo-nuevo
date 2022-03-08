@@ -1,0 +1,485 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button,
+input,
+p {
+    font-family: 'Roboto', sans-serif;
+}
+
+.main-container-login {
+    width: 100%;
+    height: 100%;
+}
+
+.image-background-login {
+    width: 750px;
+    z-index: 1;
+}
+
+.container-inputs-login {
+    width: 390px;
+    height: 420px;
+    border-radius: 15px;
+    background-color: white;
+    border: 1px solid rgb(201, 201, 201);
+    z-index: 2;
+    right: 50px !important;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.logo-login {
+    width: 50%;
+    margin-top: 25px;
+}
+
+.inputs-login {
+    height: 40px;
+    background-color: rgba(245, 245, 245, 0.945);
+    margin-top: 8px;
+    border-radius: 8px;
+    border: none;
+}
+
+.inputs-login:focus {
+    outline: 0;
+}
+
+.button-login {
+    height: 35px;
+    border-radius: 8px;
+    border: none;
+    background-color: #FE0202;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 250px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.button-login {
+    outline: 0;
+}
+
+.font-size-10 {
+    font-size: 10px;
+}
+
+.padding-vertical-15 {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.color-red {
+    color: #FE0202;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.button-send {
+    height: 35px;
+    border-radius: 8px;
+    border: none;
+    background-color: #FE0202;
+    color: white;
+    padding-left: 50px;
+    padding-right: 50px;
+    cursor: pointer;
+    margin-top: 90px;
+}
+
+.button-send {
+    outline: 0;
+}
+
+.image-eyes {
+    width: 20px;
+    cursor: pointer;
+}
+
+.font-size-12 {
+    font-size: 12px;
+}
+
+.font-weight-600 {
+    font-weight: 600;
+}
+
+.logo-login-reset-password {
+    width: 50%;
+    margin-top: 15px;
+    margin-bottom: 40px;
+}
+
+.inputs-login-eyes {
+    height: 40px;
+    width: 308px;
+    background-color: rgba(245, 245, 245, 0.945);
+    margin-top: 8px;
+    border-radius: 8px;
+    border: none;
+}
+
+.inputs-login-eyes:focus {
+    outline: 0;
+}
+
+.icons-eyes {
+    top: -35px;
+    left: 270px;
+}
+
+.modal-email {
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 160px !important;
+    border-radius: 8px;
+    border: 1px solid rgba(245, 245, 245, 0.945);
+    top: 150px;
+    left: 200px;
+}
+
+.padding-horizontal-5 {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.font-weight-700 {
+    font-weight: 700;
+}
+
+.color-green {
+    color: #4C9B6E;
+}
+
+#modal-email {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+#modal-pass-change {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.button-send-two {
+    height: 35px;
+    border-radius: 8px;
+    border: none;
+    background-color: #FE0202;
+    color: white;
+    padding-left: 50px;
+    padding-right: 50px;
+    cursor: pointer;
+    margin-top: 40px;
+}
+
+.font-size-9 {
+    font-size: 9px;
+}
+
+.icon-error {
+    width: 2.5px;
+    margin-right: 5px;
+}
+
+.container-inputs-reset-pass {
+    width: 390px;
+    height: 510px;
+    border-radius: 15px;
+    background-color: white;
+    border: 1px solid rgb(201, 201, 201);
+    z-index: 2;
+    right: 50px !important;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.inputs-login-reset-pass {
+    height: 40px;
+    width: 308px;
+    background-color: rgba(245, 245, 245, 0.945);
+    margin-top: 8px;
+    border-radius: 8px;
+    border: none;
+}
+
+.inputs-login-reset-pass:focus {
+    outline: 0;
+}
+
+.inputs-login-reset-pass-two {
+    height: 40px;
+    width: 308px;
+    background-color: rgba(245, 245, 245, 0.945);
+    margin-top: 8px;
+    border-radius: 8px;
+    border: none;
+}
+
+.inputs-login-reset-pass-two:focus {
+    outline: 0;
+}
+
+.color-grey {
+    color: rgb(185, 185, 185);
+}
+
+
+/* CSS RESPONSIVE */
+
+.main-container-login {
+    width: 100%;
+    height: 100%;
+}
+
+.image-background-login {
+    width: 750px;
+    z-index: 1;
+}
+
+.container-inputs-login-responsive {
+    width: 390px;
+    height: 420px;
+    border-radius: 15px;
+    z-index: 2;
+    right: 50px !important;
+    background-color: white;
+}
+
+.logo-login-responsive {
+    width: 52%;
+    margin-top: 40px;
+}
+
+.inputs-login-responsive {
+    height: 55px;
+    background-color: rgba(245, 245, 245, 0.945);
+    margin-top: 8px;
+    border: none;
+}
+
+.font-size-15 {
+    font-size: 15px;
+}
+
+.font-size-13 {
+    font-size: 13px;
+}
+
+.inputs-login-responsive:focus {
+    outline: 0;
+}
+
+.button-login-responsive {
+    height: 50px;
+    border-radius: 8px;
+    border: none;
+    background-color: #FE0202;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 250px;
+    cursor: pointer;
+    margin-top: 28px !important;
+    font-size: 15px;
+}
+
+.button-login {
+    outline: 0;
+}
+
+.font-size-10 {
+    font-size: 10px;
+}
+
+.padding-vertical-15 {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.color-red {
+    color: #FE0202;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.button-send-responsive {
+    height: 50px;
+    border-radius: 8px;
+    border: none;
+    background-color: #FE0202;
+    color: white;
+    padding-left: 50px;
+    padding-right: 50px;
+    cursor: pointer;
+    margin-top: 100px;
+    font-size: 15px;
+}
+
+.button-send-responsive {
+    outline: 0;
+}
+
+.image-eyes-responsive {
+    width: 25px;
+    cursor: pointer;
+}
+
+.font-size-12 {
+    font-size: 12px;
+}
+
+.font-weight-600 {
+    font-weight: 600;
+}
+
+.logo-login-reset-password-responsive {
+    margin-bottom: 40px;
+    width: 52%;
+    margin-top: 20px;
+}
+
+.inputs-login-eyes-responsive {
+    height: 55px;
+    width: 380px;
+    background-color: rgba(245, 245, 245, 0.945);
+    margin-top: 8px;
+    border-radius: 8px;
+    border: none;
+}
+
+.inputs-login-eyes-responsive:focus {
+    outline: 0;
+}
+
+.icons-eyes-responsive {
+    top: -42px;
+    left: 338px;
+}
+
+.modal-email-responsive {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 35px;
+    width: 270px !important;
+    border-radius: 8px;
+    border: 1px solid rgba(245, 245, 245, 0.945);
+    top: 500px;
+    right: 165px;
+}
+
+.padding-horizontal-5 {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.font-weight-700 {
+    font-weight: 700;
+}
+
+.color-green {
+    color: #4C9B6E;
+}
+
+#modal-email {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+#modal-email-error {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+#modal-pass-change {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+#modal-pass-error {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.button-send-two-responsive {
+    height: 50px;
+    border-radius: 8px;
+    border: none;
+    background-color: #FE0202;
+    color: white;
+    padding-left: 50px;
+    padding-right: 50px;
+    cursor: pointer;
+    margin-top: 22px;
+    font-size: 15px;
+}
+
+.font-size-9 {
+    font-size: 9px;
+}
+
+.icon-error {
+    width: 2.5px;
+    margin-right: 5px;
+}
+
+.container-inputs-reset-pass-responsive {
+    width: 390px;
+    height: 510px;
+    z-index: 2;
+    right: 50px !important;
+}
+
+.inputs-login-reset-pass-responsive {
+    height: 50px;
+    width: 380px;
+    background-color: rgba(245, 245, 245, 0.945);
+    margin-top: 8px;
+    border-radius: 8px;
+    border: none;
+    padding-left: 5px;
+}
+
+.inputs-login-reset-pass:focus {
+    outline: 0;
+}
+
+.inputs-login-reset-pass-two-responsive {
+    height: 50px;
+    width: 380px;
+    background-color: rgba(245, 245, 245, 0.945);
+    margin-top: 8px;
+    border-radius: 8px;
+    border: none;
+}
+
+.inputs-login-reset-pass-two:focus {
+    outline: 0;
+}
+
+.color-grey {
+    color: rgb(185, 185, 185);
+}
+
+@media screen and (min-width: 414px) {
+    .mobile {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 414px) {
+    .web {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 0px) and (max-width: 414px) {
+    .mobile {
+        display: inline;
+    }
+}

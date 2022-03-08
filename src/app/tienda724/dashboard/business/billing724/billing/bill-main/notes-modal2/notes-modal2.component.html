@@ -1,0 +1,31 @@
+<div>
+    <mat-card style="height: 100%;width:100%;padding:0">
+      <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+        <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Por favor escriba las notas de la planilla</mat-card-title>
+      </mat-card-header>
+    </mat-card>
+    <mat-card style="padding:20px">
+      <mat-form-field style="width:100%">
+        <mat-label>Notas</mat-label>
+        <input [(ngModel)]="notes" matInput type="text"class="no-spin text-center">
+      </mat-form-field>
+      <mat-form-field style="width: 30%;font-size: medium;padding-right: 20px;">
+        <mat-label>Monedas</mat-label>
+        <!--suppress TypeScriptUnresolvedVariable -->
+        <input #nameref (click)="$event.target.select()" currencyMask [options]="{ precision: 0, allowNegative: false }" [(ngModel)]="monedas" matInput type="text" step="1" id="readerQuantity" min="1" >
+      </mat-form-field>
+      <mat-form-field style="width: 30%;font-size: medium;padding-right: 20px;">
+          <mat-label>Billetes</mat-label>
+          <!--suppress TypeScriptUnresolvedVariable -->
+          <input (click)="$event.target.select()" currencyMask [options]="{ precision: 0, allowNegative: false }" [(ngModel)]="billetes" matInput type="text" step="1" id="readerQuantity" min="1" >
+      </mat-form-field>
+      <mat-form-field style="width: 30%;font-size: medium;padding-right: 20px;">
+        <mat-label>Otros</mat-label>
+        <!--suppress TypeScriptUnresolvedVariable -->
+        <input (click)="$event.target.select()" currencyMask [options]="{ precision: 0, allowNegative: false }" [(ngModel)]="total" matInput type="text" step="1" id="readerQuantity" min="1" >
+      </mat-form-field>
+      <button mat-stroked-button color="primary" type="button" (click)="acept()">Aceptar</button>
+      <button mat-stroked-button color="primary" type="button" (click)="close()">Cancelar</button>
+    </mat-card>
+  </div>
+  

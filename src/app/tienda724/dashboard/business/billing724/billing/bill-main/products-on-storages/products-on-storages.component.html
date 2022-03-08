@@ -1,0 +1,40 @@
+
+  <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+    <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">
+      {{name}}</mat-card-title>
+    <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;text-emphasis: left; color:white;margin-bottom:0px">
+      Mis productos en bodega</mat-card-subtitle>
+</mat-card-header>
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th style="width: 10%" class="text-center">Producto</th>
+          <th style="width: 10%" class="text-center">Código</th>
+          <th style="width: 10%" class="text-center">Código propio</th>
+          <th style="width: 10%" class="text-center">Marca</th>
+          <th style="width: 10%" class="text-center">Unidad de Medida</th>
+          <th style="width: 10%" class="text-center">Costo Unitario</th>
+          <th style="width: 10%" class="text-center">Cantidad</th>
+          <th style="width: 10%" class="text-center">Costo Total</th>
+        </tr>
+      </thead>
+        <tbody>
+          <tr *ngFor="let subproduct of currentStorage">
+            <td style="width: 10%" class="text-center">
+              {{subproduct.product_STORE_NAME === null? "Sin Nombre" : subproduct.product_STORE_NAME}}</td>
+            <td style="width: 10%" class="text-center">{{subproduct.ownbarcode}}</td>
+            <td style="width: 10%" class="text-center">{{subproduct.product_STORE_CODE}}</td>
+            <td style="width: 10%" class="text-center">{{subproduct.brand}}</td>
+            <td style="width: 10%" class="text-center">{{subproduct.mun}}</td>
+            <td style="width: 10%" class="text-center">
+              {{subproduct.standard_PRICE | currency}}
+              <!-- <input *ngIf="last" id="lastDetailQuantity" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)">
+          <input *ngIf="! last" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)"> -->
+            </td>
+            <td style="width: 10%" class="text-center">{{subproduct.quantity}}</td>
+            <td style="width: 10%" class="text-center">{{subproduct.standard_PRICE * subproduct.quantity | currency}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>

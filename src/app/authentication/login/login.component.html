@@ -1,0 +1,459 @@
+<!--CASO PARA TIENDA 724-->
+<div style="width: 100vw;height: 100vh;display: flex" *ngIf="isNan()">
+  <div class="FondoTienda aparecer"></div>
+  <div class="wrapper fadeInDown">
+
+    <div class="formContent">
+      <!-- Icon -->
+      <div style="height: 50%;width: 100%;display: flex" class="fadeIn first">
+        <!-- Icon -->
+        <div class="fadeIn first" style="margin: auto">
+          <img src="assets/LogiTiendaV2.png" id="icon" alt="User Icon" style="width: 50%;height: unset;"/>
+        </div>
+      </div>
+      <form style="height: 50%;width: 100%;display: flex;flex-direction: column" novalidate [formGroup]="form" >
+        <div class="input-container2">
+          <input type="#{type}" required="required" formControlName="usuario" class="menus" placeholder="Usuario"/>
+          <div class="bar"></div>
+          <div *ngIf="form.controls.usuario.errors && form.controls.usuario.touched">
+            <div *ngIf="form.controls.usuario.errors.required" class="alert alert-danger">
+              El Campo es requerido!
+            </div>
+            <div *ngIf="form.controls.usuario.errors.minlength" class="alert alert-danger">
+              El Campo debe ser mayor a 3 caracteres!
+            </div>
+            <div *ngIf="form.controls.usuario.errors.maxlength" class="alert alert-danger">
+              El Campo debe ser menor a 50 caracteres!
+            </div>
+            <div *ngIf="form.controls.usuario.errors.pattern" class="alert alert-danger">
+              El Campo debe iniciar con almenos una letra
+            </div>
+          </div>
+        </div>
+        <div class="input-container2">
+          <input type="password" required="required" formControlName="clave" placeholder="Contraseña"/>
+          <div class="bar"></div>
+          <div *ngIf="form.controls.clave.errors && form.controls.clave.touched">
+            <div *ngIf="form.controls.clave.errors.required" class="alert alert-danger">
+              El Campo es requerido!
+            </div>
+            <div *ngIf="form.controls.clave.errors.minlength" class="alert alert-danger">
+              El Campo debe ser mayor a 3 caracteres!
+            </div>
+            <div *ngIf="form.controls.clave.errors.maxlength" class="alert alert-danger">
+              El Campo debe ser menor a 100 caracteres!
+            </div>
+            <div *ngIf="form.controls.clave.errors.pattern" class="alert alert-danger">
+              El Campo debe iniciar con almenos una letra
+            </div>
+          </div>
+        </div>
+        <div style="margin: auto 0" class="button-container">
+          <button type="submit" (click)="login()" class="fadeIn fourth" [disabled]="!form.valid" style = "color: white;background-color: red;border-radius: 15px;margin: auto 0;width: 60%;padding: 15px;"><span>Iniciar Sesión</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- TODO ..-->
+
+<div style="width: 100vw;height: 100vh;display: flex" *ngIf="this.AppID == 30 && IsMobile()">
+  <div class="Fondo aparecer"></div>
+  <div class="fadeInDown" style="height: 80%;width: 80%;display: flex;flex-direction: column;margin: auto">
+    <!-- Icon -->
+    <div class="fadeIn first" style="">
+      <img src="assets/motor_1a/logo.png" id="icon" alt="User Icon" style="width: 100%;height: unset;"/>
+    </div>
+<!--    -->
+    <form novalidate [formGroup]="form" style="display: flex;flex-direction: column;justify-content: space-evenly;height: 30%;width: 100%;margin: 20px 0">
+      <div class="input-container" style="display: flex;width: 100%;">
+        <mat-label style="font-weight: bold;font-size: 120%;margin: auto 0;margin-right: auto">Usuario:</mat-label>
+        <input required="required" style="border: solid 1px black;height: 70%;padding: 0;margin: auto 0;background-color: unset;background: unset;width: 70%;" formControlName="usuario" class="menus" placeholder="Usuario"/>
+        <div class="bar"></div>
+        <div *ngIf="form.controls.usuario.errors && form.controls.usuario.touched">
+          <div *ngIf="form.controls.usuario.errors.required" class="alert alert-danger">
+            El Campo es requerido!
+          </div>
+          <div *ngIf="form.controls.usuario.errors.minlength" class="alert alert-danger">
+            El Campo debe ser mayor a 3 caracteres!
+          </div>
+          <div *ngIf="form.controls.usuario.errors.maxlength" class="alert alert-danger">
+            El Campo debe ser menor a 50 caracteres!
+          </div>
+          <div *ngIf="form.controls.usuario.errors.pattern" class="alert alert-danger">
+            El Campo debe iniciar con almenos una letra
+          </div>
+        </div>
+      </div>
+      <div class="input-container" style="display: flex;width: 100%;">
+        <mat-label style="font-weight: bold;font-size: 120%;margin: auto 0;margin-right: auto">Contraseña:</mat-label>
+        <input type="password" style="border: solid 1px black;height: 65%;margin: auto 0;padding: 0;background-color: unset;background: unset;width: 70%;" required="required" formControlName="clave" placeholder="Contraseña"/>
+        <div class="bar"></div>
+        <div *ngIf="form.controls.clave.errors && form.controls.clave.touched">
+          <div *ngIf="form.controls.clave.errors.required" class="alert alert-danger">
+            El Campo es requerido!
+          </div>
+          <div *ngIf="form.controls.clave.errors.minlength" class="alert alert-danger">
+            El Campo debe ser mayor a 3 caracteres!
+          </div>
+          <div *ngIf="form.controls.clave.errors.maxlength" class="alert alert-danger">
+            El Campo debe ser menor a 100 caracteres!
+          </div>
+          <div *ngIf="form.controls.clave.errors.pattern" class="alert alert-danger">
+            El Campo debe iniciar con almenos una letra
+          </div>
+        </div>
+      </div>
+    </form>
+    <!--      TERCERA COLUMNA-->
+    <div style="display: flex;flex-direction: column;height: 15%;width: 100%;margin: 10px auto">
+      <button type="submit" (click)="login()" class="fadeIn fourth" [disabled]="!form.valid" style = "color: white; background-color: #FFC235;margin: auto;padding: 0;height: 82%;width: 100%">
+        <div style="display: flex;flex-direction: column">
+          <mat-icon style="margin: auto;font-size: 250%;height: unset;width: unset;padding-right: 7px;">login</mat-icon>
+          <span>Entrar</span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="this.AppID == 30 && !IsMobile()">
+  <div class="Fondo aparecer"></div>
+  <div class="fadeInDown ContenedorLoginFormato2">
+    <!-- Icon -->
+    <div class="fadeIn first" style="height: 55%">
+      <img src="assets/motor_1a/logo.png" id="icon" alt="User Icon" style="width: unset;height: 100%;"/>
+    </div>
+
+    <!--    CONTENEDOR DEL LOGIN-->
+    <div style="display: flex;height: 45%;justify-content: space-between;">
+      <!--      PRIMERA COLUMNA-->
+      <div style="display: flex;flex-direction: column;height: 100%;justify-content: space-evenly">
+        <mat-label style="font-weight: bold;font-size: 120%">Usuario:</mat-label>
+        <mat-label style="font-weight: bold;font-size: 120%">Contraseña:</mat-label>
+      </div>
+      <!--      SEGUNDA COLUMNA-->
+      <form novalidate [formGroup]="form" style="display: flex;flex-direction: column;justify-content: space-evenly;height: 100%;width: 50%;">
+        <div class="input-container">
+          <input required="required" style="height: 100%;padding: 0;margin: 0;background-color: unset;background: unset;width: 100%;" formControlName="usuario" class="menus" placeholder="Usuario"/>
+          <div class="bar"></div>
+          <div *ngIf="form.controls.usuario.errors && form.controls.usuario.touched">
+            <div *ngIf="form.controls.usuario.errors.required" class="alert alert-danger">
+              El Campo es requerido!
+            </div>
+            <div *ngIf="form.controls.usuario.errors.minlength" class="alert alert-danger">
+              El Campo debe ser mayor a 3 caracteres!
+            </div>
+            <div *ngIf="form.controls.usuario.errors.maxlength" class="alert alert-danger">
+              El Campo debe ser menor a 50 caracteres!
+            </div>
+            <div *ngIf="form.controls.usuario.errors.pattern" class="alert alert-danger">
+              El Campo debe iniciar con almenos una letra
+            </div>
+          </div>
+        </div>
+        <div class="input-container">
+          <input type="password" style="height: 100%;padding: 0;margin: 0;background-color: unset;background: unset;width: 100%;" required="required" formControlName="clave" placeholder="Contraseña"/>
+          <div class="bar"></div>
+          <div *ngIf="form.controls.clave.errors && form.controls.clave.touched">
+            <div *ngIf="form.controls.clave.errors.required" class="alert alert-danger">
+              El Campo es requerido!
+            </div>
+            <div *ngIf="form.controls.clave.errors.minlength" class="alert alert-danger">
+              El Campo debe ser mayor a 3 caracteres!
+            </div>
+            <div *ngIf="form.controls.clave.errors.maxlength" class="alert alert-danger">
+              El Campo debe ser menor a 100 caracteres!
+            </div>
+            <div *ngIf="form.controls.clave.errors.pattern" class="alert alert-danger">
+              El Campo debe iniciar con almenos una letra
+            </div>
+          </div>
+        </div>
+      </form>
+      <!--      TERCERA COLUMNA-->
+      <div style="display: flex;flex-direction: column;height: 100%;width: 20%">
+        <button type="submit" (click)="login()" class="fadeIn fourth" [disabled]="!form.valid" style = "color: white; background-color: #FFC235;margin: auto;padding: 0;height: 82%;width: 80%">
+          <div style="display: flex;flex-direction: column">
+            <mat-icon style="margin: auto;font-size: 250%;height: unset;width: unset;padding-right: 7px;">login</mat-icon>
+            <span>Entrar</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TODO DENLIENA-->
+
+<div style="background-color: white;width: 100%;height: 100%;display: flex" *ngIf="this.AppID == 40 && IsMobile()">
+  <!--  IMAGEN DERECHA-->
+  <div style="width: 100%;height: 100%;display: flex;position: absolute">
+    <img style="width: 100%;margin-top: auto;" src="assets/denlinea/Ilustracion.svg" class="aparecer"/>
+  </div>
+  <div class="fadeInDown" style="height: 80%;width: 80%;display: flex;flex-direction: column;margin: auto">
+    <!-- Icon -->
+    <div class="fadeIn first" style="display: flex">
+      <img src="assets/denlinea/Logo.svg" id="icon" alt="User Icon" style="width: unset;margin: auto;max-width: 100%;"/>
+    </div>
+    <!--    -->
+    <form novalidate [formGroup]="form" style="display: flex;flex-direction: column;justify-content: space-evenly;height: 30%;width: 100%;margin: 20px 0">
+      <div class="input-container" style="display: flex;width: 100%;">
+        <mat-label style="font-weight: bold;font-size: 120%;margin: auto 0;margin-right: auto">Usuario:</mat-label>
+        <input required="required" style="border: solid 1px black;height: 70%;padding: 0;margin: auto 0;background-color: unset;background: unset;width: 70%;" formControlName="usuario" class="menus" placeholder="Usuario"/>
+        <div class="bar"></div>
+        <div *ngIf="form.controls.usuario.errors && form.controls.usuario.touched">
+          <div *ngIf="form.controls.usuario.errors.required" class="alert alert-danger">
+            El Campo es requerido!
+          </div>
+          <div *ngIf="form.controls.usuario.errors.minlength" class="alert alert-danger">
+            El Campo debe ser mayor a 3 caracteres!
+          </div>
+          <div *ngIf="form.controls.usuario.errors.maxlength" class="alert alert-danger">
+            El Campo debe ser menor a 50 caracteres!
+          </div>
+          <div *ngIf="form.controls.usuario.errors.pattern" class="alert alert-danger">
+            El Campo debe iniciar con almenos una letra
+          </div>
+        </div>
+      </div>
+      <div class="input-container" style="display: flex;width: 100%;">
+        <mat-label style="font-weight: bold;font-size: 120%;margin: auto 0;margin-right: auto">Contraseña:</mat-label>
+        <input type="password" style="border: solid 1px black;height: 65%;margin: auto 0;padding: 0;background-color: unset;background: unset;width: 70%;" required="required" formControlName="clave" placeholder="Contraseña"/>
+        <div class="bar"></div>
+        <div *ngIf="form.controls.clave.errors && form.controls.clave.touched">
+          <div *ngIf="form.controls.clave.errors.required" class="alert alert-danger">
+            El Campo es requerido!
+          </div>
+          <div *ngIf="form.controls.clave.errors.minlength" class="alert alert-danger">
+            El Campo debe ser mayor a 3 caracteres!
+          </div>
+          <div *ngIf="form.controls.clave.errors.maxlength" class="alert alert-danger">
+            El Campo debe ser menor a 100 caracteres!
+          </div>
+          <div *ngIf="form.controls.clave.errors.pattern" class="alert alert-danger">
+            El Campo debe iniciar con almenos una letra
+          </div>
+        </div>
+      </div>
+    </form>
+    <!--      TERCERA COLUMNA-->
+    <div style="display: flex;flex-direction: column;height: 15%;width: 100%;margin: 10px auto">
+      <button type="submit" (click)="login()" class="fadeIn fourth" [disabled]="!form.valid" style = "color: white; background-color: #2E66B1;margin: auto;padding: 0;height: 82%;width: 100%">
+        <div style="display: flex;flex-direction: column">
+          <mat-icon style="margin: auto;font-size: 250%;height: unset;width: unset;padding-right: 7px;">login</mat-icon>
+          <span>Entrar</span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div style="background-color: white;width: 100%;height: 100%;display: flex" *ngIf="this.AppID == 40 && !IsMobile()">
+  <!--  PARTE IZQUIERDA-->
+  <div class="fadeInDown ContenedorLoginFormatoDenlinea">
+    <!-- Icon -->
+    <div class="fadeIn first" style="height: 55%;display: flex;flex-shrink: 0;">
+      <img src="assets/denlinea/Logo.svg" id="icon" alt="User Icon" style="width: unset;height: 60%;margin: auto;max-width: 100%;"/>
+    </div>
+
+    <!--    CONTENEDOR DEL LOGIN-->
+    <div style="display: flex;flex-direction: column;height: 20%;justify-content: space-between;">
+      <!--      SEGUNDA COLUMNA-->
+      <form novalidate [formGroup]="form" style="display: flex;flex-direction: column;justify-content: center;height: 100%;width: 100%;">
+        <div style="display: flex;width: 60%;margin: 0 auto;height: 30%">
+          <mat-label style="font-weight: bold;font-size: 120%;height: fit-content;margin-top: auto;">Usuario:</mat-label>
+          <div class="input-containerDenlinea">
+            <input required="required" style="height: 100%;padding: 0;margin: 0;background-color: unset;background: unset;width: 100%;" formControlName="usuario" class="menus" placeholder="Usuario"/>
+            <div class="bar"></div>
+            <div *ngIf="form.controls.usuario.errors && form.controls.usuario.touched">
+              <div *ngIf="form.controls.usuario.errors.required" class="alert alert-danger">
+                El Campo es requerido!
+              </div>
+              <div *ngIf="form.controls.usuario.errors.minlength" class="alert alert-danger">
+                El Campo debe ser mayor a 3 caracteres!
+              </div>
+              <div *ngIf="form.controls.usuario.errors.maxlength" class="alert alert-danger">
+                El Campo debe ser menor a 50 caracteres!
+              </div>
+              <div *ngIf="form.controls.usuario.errors.pattern" class="alert alert-danger">
+                El Campo debe iniciar con almenos una letra
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex;width: 60%;margin: 0 auto;height: 30%">
+          <mat-label style="font-weight: bold;font-size: 120%;height: fit-content;margin-top: auto;">Contraseña:</mat-label>
+          <div class="input-containerDenlinea">
+            <input type="password" style="height: 100%;padding: 0;margin: 0;background-color: unset;background: unset;width: 100%;" required="required" formControlName="clave" placeholder="Contraseña"/>
+            <div class="bar"></div>
+            <div *ngIf="form.controls.clave.errors && form.controls.clave.touched">
+              <div *ngIf="form.controls.clave.errors.required" class="alert alert-danger">
+                El Campo es requerido!
+              </div>
+              <div *ngIf="form.controls.clave.errors.minlength" class="alert alert-danger">
+                El Campo debe ser mayor a 3 caracteres!
+              </div>
+              <div *ngIf="form.controls.clave.errors.maxlength" class="alert alert-danger">
+                El Campo debe ser menor a 100 caracteres!
+              </div>
+              <div *ngIf="form.controls.clave.errors.pattern" class="alert alert-danger">
+                El Campo debe iniciar con almenos una letra
+              </div>
+            </div>
+          </div>
+        </div>
+        <mat-label style="font-weight: bold;font-size: 100%;height: fit-content;margin-top: 10px;margin-left: auto;margin-right: 9vw;">¿Olvidaste la contraseña?</mat-label>
+      </form>
+    </div>
+    <!--      BOTON LOGIN-->
+    <div style="display: flex;flex-direction: column;height: 8%;width: 30%;margin-left: auto;margin-right: 8vw;">
+      <button type="submit" (click)="login()" class="fadeIn fourth" [disabled]="!form.valid" style = "color: white;background-color: #2E66B1;margin: auto;padding: 0;border-radius: 20px;height: 72%;width: 80%;">
+        <div style="display: flex;flex-direction: column">
+          <span style="font-weight: bold;font-size: 140%;">Entrar</span>
+        </div>
+      </button>
+    </div>
+  </div>
+  <!--  IMAGEN DERECHA-->
+  <div style="width: 55%;height: 100%;display: flex">
+    <img style="width: 100%;margin-top: auto;" src="assets/denlinea/Ilustracion.svg" class="aparecer"/>
+  </div>
+</div>
+
+<!-- TODO EDS 1A-->
+
+<div style="background-color: white;width: 100%;height: 100%;display: flex" *ngIf="this.AppID == 50 && IsMobile()">
+  <div class="FondoEDS aparecer"></div>
+
+  <div class="fadeInDown" style="height: 80%;width: 80%;display: flex;flex-direction: column;margin: auto">
+    <!-- Icon -->
+    <div class="fadeIn first" style="display: flex">
+      <img src="assets/eds1a/logo.svg" id="icon" alt="User Icon" style="width: unset;height: 60%;margin: auto;max-width: 100%;"/>
+    </div>
+    <!--    -->
+    <form novalidate [formGroup]="form" style="display: flex;flex-direction: column;justify-content: space-evenly;height: 30%;width: 100%;margin: 20px 0">
+      <div class="input-container" style="display: flex;width: 100%;">
+        <mat-label style="font-weight: bold;font-size: 120%;margin: auto 0;margin-right: auto">Usuario:</mat-label>
+        <input required="required" style="border: solid 1px black;height: 70%;padding: 0;margin: auto 0;background-color: unset;background: unset;width: 70%;" formControlName="usuario" class="menus" placeholder="Usuario"/>
+        <div class="bar"></div>
+        <div *ngIf="form.controls.usuario.errors && form.controls.usuario.touched">
+          <div *ngIf="form.controls.usuario.errors.required" class="alert alert-danger">
+            El Campo es requerido!
+          </div>
+          <div *ngIf="form.controls.usuario.errors.minlength" class="alert alert-danger">
+            El Campo debe ser mayor a 3 caracteres!
+          </div>
+          <div *ngIf="form.controls.usuario.errors.maxlength" class="alert alert-danger">
+            El Campo debe ser menor a 50 caracteres!
+          </div>
+          <div *ngIf="form.controls.usuario.errors.pattern" class="alert alert-danger">
+            El Campo debe iniciar con almenos una letra
+          </div>
+        </div>
+      </div>
+      <div class="input-container" style="display: flex;width: 100%;">
+        <mat-label style="font-weight: bold;font-size: 120%;margin: auto 0;margin-right: auto">Contraseña:</mat-label>
+        <input type="password" style="border: solid 1px black;height: 65%;margin: auto 0;padding: 0;background-color: unset;background: unset;width: 70%;" required="required" formControlName="clave" placeholder="Contraseña"/>
+        <div class="bar"></div>
+        <div *ngIf="form.controls.clave.errors && form.controls.clave.touched">
+          <div *ngIf="form.controls.clave.errors.required" class="alert alert-danger">
+            El Campo es requerido!
+          </div>
+          <div *ngIf="form.controls.clave.errors.minlength" class="alert alert-danger">
+            El Campo debe ser mayor a 3 caracteres!
+          </div>
+          <div *ngIf="form.controls.clave.errors.maxlength" class="alert alert-danger">
+            El Campo debe ser menor a 100 caracteres!
+          </div>
+          <div *ngIf="form.controls.clave.errors.pattern" class="alert alert-danger">
+            El Campo debe iniciar con almenos una letra
+          </div>
+        </div>
+      </div>
+    </form>
+    <!--      TERCERA COLUMNA-->
+    <div style="display: flex;flex-direction: column;height: 15%;width: 100%;margin: 10px auto">
+      <button type="submit" (click)="login()" class="fadeIn fourth" [disabled]="!form.valid" style = "color: white; background-color: #2E66B1;margin: auto;padding: 0;height: 82%;width: 100%">
+        <div style="display: flex;flex-direction: column">
+          <mat-icon style="margin: auto;font-size: 250%;height: unset;width: unset;padding-right: 7px;">login</mat-icon>
+          <span>Entrar</span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div style="background-color: white;width: 100%;height: 100%;display: flex" *ngIf="this.AppID == 50 && !IsMobile()">
+  <div class="FondoEDS aparecer"></div>
+  <!--  PARTE IZQUIERDA-->
+  <div class="fadeInDown ContenedorLoginFormatoDenlinea">
+    <!-- Icon -->
+    <div class="fadeIn first" style="height: 25%;display: flex;width: 70%;margin: 0 auto;flex-shrink: 0;margin-top: 20vh;">
+      <img src="assets/eds1a/logo.svg" id="icon" alt="User Icon" style="width: unset;height: 60%;margin: auto;max-width: 100%;"/>
+    </div>
+
+    <!--    CONTENEDOR DEL LOGIN-->
+    <div style="display: flex;flex-direction: column;height: 20%;justify-content: space-between;">
+      <!--      SEGUNDA COLUMNA-->
+      <form novalidate [formGroup]="form" style="display: flex;flex-direction: column;justify-content: center;height: 100%;width: 100%;">
+        <div style="display: flex;width: 60%;margin: 0 auto;height: 30%">
+          <mat-label style="font-weight: bold;font-size: 120%;height: fit-content;margin-top: auto;">Usuario:</mat-label>
+          <div class="input-containerDenlinea">
+            <input required="required" style="height: 100%;padding: 0;margin: 0;background: #ffffff00;border: unset;width: 100%;" formControlName="usuario" class="menus" placeholder="Usuario"/>
+            <div class="bar"></div>
+            <div *ngIf="form.controls.usuario.errors && form.controls.usuario.touched">
+              <div *ngIf="form.controls.usuario.errors.required" class="alert alert-danger">
+                El Campo es requerido!
+              </div>
+              <div *ngIf="form.controls.usuario.errors.minlength" class="alert alert-danger">
+                El Campo debe ser mayor a 3 caracteres!
+              </div>
+              <div *ngIf="form.controls.usuario.errors.maxlength" class="alert alert-danger">
+                El Campo debe ser menor a 50 caracteres!
+              </div>
+              <div *ngIf="form.controls.usuario.errors.pattern" class="alert alert-danger">
+                El Campo debe iniciar con almenos una letra
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex;width: 60%;margin: 0 auto;height: 30%">
+          <mat-label style="font-weight: bold;font-size: 120%;height: fit-content;margin-top: auto;">Contraseña:</mat-label>
+          <div class="input-containerDenlinea">
+            <input type="password" style="height: 100%;padding: 0;margin: 0;background: #ffffff00;border: unset;width: 100%;" required="required" formControlName="clave" placeholder="Contraseña"/>
+            <div class="bar"></div>
+            <div *ngIf="form.controls.clave.errors && form.controls.clave.touched">
+              <div *ngIf="form.controls.clave.errors.required" class="alert alert-danger">
+                El Campo es requerido!
+              </div>
+              <div *ngIf="form.controls.clave.errors.minlength" class="alert alert-danger">
+                El Campo debe ser mayor a 3 caracteres!
+              </div>
+              <div *ngIf="form.controls.clave.errors.maxlength" class="alert alert-danger">
+                El Campo debe ser menor a 100 caracteres!
+              </div>
+              <div *ngIf="form.controls.clave.errors.pattern" class="alert alert-danger">
+                El Campo debe iniciar con almenos una letra
+              </div>
+            </div>
+          </div>
+        </div>
+        <mat-label style="font-weight: bold;font-size: 100%;height: fit-content;margin-top: 10px;margin-left: auto;margin-right: 9vw;">¿Olvidaste la contraseña?</mat-label>
+      </form>
+    </div>
+    <!--      BOTON LOGIN-->
+    <div style="display: flex;flex-direction: column;height: 8%;width: 30%;margin-left: auto;margin-right: 8vw;">
+      <button type="submit" (click)="login()" class="fadeIn fourth" [disabled]="!form.valid" style = "color: white;background-color: #2E66B1;margin: auto;padding: 0;border-radius: 20px;height: 72%;width: 80%;">
+        <div style="display: flex;flex-direction: column">
+          <span style="font-weight: bold;font-size: 140%;">Entrar</span>
+        </div>
+      </button>
+    </div>
+  </div>
+  <!--  IMAGEN DERECHA-->
+  <div style="width: 55%;height: 100%;display: flex">
+    <!--    <img style="width: 100%;margin-top: auto;" src="assets/denlinea/Ilustracion.svg" class="aparecer"/>-->
+  </div>
+</div>

@@ -1,0 +1,90 @@
+<!-- Puede reutilizar este componente, se deberia de modificar(poner un output) para obtener el tercero creado desde 
+el componente host(padre), en este caso  seria el componene client dialog-->
+<app-new-employee (saveThird)="save($event)" [flagRedirect]="false" style="max-height: 85vh"></app-new-employee>
+<!-- <mat-card>
+  <mat-card-title>Cliente</mat-card-title>
+  <mat-card-content>
+    <div class="row">
+      <div class="col-12">
+        <h4 class="text-center my-5">Datos para registrar a la nueva persona</h4>
+        <mat-checkbox class="float-right mb-5" [(ngModel)]="data.is_natural_person">Es persona natural</mat-checkbox>
+      </div>
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="Primer Nombre" [(ngModel)]="data.first_name">
+        </mat-form-field>
+      </div>
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="Segundo Nombre" [(ngModel)]="data.second_name">
+        </mat-form-field>
+      </div>
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="Primer Apellido" [(ngModel)]="data.first_lastname">
+        </mat-form-field>
+      </div>
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="Segundo Apellido" [(ngModel)]="data.second_lastname">
+        </mat-form-field>
+      </div>
+      <div class="col-3">
+        <mat-form-field>
+          <mat-select placeholder="Tipo de documento" [(ngModel)]="data.document_type">
+            <mat-option value="CC">CC</mat-option>
+            <mat-option value="Nit">Nit</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="Número de documento" [(ngModel)]="data.document_number">
+        </mat-form-field>
+      </div>
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="Email" [(ngModel)]="data.email">
+        </mat-form-field>
+      </div>
+      <div class="w-100"></div>
+      <div class="col-12 text-center">
+        <h4 class="my-5">Directorio</h4>
+      </div>
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="Dirección" [(ngModel)]="data.address">
+        </mat-form-field>
+      </div>
+      <div class="col-3">
+        <mat-form-field>
+          <input matInput placeholder="Teléfono" [(ngModel)]="data.phone">
+        </mat-form-field>
+      </div>
+      <div class="col-3">
+        <mat-form-field>
+          <mat-select placeholder="País" [(ngModel)]="data.country">
+            <mat-option value="option">Colombia</mat-option>
+            <mat-option value="option">Mexico</mat-option>
+            <mat-option value="option">Argentina</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-3">
+        <mat-form-field>
+          <mat-select placeholder="Ciudad" [(ngModel)]="data.city">
+            <mat-option value="option">Bogotá</mat-option>
+            <mat-option value="option">Cali</mat-option>
+            <mat-option value="option">Medellín</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="float-right">
+      <button mat-dialog-close class="btn btn-secundary">Cancelar</button>
+      <button class="btn btn-primary" (click)="closeDialog()">Guardar</button>
+    </div>
+  </mat-card-actions>
+</mat-card> -->

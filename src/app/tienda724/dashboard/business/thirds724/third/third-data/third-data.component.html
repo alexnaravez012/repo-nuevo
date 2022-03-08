@@ -1,0 +1,218 @@
+<div >
+ <!--- The Component from Document Type for do filters-->
+ <app-document-filter (EmitDocumentType)="showDocumentTypeFilter($event)" ></app-document-filter>
+  <br>
+
+  <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)" >
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <h2> Mis Terceros</h2>
+        </ng-template>
+        <br>
+        <div class="container">
+
+          
+
+          <!-- My thirds-->
+          <div class="row">  
+            <div class="card">
+              <div class="card-header" data-background-color="red">
+                <span>
+                    <h3 class="title">Mis Terceros</h3>
+                    <p class="category">Puede ver los terceros que pertenecen a su Sede de Tercero</p>
+                </span>
+            
+                  <span class="fill-space">
+
+                  </span>
+                  <span>
+                      <button mat-fab color="primary" class="tky-right"  
+                      routerLink="/dashboard/business/third/new" 
+                      matTooltip="Registrar nuevo tercero!" [matTooltipPosition]="position">
+                        
+                      Nuevo
+                    </button>
+                  </span>
+              </div>
+              <div class="card-content table-responsive">
+                  <mat-table #table [dataSource]="dataSource">
+                      <!-- Position Column -->
+                      <ng-container matColumnDef="position">
+                          <mat-header-cell *matHeaderCellDef> Id_third. </mat-header-cell>
+                          <mat-cell *matCellDef="let element"> {{element.id_third | json}} </mat-cell>
+                      </ng-container>
+            
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="name">
+                          <mat-header-cell *matHeaderCellDef> <b>Nombre Completo</b> </mat-header-cell>
+                          <mat-cell *matCellDef="let element">
+                              <span *ngIf="!element.profile">
+                                  {{element.info.fullname}} 
+                              </span>
+                              <span *ngIf="element.profile">
+                                  {{element.profile.info.fullname}} 
+                              </span>
+                            
+                          </mat-cell>
+                        </ng-container>
+            
+                        <!-- Weight Column -->
+                        <ng-container matColumnDef="weight">
+                            <mat-header-cell *matHeaderCellDef> <b>Tipo de Documento777</b> </mat-header-cell>
+                            <mat-cell *matCellDef="let element">  
+                              <span *ngIf="!element.profile">
+                                  {{element.info.type_document}}
+                              </span>
+            
+                              <span *ngIf="element.profile">
+                                  {{element.profile.info.type_document}} 
+                              </span>
+                            </mat-cell>
+                          </ng-container>
+            
+                          <!-- Color Column -->
+                          <ng-container matColumnDef="symbol">
+                              <mat-header-cell *matHeaderCellDef> <b># Documento</b> </mat-header-cell>
+                              <mat-cell *matCellDef="let element">
+                                <span *ngIf="!element.profile">
+                                    {{element.info.document_number}} 
+                                </span>
+                                <span *ngIf="element.profile">
+                                    {{element.profile.info.document_number}} 
+                                </span>
+                              </mat-cell>
+                            </ng-container>
+              
+                            <!-- Color Column -->
+                            <ng-container matColumnDef="direccion">
+                              <mat-header-cell *matHeaderCellDef> Direccion </mat-header-cell>
+
+                              <mat-cell *matCellDef="let element">
+
+                                  <span *ngIf="!element.profile && element.directory ">
+                                    {{ element.directory[0].address }},{{ element.directory[0].city }} 
+                                     
+                                  </span>
+                                  <span *ngIf="element.profile && element.profile.directory">
+                                    {{ element.profile.directory.address }},{{ element.profile.directory.city }} 
+                                  </span>
+
+                              </mat-cell>
+                            </ng-container>
+            
+                            <!-- Color Column -->
+                            <ng-container matColumnDef="opciones">
+                              <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
+                              <mat-cell *matCellDef="let element">
+            
+                                <button mat-icon-button [matMenuTriggerFor]="menu">
+                                      
+                                    <mat-icon class="mat-24" aria-label="Example icon-button with a heart icon">list</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                  <!-- mat-fab color="primary" (click)="createNewThird()" class="tky-right" > <mat-icon>save</mat-icon> -->
+            
+                                  <button *ngIf="!element.profile" mat-menu-item (click)="addThird(element)" ><i class="material-icons center color2">add_circle</i></button>
+                                  <button mat-menu-item (click)="editThird(element)" ><i class="material-icons center color2">mode_edit</i></button>
+                                  <button mat-menu-item (click)="deleteThird(element.id_third)"><i class="material-icons color center">delete_forever</i></button>
+                                </mat-menu>
+                              </mat-cell>
+                            </ng-container>
+            
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <h2> <mat-icon>thumb_up</mat-icon>  Generales </h2> 
+        </ng-template>
+
+        <div class="container">
+
+          <!-- All thirds-->
+          <div class="row">
+              
+            <div class="card">
+              <div class="card-header" data-background-color="red">
+                  <h3 class="title">Tercero Generales</h3>
+                  <p class="category">Terceros existentes en la plataforma, que pudran ser sus proveedores o clientes</p>
+              </div>
+              <div class="card-content table-responsive">
+                  <mat-table #table [dataSource]="dataSourceGlobal" class="table table-hover">
+                      
+                          <ng-container matColumnDef="position">
+                            <mat-header-cell *matHeaderCellDef> Id_third. </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.id_third | json}} </mat-cell>
+                          </ng-container>
+                      
+                          <ng-container matColumnDef="name">
+                            <mat-header-cell *matHeaderCellDef> Nombre Completo </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> 
+                              <span *ngIf="element.info">
+                                  {{element.info.fullname}} 
+                              </span>
+                              <span *ngIf="!element.info">
+                                  {{element.profile.info.fullname}} 
+                              </span> 
+                            </mat-cell>
+                          </ng-container>
+                      
+                          <ng-container matColumnDef="weight">
+                            <mat-header-cell *matHeaderCellDef> <b>Tipo de Documento111</b> </mat-header-cell>
+                            <mat-cell *matCellDef="let element">  
+                                <span *ngIf="element.info">
+                                    {{element.info.type_document}}
+                                </span>
+              
+                                <span *ngIf="!element.info">
+                                    {{element.profile.info.type_document}} 
+                                </span>
+                              </mat-cell>
+                          </ng-container>
+                      
+                          <ng-container matColumnDef="symbol">
+                            <mat-header-cell *matHeaderCellDef>  <b># Documento</b> </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <span *ngIf="element.info">
+                                    {{element.info.document_number}} 
+                                </span>
+                                <span *ngIf="!element.info">
+                                    {{element.profile.info.document_number}} 
+                                </span>
+                            </mat-cell>
+                          </ng-container>
+                          
+                          <ng-container matColumnDef="direccion">
+                            <mat-header-cell *matHeaderCellDef> Direccion </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+
+                                <span *ngIf="!element.profile && element.directory ">
+
+                                    {{ element.directory[0].address }},{{ element.directory[0].city }} 
+                                     
+                                  </span>
+                                  <span *ngIf="element.profile && element.profile.directory">
+                                      <!-- {{element.profile.directory | json}}  -->
+                                      dir personal
+                                  </span>
+                            </mat-cell>
+                          </ng-container>
+                          <mat-header-row *matHeaderRowDef="displayedColumns_General"></mat-header-row>
+                          <mat-row *matRowDef="let row; columns: displayedColumns_General;"></mat-row>
+                  </mat-table>
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+ 
+</div>

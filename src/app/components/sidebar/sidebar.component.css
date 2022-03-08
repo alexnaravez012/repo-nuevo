@@ -1,0 +1,367 @@
+.mat-expansion-panel-content > .mat-expansion-panel-body {
+    padding: 0 !important;
+}
+/*Esto es para poder controlar el responsive del sidebar*/
+.ContenedorSidebar {
+    height: 100vh;
+    display: table;
+    background-image: url("/assets/img/sidebar-4.jpg");
+    background-size: cover;
+    border-right: solid;
+    border-width: 1px;
+    border-color: #dadada;
+}
+
+.UsarRestoEspacio::before{
+  z-index: 1;
+  content: "";
+  position: fixed;
+  width: inherit;
+  max-width: 250px;
+  height: 90%;
+  opacity: 0.89;
+  background: white;
+}
+.UsarEspacioFijo {
+    display: table-row;
+    height: 0;
+}
+.UsarRestoEspacioColapsado::before{
+    content: "";
+    position: fixed;
+    width: 75px;
+    height: 90%;
+    opacity: 0.89;
+    background: white;
+}
+.UsarRestoEspacioColapsado {
+    display: table-row;
+    height: auto;
+}
+
+.UsarRestoEspacio {
+    display: table-row;
+    height: auto;
+}
+
+/*Esto es para controlar los items del sidebar*/
+
+.itemContainer{
+    border:0;
+    box-shadow: none !important;
+    background: none !important;;
+    width:100%;
+    padding:0 !important;
+    margin:0 !important;
+}
+.item{
+    color: lightslategrey;
+ /*   color:rgb(43, 43, 43)*/
+ }
+
+.item:hover{
+    background-color: gray;
+    color:white;
+}
+.item_active{
+    background-color: #14d3f9;
+    color:white;
+    border-radius: 4px;
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(244,67,54,.4);
+}
+
+/*Esto tiene que ver con ajustes en la parte del avatar y separador*/
+.ContenedorBarraInferior{
+  bottom: 0 !important;
+  position: absolute !important;
+  z-index: 1;
+  background: #05356b;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  display: flex !important;
+}
+
+.icono_toggle{
+  color: white;
+  width: 36px !important;
+  font-size: 40px;
+  margin-top: -4px;
+  cursor: pointer;
+}
+
+.avatar-img{
+    margin-left: 15px;
+    background-image: url('http://www.lindt.fr/fileadmin/Global_content_all_access/new_store_locator/lindt_yvr-01423.jpg');
+    background-size: cover;
+}
+
+.logo{
+  max-height: 100%;
+  margin: auto !important;
+  width: 100%;
+}
+
+
+.ContenedorLoading{
+  display: flex;
+  left: 0;
+  width: 100%;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.wrapper2 {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.ThePreLoader {
+  height: 200px;
+  width: 40vw;
+  margin: auto;
+  margin-top: 5vh;
+}
+.loader--dot {
+  animation-name: loader;
+  animation-timing-function: ease-in-out;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  height: 20px;
+  width: 20px;
+  border-radius: 100%;
+  background-color: black;
+  position: absolute;
+  border: 2px solid white;
+}
+.loader--dot:first-child {
+  background-color: #8cc759;
+  animation-delay: 0.5s;
+}
+.loader--dot:nth-child(2) {
+  background-color: #8c6daf;
+  animation-delay: 0.4s;
+}
+.loader--dot:nth-child(3) {
+  background-color: #ef5d74;
+  animation-delay: 0.3s;
+}
+.loader--dot:nth-child(4) {
+  background-color: #f9a74b;
+  animation-delay: 0.2s;
+}
+.loader--dot:nth-child(5) {
+  background-color: #60beeb;
+  animation-delay: 0.1s;
+}
+.loader--dot:nth-child(6) {
+  background-color: #fbef5a;
+  animation-delay: 0s;
+}
+.loader--text {
+  /*position: absolute;*/
+  top: 200%;
+  left: 0;
+  right: 0;
+  width: 4rem;
+  margin: auto;
+  padding-top: 5vh;
+}
+.loader--text:after {
+  content: "Cargando";
+  font-weight: bold;
+  animation-name: loading-text;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes loader {
+  15% {
+    transform: translateX(0);
+  }
+  45% {
+    transform: translateX(40vw);
+  }
+  65% {
+    transform: translateX(40vw);
+  }
+  95% {
+    transform: translateX(0);
+  }
+}
+@keyframes loading-text {
+  0% {
+    content: "Cargando";
+  }
+  25% {
+    content: "Cargando.";
+  }
+  50% {
+    content: "Cargando..";
+  }
+  75% {
+    content: "Cargando...";
+  }
+}
+
+/*
+ *  STYLE 2
+ */
+
+.ScrollBar::-webkit-scrollbar
+{
+  width: 8px;
+  background-color: #e4e4e3;
+}
+
+.ScrollBar::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #cacaca;
+}
+
+
+/*TODO LO DEL PANEL*/
+
+.BotonMostrarPanel {
+  position: fixed !important;
+  /*bottom: 0.4vw;*/
+  /*left: 0.4vw;*/
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  /*opacity: 0.9;*/
+  line-height: unset !important;
+}
+
+.ContenedorPanel {
+  display: flex;
+  width: 100vw;
+  position: absolute;
+  z-index: 100;
+  height: 100vh;
+}
+
+.ContenedorPanel::before{
+  content: "";
+  background-color: gray;
+  opacity: 0.7;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+}
+
+
+.ContenedorMatCard{
+  display: flex !important;
+  border-radius: 25px !important;
+  height: 90vh;
+  width: 90vw;
+  margin: auto;
+  padding: 0 !important;
+}
+.Header{
+  background-color: rgb(5, 53, 107);
+  margin: 0;
+  padding: 20px;
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
+  /*display: table !important;*/
+  display: flex !important;
+  flex-direction: column;
+  width: 25%;
+  height: 90.05vh;
+}
+
+.BotonCerrar{
+  text-align: center;
+  width: 100%
+}
+
+.ContenedorOpcion{
+  background-color: #DDBDF1;
+  display:inline-block;
+  max-height: 20vh;
+  margin-top: 10px !important;
+  margin-left: 10px !important;
+}
+
+.CardLogo {
+  display: flex !important;
+  padding-right: 15px !important;
+  padding-left: 15px !important;
+  margin-bottom: 5px !important;
+  border-top-left-radius: 15px !important;
+  width: 100% !important;
+  padding-bottom: 0 !important;
+  padding-top: 5px !important;
+  border-top-right-radius: 15px !important;
+  height: 58%;
+}
+.CardTiendas{
+  /*height: 18%;*/
+  margin-top: 5px;
+  padding-right: 15px !important;
+  padding-left: 15px !important;
+  margin-bottom: 5px !important;
+  width: 100% !important;
+  padding-bottom: 0 !important;
+  padding-top: 5px !important;
+}
+
+.CardUsuario{
+  border-bottom-right-radius: 15px !important;
+  border-bottom-left-radius: 15px !important;
+  padding: 0 !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.Opcion{
+  height: 65%;
+  margin: auto;
+  display: flex;
+}
+
+.TextoOpcion{
+  margin: auto;
+  font-size: 1.3em;
+  font-weight: 700;
+  margin-bottom:15px;
+  color: inherit;
+}
+
+.IconoOpcion{
+  color: inherit;
+  display: table !important;
+  margin: auto;
+  /*font-size: 400%;*/
+  /*height: 100% !important;*/
+  font-size: 7vh !important;
+}
+
+.OpcionMatCard{
+  padding: 0 !important;
+  height: 100% !important;
+  background-color: white !important;
+}
+
+.item2{
+  color: #05356b;
+}
+
+.item2:hover{
+  background-color: gray !important;
+  color:white;
+}
+.item_active2{
+  background-color: #0859b4 !important;
+  color:white;
+}

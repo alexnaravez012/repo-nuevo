@@ -1,0 +1,173 @@
+<mat-card style="width:100%;padding:0" class="scroll">
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px; height: 70px;">
+        <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:30px; color:white">Confirma la Transacción</mat-card-title>
+    </mat-card-header>
+    <mat-card-content style="padding:20px">
+        <div class="uk-flex uk-flex-middle" style="margin-top: 20px;">
+            <div class="col" style="text-align: left">
+                <h2 style="font-size: 23px; font-weight: 600"> <span class="color-blue">Total Factura:</span> {{roundnum(data.total) | currency : 'USD' : 'symbol' : '1.0'}}</h2>
+            </div>
+            <div class="col" style="text-align: left">
+                <h2 style="font-size: 23px; font-weight: 600"> <span class="color-blue">Total Pagos:</span> {{roundnum(getTotalPagos()) | currency : 'USD' : 'symbol' : '1.0'}}</h2>
+            </div>
+            <div class="col" style="text-align: left">
+                <h2 style="font-size: 23px; font-weight: 600"> <span class="color-blue">Faltante:</span> {{roundnum(data.total)-roundnum(getTotalPagos()) | currency : 'USD' : 'symbol' : '1.0'}}</h2>
+            </div>
+            <div class=" uk-flex uk-flex-middle" style="text-align: right">
+                <button mat-dialog-close type="submit" style="margin-right: 15px; height: 40px;" class="button-red">Cancelar</button>
+                <button type="submit" style="height: 40px;" (click)="returnData()" [disabled]="disableButton() || validate()" class="button-green">Confirmar</button>
+            </div>
+        </div>
+        <span *ngIf="paymentMethod=='efectivo' && wayToPay == 'contado' ">
+        <!-- <div class="row">
+          <div class="col">
+            Cantidad Recibida
+          </div>
+        </div> -->
+            <div>
+            </div>
+        </span>
+        <div class="col-12" *ngIf="(paymentMethod=='debito' && wayToPay == 'contado')||(paymentMethod=='credito' && wayToPay == 'contado')||(paymentMethod=='transferencia' && wayToPay == 'contado')">
+            <div class="row mt-5">
+                <div class="col-6">
+                    <h2>N° de aprobación</h2>
+                </div>
+                <div class="col-6">
+                    <h2>
+                        <input type="text" class="tcgw-100" [(ngModel)]="transactionCode">
+                    </h2>
+                </div>
+            </div>
+            <!-- <div class="row mb-5">
+          <div class="col-6">
+            <h2>Entidad Bancaria</h2>
+          </div>
+          <div class="col-6">
+            <h2>
+            <mat-form-field>
+              <mat-select [(value)]="creditBank">
+                <mat-option value="">Seleccionar</mat-option>
+                <mat-option value="1">Option1</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </h2>
+          </div>
+        </div> -->
+        </div>
+        <div class="col-12" *ngIf="paymentMethod=='credito' && wayToPay == 'credito'">
+            <div class="row mt-5">
+                <div class="col-6">
+                    <h2>N° de aprobación</h2>
+                </div>
+                <div class="col-6">
+                    <h2>
+                        <input type="text" class="tcgw-100" [(ngModel)]="transactionCode">
+                    </h2>
+                </div>
+            </div>
+            <!-- <div class="row mb-5">
+          <div class="col-6">
+            <h2>Entidad Bancaria</h2>
+          </div>
+          <div class="col-6">
+              <h2>
+            <mat-form-field>
+              <mat-select [(value)]="creditBank">
+                <mat-option value="">Seleccionar</mat-option>
+                <mat-option value="1">Option1</mat-option>
+              </mat-select>
+            </mat-form-field>
+              </h2>
+          </div>
+        </div> -->
+        </div>
+        <div style="padding-left: 20px;">
+            <div class="row" style="margin-top:40px">
+                <b class="font-size-18 color-blue">Detalles de medios de pago</b>
+            </div>
+            <div style="margin-top: 10px; margin-bottom: 20px;">
+                <div class="uk-flex uk-flex-between">
+                    <div>
+                        <h6 class="uk-margin-remove font">Medio Pago</h6>
+                        <div class="uk-margin-remove">
+                            <div>
+                                <select class="select" [(ngModel)]="newMedio">
+                                  <option [value]="1">Efectivo</option>
+                                  <option [value]="2">Tarjeta Debito</option>
+                                  <option [value]="3">Tarjeta Credito</option>
+                                  <option [value]="4">Transferencia</option>
+                              </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h6 class="uk-margin-remove font">Código Confirmación / Observaciones</h6>
+                        <input class="inputs" type="text" [(ngModel)]="newConfCode" style="width: 300px;">
+                    </div>
+                    <div>
+                        <h6 class="uk-margin-remove font">Valor pago</h6>
+                        <input class="inputs uk-text-left" currencyMask [options]="{ precision: 0 }" [(ngModel)]="newValor" type="text">
+                    </div>
+                    <button class="button-add" (click)="efectivoValidation()" [disabled]="Number(newValor)<=0 || Number(newValor)>roundnum(data.total)-roundnum(getTotalPagos()) || roundnum(data.total)-roundnum(getTotalPagos()) == 0">+</button>
+                </div>
+            </div>
+            <div style="margin-top: 30px; display: none;">
+                <div class="uk-flex uk-flex-middle uk-flex-between hr-tab">
+                    <h6 class="uk-margin-remove width-150 font uk-text-bold uk-text-center">Medio Pago</h6>
+                    <h6 class="uk-margin-remove width-300 font uk-text-bold uk-text-center">Código Confirmación / Observaciones</h6>
+                    <h6 class="uk-margin-remove width-150 font uk-text-bold uk-text-center">Valor pago</h6>
+                    <div style="width: 160px;"></div>
+                </div>
+                <div class="uk-flex uk-flex-middle uk-flex-between" *ngFor="let item of paymentDetailList" style="margin-top: 10px;">
+                    <div class="width-150 uk-flex uk-flex-center">
+                        <div class="uk-margin-remove">
+                            <div>
+                                <select class="select" [(ngModel)]="item.medio">
+                            <option [value]="1">Efectivo</option>
+                            <option [value]="2">Tarjeta Debito</option>
+                            <option [value]="3">Tarjeta Credito</option>
+                            <option [value]="4">Transferencia</option>
+                          </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="width-300 uk-flex uk-flex-center">
+                        <input class="inputs" type="text" [(ngModel)]="item.cod" style="width: 290px;">
+                    </div>
+                    <div class="width-150 uk-flex uk-flex-center">
+                        <input class="inputs" type="text" currencyMask [options]="{ precision: 0 }" [(ngModel)]="item.valor" style="width: 90px;">
+                    </div>
+                    <div class="width-150 uk-flex uk-flex-middle">
+                        <button class="button-red" (click)="deleteElement(item.id)">Quitar</button>
+                        <!-- <button class="button-green">Guardar</button> -->
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top:30px">
+                <b class="font-size-18 color-blue">Datos Cliente</b>
+            </div>
+            <div class="uk-flex uk-flex-between">
+                <div class="uk-flex uk-flex-middle">
+                    <input class="input-date" type="text" placeholder="Cedula Cliente" id="reader" (keyup.enter)="searchClient($event)" [(ngModel)]="ccClient">
+                    <button (click)="searchClient2()" mat-stroked-button color="primary" type="submit">Buscar</button>
+                </div>
+                <div class="col-6" style="margin-bottom: px;margin-top: 0px;">
+                    <h5> <span class="color-blue">Cliente:</span> Cliente: {{cliente}}</h5>
+                </div>
+            </div>
+            <div class="row" style="margin-top:30px">
+                <b class="font-size-18 color-blue">Agregar Observaciones</b>
+            </div>
+            <mat-form-field style="width: 100% !important; margin-top:15px;">
+                <textarea matInput placeholder="Ingrese aqui observaciones" [(ngModel)]="observations" style="width: 100% !important;"></textarea>
+            </mat-form-field>
+        </div>
+
+
+
+
+
+
+
+    </mat-card-content>
+</mat-card>

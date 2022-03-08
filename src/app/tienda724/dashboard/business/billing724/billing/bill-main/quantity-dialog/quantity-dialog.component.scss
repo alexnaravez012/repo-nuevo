@@ -1,0 +1,9 @@
+.mat-card {
+    box-shadow: none;
+}
+mat-card-title{
+    font-size: 2em;
+}
+mat-card-content > *{
+    width: 100%;
+}

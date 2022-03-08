@@ -1,0 +1,24 @@
+
+
+        <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+          <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Top 20 productos mas vendidos</mat-card-title>
+        </mat-card-header>
+
+      <mat-card-content>
+        <div class="table-responsive">
+          <table class="table table-hover">
+              <thead>
+                  <tr>
+                    <th class="text-center"><b>Nombre</b></th>
+                    <th class="text-center"><b>Codigo</b></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let prod of topProds">
+                    <td class="text-center" (click)="setCode(prod.ownbarcode)"> {{prod.product_STORE_NAME}} </td>
+                    <td class="text-center" (click)="setCode(prod.ownbarcode)"> {{prod.ownbarcode}} </td>
+                  </tr>
+                </tbody>
+          </table>
+        </div>
+      </mat-card-content>

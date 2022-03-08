@@ -1,0 +1,52 @@
+<div class="row" *ngIf="isDetail">
+	<div class="col-md-12">
+		<div class="card card-plain">
+			<div class="card-header" data-background-color="red">
+				<h2 class="title text-center">
+					<b> Detalle de los Articulos </b>
+				</h2>
+				<p class="category">Estos son los productos de tu {{TYPE_NAME | lowercase}}</p>
+			</div>
+			<div class="card-content table-responsive">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Nombre</th>
+							<th>Cantidad</th>
+							<th *ngIf="isPrice">Valor</th>
+							<th *ngIf="isPrice">Valor Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let obj of DETAILLIST; let i=index">
+							<td>{{i+1}}</td>
+							<td>{{obj.item.product.name_product}}</td>
+							<td class="tky-cursor" (click)=changeQuantity(obj)>
+								<a>{{obj.quantity }}</a>
+							</td>
+							<td *ngIf="isPrice">{{obj.item.description.standard_price |currency}}</td>
+							<td *ngIf="isPrice">{{ (obj.item.description.standard_price*obj.quantity ) | currency }}</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>Total de {{TYPE_NAME | lowercase}}</td>
+							<td *ngIf="isPrice">
+								<h2>
+									<b>{{TOTAL_PRICE | currency }}</b>
+								</h2>
+							</td>
+							<td *ngIf="!isPrice">
+								<h2>
+									<b>{{DETAILLIST.length }} productos</b>
+								</h2>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,231 @@
+<div>
+  <span>
+      <mat-card>
+          <mat-card-content>
+              <div class="row" style="margin-top: 0px" >
+                  <div class="col">
+              <div class="row" *ngIf="tab == 0">
+                  <div class="col">
+                    <div class="row">
+                      <div class="col" style="text-align: center;"> 
+                        <mat-form-field >
+                          <mat-label>Seleccione su tienda</mat-label>
+                          <mat-select [(ngModel)]="SelectedStore" (selectionChange) = "cancel()">
+                              <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+                                  {{elem.store_NAME}}
+                              </mat-option>
+                          </mat-select> 
+                        </mat-form-field>
+                      </div>
+                      <div class="col" style="text-align: center;">
+                        <mat-form-field>
+                          <input matInput class="text-center" type="text"  placeholder="Documento Proveedor"  (keyup.enter)="searchClient($event)" [(ngModel)]="ccClient" #nameot>
+                        </mat-form-field>
+                      </div>
+                      <div class="col" style="text-align: center;"> 
+                        <button (click)="searchClient2()" mat-stroked-button color="primary" type="submit">Buscar</button>
+                      </div>
+                      <div class="col" style="text-align: center;">
+                        <mat-form-field *ngIf="interno==true">
+                          <mat-label>Seleccione tienda proveedor</mat-label>
+                          <mat-select [(ngModel)]="SelectedStoreRe" (selectionChange)="getInventoryList2(locStorage.getIdStore(),SelectedStoreRe)">
+                            <mat-option *ngFor="let elem of storeList" [value]="elem.id_STORE">
+                              {{elem.description}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <!-- <mat-form-field>
+                          <input [disabled]="quickconfirm  || isfull() || clientData.id_third == null" matInput class="text-center" type="number" placeholder="Dias de Reorden" [(ngModel)]="reorderHours" >
+                        </mat-form-field> -->
+
+                      </div>
+                        
+                      
+                          <!-- <button mat-stroked-button color="primary" type="button" (click)="reorden()" [disabled]=" quickconfirm || clientData.id_third == null ">Generar Reorden</button> -->
+                    
+                    </div>
+                    <div class="row">
+                          
+                      <div class="col-3" style="margin-bottom: px;margin-top: 0px;text-align: center;">
+                        <h4>Proveedor </h4>{{cliente}}
+                      </div>
+                      <div class="col-3" style="margin-bottom: px;margin-top: 0px;text-align: center;">
+                        <h4>Documento </h4>{{clientData.document_type}} - {{clientData.document_number}}
+                      </div>
+                      <div class="col-3" style="margin-bottom: px;margin-top: 0px;text-align: center;">
+                        <h4>Telefono </h4>{{clientData.phone}}
+                      </div>
+                      <div class="col-3" style="margin-bottom: px;margin-top: 0px;text-align: center;">
+                        <h4>Direccion </h4>{{clientData.address}}
+                      </div>
+                </div>
+                    <div class="row">
+                      <div class="col-6" style="text-align: center;">
+                        <mat-form-field>
+                          <input [disabled]=" quickconfirm  || isfull()" matInput class="text-center" type="text" placeholder="Código de producto" (keyup.enter)="addDetail($event)"  (ngModelChange)="listLoad()" [(ngModel)]="listElem" #nameit>
+                        </mat-form-field>
+                      </div>
+                     <div class="col-6" style="text-align: center;">
+                        <!-- <button [disabled]="!locStorage.getBoxStatus()" (click)="openTop()"><img src="https://dunzaglobal.com/wp-content/uploads/2015/09/Top20.png" width="400" height="300"></button>} -->
+                        <button mat-stroked-button color="primary" type="button" (click)="openDialogTransactionConfirm()" [disabled]="setObject.length==0 || quickconfirm || clientData.id_third == null">Generar Pedido</button>
+                        <button mat-stroked-button color="primary" type="button" (click)="cancel()" [disabled]=" quickconfirm">Cancelar</button>
+                      </div>
+                      <div class="col" [hidden]="true">
+                        <mat-form-field>
+                          <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                      </div>  
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-12" >
+                        <div class="row" style="max-height: 200px; overflow-y: scroll; margin-top: 0px;text-align: left;" *ngIf="interno==true" >
+                          <!-- <mat-tab-group mat-stretch-tabs> -->
+                            <!-- <mat-tab label="Todos los productos"> -->
+                              <div class="col-12" *ngFor="let item of listaElem" >
+                                <div class="row" (click)="disableDoubleClickSearch ? $event.stopPropagation() : addDetail2(item.ownbarcode); disableDoubleClickSearch ? false : null" > {{item.ownbarcode}} - {{item.product_STORE_NAME}} - {{item.price | currency}} </div>
+                              </div>
+                            <!-- </mat-tab> -->
+                            <!-- <mat-tab label="Productos filtrados por provider">
+                              <div class="col" *ngFor="let item of inventoryList" >
+                                <div class="row" *ngIf="(selectedProviders.includes(item.id_PROVIDER) && selectedProviders.length>0) && !disableDoubleClickSearch" (click)="disableDoubleClickSearch ? $event.stopPropagation() : addDetail2(item.ownbarcode); disableDoubleClickSearch ? false : null" > {{item.ownbarcode}} - {{item.product_STORE_NAME}} - {{item.price | currency}} </div>
+                                <div class="row" *ngIf="!(selectedProviders.length>0) && !disableDoubleClickSearch" (click)="disableDoubleClickSearch ? $event.stopPropagation() : addDetail2(item.ownbarcode); disableDoubleClickSearch ? false : null" > {{item.ownbarcode}} - {{item.product_STORE_NAME}} - {{item.price | currency}} </div>
+                              </div>
+                            </mat-tab> -->
+                          <!-- </mat-tab-group> -->
+                        </div>
+                      </div> 
+                      <!-- <div class="col-6" >
+                        <div class="row" style="max-height: 100px; overflow-y: scroll; margin-top: 0px;text-align: left;" *ngIf="interno==true" >
+                          <div class="col-3" *ngFor="let item of providerList" >
+                            <mat-checkbox class="example-margin" [(ngModel)]="item.checked" (change)="getProviderList()"> {{item.provider}} </mat-checkbox>
+                          </div>
+                        </div>
+                      </div> -->
+                    </div>
+                    
+                    <hr *ngIf="interno==true">
+                  </div>
+                </div>
+                <!-- <div class="row">
+                  <div class="col-6" >
+                    <div class="row" style="max-height: 180px; overflow-y: scroll; margin-top: 0px;text-align: center;" *ngIf="listElem!=''" >
+                      <div class="row" style="width: 80%;margin-top:0px;text-align: center;" *ngFor="let item of listaElem">
+                        <div class="col" style="text-align: center;"  (click)="disableDoubleClickSearch ? $event.stopPropagation() : addDetail2(item.ownbarcode); disableDoubleClickSearch ? false : null">
+                          {{item.product_STORE_NAME}} - {{item.ownbarcode}} - {{item.product_STORE_CODE}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="row" style="text-align:center;width: 100%;">
+                  <div class="col">
+                    <h3 class="left-scroll">
+                      <b>
+                        Subtotal
+                      </b>
+                    </h3>
+                    <h3 class="left-scroll" style="margin-top: -15px">
+                      {{roundnum(calculateSubtotal()) | currency  : 'USD' : 'symbol' : '1.0'}}
+                    </h3>
+                  </div>
+                  <div class="col">
+                    <h3 class="left-scroll">
+                      <b>
+                        Impuesto
+                      </b>
+                    </h3>
+                    <h3 class="left-scroll" style="margin-top: -15px">
+                      {{this.roundnum(calculateTax()) | currency  : 'USD' : 'symbol' : '1.0'}}
+                    </h3>
+                  </div>
+                  <div class="col">
+                    <h3 class="left-scroll">
+                      <b>
+                        Total
+                      </b>
+                    </h3>
+                    <h3 class="left-scroll" style="margin-top: -15px">
+                      {{this.roundnum(calculateSubtotal()+calculateTax()) | currency  : 'USD' : 'symbol' : '1.0'}}
+                    </h3>
+                  </div>
+                </div>
+                <div class="table-responsive" style="width: 100%;max-height: 385px; overflow-y: scroll;">
+                  <div class="text-center" *ngIf="setObject.length==0" style="margin-top: 20px">
+                    <i class="material-icons">
+                      <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                    </i>
+                    <h4>
+                      Productos
+                    </h4>
+                  </div>
+                    <br>
+                    <br>
+                    <table class="table table-hover" style="text-align: center;margin-top: -20px" *ngIf="setObject.length>0">
+                      <thead>
+                        <tr>
+                          <th class="text-center">Código</th>
+                          <th class="text-center">Producto</th>
+                          <th class="text-center">Cantidad</th>
+                          <th class="text-center">Cantidad En Inventario</th>
+                          <th class="text-center">Valor Unitario</th>
+                          <th class="text-center">Impuesto</th>
+                          <th class="text-center">Total</th>
+                          <th class="text-center"> </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let key of setObject; let idx= index; let last= last;">
+                          <td class="text-center">{{productsObject[key].ownbarcode}}</td>
+                          <td>{{productsObject[key].description}}</td>
+                          <td class="text-center">
+                            <mat-form-field style="width:5vw">
+                                <input [(ngModel)]="productsObject[key].quantity" matInput type="number" step="1" id="readerQuantity" class="no-spin text-center" min="1" pattern="^[0-9]+" oninput="validity.valid||(value='');" (ngModelChange)="onSearchChange(key, $event)" (click)="$event.target.select()">
+                            </mat-form-field>
+                          </td>
+                          <td class="text-center">{{productsObject[key].quantity_inv}}</td>
+                          <td class="text-center">{{productsObject[key].price | currency  : 'USD' : 'symbol' : '1.0'}}</td>
+                          <td class="text-center">{{productsObject[key].tax | percent}}</td>
+                          <td class="text-center">{{calculateTotalPrice(key) | currency  : 'USD' : 'symbol' : '1.0'}}</td>
+                          <td class="text-center">
+                            <div>
+                                <button mat-icon-button color="primary" (click)="upQuantity(key)">
+                                    <mat-icon aria-label="Example icon-button with a heart icon">keyboard_arrow_up</mat-icon>
+                                </button>
+                                <button mat-icon-button color="primary" (click)="downQuantity(key)">
+                                    <mat-icon aria-label="Example icon-button with a heart icon">keyboard_arrow_down</mat-icon>
+                                </button>
+                                <button mat-icon-button color="primary" (click)="individualDelete(key)">
+                                    <mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
+                                </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    </div>
+
+                    </div>
+                  </div>
+        </mat-card-content>
+        <!-- <mat-card-content>
+            <div class="row" style="padding:20px; text-align: center" *ngIf="locStorage.getIdStore()!=1">
+              <div class="col my-col" *ngFor="let prod of topProds" style="margin-top: 5px;">
+                <mat-card color="toolbar" (click)="setCode(prod.ownbarcode)" style="width:80px;height:80px;text-align: center; padding: 0px;">
+                  <img src={{prod.img}} style="width:35%;height:50px" />
+                  <div class="text" style="font-size: 9px;line-height: 85%">
+                    {{prod.product_STORE_NAME}}
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+    </mat-card-content> -->
+      </mat-card>
+
+
+
+
+  </span>
+</div>

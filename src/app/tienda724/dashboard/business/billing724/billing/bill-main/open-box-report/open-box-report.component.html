@@ -1,0 +1,111 @@
+<!--CUERPO DEL COMPONENTE, CONTENEDOR-->
+<div style="padding: 10px;height: calc(100vh - 195px - 2px);">
+  <!--            CONTENEDOR DE OPCIONES-->
+  <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);display: flex;padding-top: 5px;">
+<!--      SELECTOR DE TIENDA-->
+    <mat-form-field style="width: 24%;margin: auto;margin-bottom: -10px;">
+      <mat-label>Seleccione tienda</mat-label>
+      <mat-select [(ngModel)]="SelectedStore" (selectionChange)="getBoxes()">
+        <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+          {{elem.store_NAME}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+<!--      SELECTOR DE CAJA-->
+    <mat-form-field *ngIf="!storesEmpty" style="width: 24%;margin: auto;margin-bottom: -10px;">
+      <mat-label>Seleccione Caja</mat-label>
+      <mat-select [(ngModel)]="SelectedBox" (selectionChange)="getData()">
+        <mat-option *ngFor="let elem of Boxes" [value]="elem.id_CIERRE_CAJA">
+          {{elem.caja}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+<!--      BOTON DE CARGAR-->
+    <button [disabled]="!(Boxes.length>0)" style="width: 24%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="getData()">Cargar Caja</button>
+  </div>
+<!--  Fila-->
+  <div style="margin-top: 10px;display: flex;">
+    <!--            CONTENEDOR DE SALDO, IZQUIERDA-->
+    <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);width: 49%;height: 25vh;margin-right: auto;">
+      <table class="table table-hover" style="margin: 0;">
+        <thead>
+          <tr> <th style="border: unset" class="text-center"><b>Caja: {{ cajaS }}</b></th> </tr>
+          <tr> <th class="text-center"><b>Cajero: {{ cajeroS.replace('null',' ') }}</b> </th> </tr>
+          <tr> <th class="text-center"><b>Fecha apertura: {{ fecha_aperturaS | date:'dd/MM/yyyy H:mm'}}</b></th> </tr>
+        </thead>
+      </table>
+      <div style="width: 100%;height: 44%">
+        <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+          <h3 style="margin: auto;">  <b> Saldo en caja </b> </h3>
+        </div>
+        <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+          <h3 style="margin: auto"> {{ balances | currency  : 'USD' : 'symbol' : '1.0'}} </h3>
+        </div>
+      </div>
+    </div>
+<!--    DERECHA-->
+    <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);display: flex;width: 49%;height: 25vh">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th style="border: unset" class="text-center"><b></b></th>
+          <th style="max-width: 100px" class="text-center"><b>Ventas</b></th>
+          <th class="text-center"><b>Devoluciones</b></th>
+          <th class="text-center"><b></b></th>
+        </tr>
+        <tr>
+          <th class="text-center">
+            <b>Efectivo: </b>
+          </th>
+          <th style="max-width: 100px" class="text-center"> {{ roundDecimals(efectivo) | currency  : 'USD' : 'symbol' : '1.0' }}</th>
+          <th class="text-center"> {{ roundDecimals(devoluciones) | currency  : 'USD' : 'symbol' : '1.0' }} </th>
+          <th class="text-center"> {{ roundDecimals(efectivo-devoluciones) | currency  : 'USD' : 'symbol' : '1.0' }} </th>
+        </tr>
+        <tr>
+          <th class="text-center">
+            <b>T. Debito: </b>
+          </th>
+          <th style="max-width: 100px" class="text-center"> {{ roundDecimals(tarjDeb) | currency  : 'USD' : 'symbol' : '1.0' }}</th>
+          <th class="text-center"> {{ roundDecimals(devolucionesDebt) | currency  : 'USD' : 'symbol' : '1.0' }} </th>
+          <th class="text-center"> {{ roundDecimals(tarjDeb-devolucionesDebt) | currency  : 'USD' : 'symbol' : '1.0' }} </th>
+        </tr>
+        <tr>
+          <th class="text-center">
+            <b>T. Credito: </b>
+          </th>
+          <th style="max-width: 100px" class="text-center"> {{ roundDecimals(tarjCred) | currency  : 'USD' : 'symbol' : '1.0' }}</th>
+          <th class="text-center"> {{ roundDecimals(devolucionesCred) | currency  : 'USD' : 'symbol' : '1.0' }} </th>
+          <th class="text-center"> {{ roundDecimals(tarjCred-devolucionesCred) | currency  : 'USD' : 'symbol' : '1.0' }} </th>
+        </tr>
+        <tr>
+          <th style="border: unset" class="text-center">
+            <b> </b>
+          </th>
+          <th style="max-width: 100px" style="border: unset" class="text-center"><h4><b>{{ roundDecimals((tarjCred+tarjDeb+efectivo)) | currency  : 'USD' : 'symbol' : '1.0' }}</b></h4></th>
+          <th style="border: unset" class="text-center"><h4><b>{{ roundDecimals((devoluciones+devolucionesDebt+devolucionesCred)) | currency  : 'USD' : 'symbol' : '1.0' }}</b></h4></th>
+          <th style="border: unset" class="text-center"><h4><b>{{ roundDecimals((tarjCred+tarjDeb+efectivo)-(devoluciones+devolucionesDebt+devolucionesCred)) | currency  : 'USD' : 'symbol' : '1.0' }}</b></h4></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="ScrollBar" style="height: 55.5%;overflow: auto;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);margin-top: 0.9%;">
+    <table class="table table-hover" style="text-align: center">
+      <tr>
+        <th>Fecha</th>
+        <th>Tipo</th>
+        <th>Notas</th>
+        <th>Valor</th>
+      </tr>
+      <tr *ngFor="let detail of myDetails">
+        <td>{{detail.movement_DATE}}</td>
+        <td>{{detail.naturaleza === 'D' ? "Débito":"Crédito"}}</td>
+        <td>{{detail.notes}}</td>
+        <td>{{roundDecimals(detail.valor) | currency}}</td>
+      </tr>
+    </table>
+  </div>
+</div>

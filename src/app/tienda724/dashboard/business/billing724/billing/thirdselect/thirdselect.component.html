@@ -1,0 +1,37 @@
+
+  <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+      <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Seleccione un Tercero.</mat-card-title>
+  </mat-card-header>
+  <mat-card-content style="padding:20px">
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="text-center"><b>Nombre Proveedor</b></th>
+              <th class="text-center"><b>Documento</b></th>
+              <th class="text-center"><b>Direccion</b></th>
+              <th class="text-center"><b>Telefono</b></th>
+              <th class="text-center"> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let elem of listPerson">
+              <td class="text-center" (click)="returnData(elem)"> {{elem.fullname}} </td>
+              <td class="text-center" (click)="returnData(elem)"> {{elem.document_TYPE}} - {{elem.document_NUMBER}} </td>
+              <td class="text-center" (click)="returnData(elem)"> {{elem.address}} </td>
+              <td class="text-center" (click)="returnData(elem)"> {{elem.phone}} </td>
+              <td class="text-center">
+                <button style="color: blue;" (click)="openUpdateThird(elem)" mat-stroked-button>Editar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+      <div class="row">
+        <div class="col"style="text-align: right">
+          <button mat-stroked-button color="primary" type="submit" (click)="closeWin()">Cancelar</button>
+        </div>
+      </div>
+  </mat-card-content>

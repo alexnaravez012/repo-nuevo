@@ -1,0 +1,30 @@
+<div class="card card-nav-tabs">
+  <div class="card-header card-header-danger" style ="background-color:rgb(5, 53, 107)">
+    <h4 class="title">Abrir caja</h4>
+    <p class="title">Hola {{nombreEmpleado}}, estas a punto de abrir la {{nombreCaja}} en la tienda {{nombreTienda2}}.</p>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <mat-form-field>
+          <input (click)="$event.target.select()" currencyMask [options]="{ precision: 0 }" [(ngModel)]="money" matInput class="text-center" type="text" placeholder="Dinero Base" id="reader" autofocus type="text">
+        </mat-form-field>                        
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-form-field>
+          <input  [(ngModel)]="notes" matInput class="text-center" type="text" placeholder="Notas" id="reader" autofocus type="text">
+        </mat-form-field>                        
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <button mat-stroked-button color="primary" type="button" (click)="openBox()" [disabled] = "disabledButton()">Abrir caja</button>
+      </div>
+      <div class="col">
+        <button mat-stroked-button color="primary" type="button" (click)="gotoDashboard()" [hidden]="!flag.flag">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>

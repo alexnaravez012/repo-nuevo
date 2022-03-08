@@ -1,0 +1,38 @@
+.example-form {
+  mn-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.fill-space{
+    flex: 1 1 auto;
+}
+.example-full-width {
+  width: 100%;
+}
+
+
+.example-h2 {
+  margin: 10px;
+}
+
+.example-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.example-margin {
+  margin: 0 10px;
+}
+
+.mat-card {
+  box-shadow: none !important;
+}
+
+
+.myInput {
+  height: 50px !important;
+  padding: 10px !important;
+}

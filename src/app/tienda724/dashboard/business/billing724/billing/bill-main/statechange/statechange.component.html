@@ -1,0 +1,177 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div>
+    <mat-card style="height: 100%;width:100%;padding:0">
+        <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+            <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Estas viendo el pedido: {{elem.numdocumento}} </mat-card-title>
+        </mat-card-header>
+    </mat-card>
+    <div class="text-center">
+        <div class="row" style="height: 100%;width:100%;padding:15px">
+            <div class="col-4">
+                <b>Cliente: </b> {{elem.cliente}} {{elem.tienda}}
+            </div>
+            <div class="col-4">
+                <b>Fecha: </b> {{elem.fecha}}
+            </div>
+            <div class="col-4">
+                <b># Documento Cliente: </b> {{elem.numpedido}}
+            </div>
+        </div>
+        <div class="row" style="height: 100%;width:100%;padding:15px">
+            <div class="col-4">
+                <b>Telefono: </b> {{elem.phone}}
+            </div>
+            <div class="col-4">
+                <b>Correo: </b> {{elem.mail}}
+            </div>
+            <div class="col-4">
+                <b>Direccion: </b> {{elem.address}}
+            </div>
+        </div>
+        <div class="row" style="height: 100%;width:100%;padding:15px">
+            <div class="col-4">
+                <b>Total: </b> {{this.subtotal + this.tax}}
+            </div>
+            <div class="col-4">
+                <b>Subtotal: </b> {{subtotal}}
+            </div>
+            <div class="col-4">
+                <b>Impuesto: </b> {{tax}}
+            </div>
+        </div>
+    </div>
+    <div class="row" style="text-align:center ;height: 100%;width:100%;padding:15px">
+        <div class="col-6" style="text-align:center ;height: 100%;width:100%;padding:15px">
+            <button [disabled]="!GetElemReady" class="button" mat-stroked-button color="primary" type="button" (click)="sendProducts()">Enviar Pedido</button>
+        </div>
+        <div class="col-6" style="text-align:center ;height: 100%;width:100%;padding:15px">
+            <mat-form-field>
+                <mat-label>Seleccione Planilla</mat-label>
+                <mat-select [(ngModel)]="selectedPlanilla">
+                    <mat-option *ngFor="let item of planillasSelector" [value]="item.id_PLANILLA">{{item.num_PLANILLA}} - {{item.placa}} - {{item.conductor}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <table class="table table-hover" style="table-layout: fixed;width: 100%;">
+        <thead>
+        <tr>
+            <th class="text-center">
+                <div (click)="SortBy('ownbarcode')" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                    <b>Codigo de Barras</b>
+                    <mat-icon *ngIf="CampoSorteando == 'ownbarcode'">{{Invertido?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                    <mat-icon *ngIf="CampoSorteando != 'ownbarcode'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                </div>
+            </th>
+            <th class="text-center">
+                <div (click)="SortBy('producto')" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                    <b>Producto</b>
+                    <mat-icon *ngIf="CampoSorteando == 'producto'">{{Invertido?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                    <mat-icon *ngIf="CampoSorteando != 'producto'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                </div>
+            </th>
+            <th class="text-center">
+                <div (click)="SortBy('marca')" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                    <b>Marca</b>
+                    <mat-icon *ngIf="CampoSorteando == 'marca'">{{Invertido?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                    <mat-icon *ngIf="CampoSorteando != 'marca'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                </div>
+            </th>
+            <th class="text-center">
+                <div (click)="SortBy('categoria')" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                    <b>Categoria</b>
+                    <mat-icon *ngIf="CampoSorteando == 'categoria'">{{Invertido?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                    <mat-icon *ngIf="CampoSorteando != 'categoria'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                </div>
+            </th>
+            <th class="text-center">
+                <div (click)="SortBy('linea')" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                    <b>Linea</b>
+                    <mat-icon *ngIf="CampoSorteando == 'linea'">{{Invertido?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                    <mat-icon *ngIf="CampoSorteando != 'linea'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                </div>
+            </th>
+            <th class="text-center">
+                <div (click)="SortBy('cantidad')" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                    <b>Cantidad</b>
+                    <mat-icon *ngIf="CampoSorteando == 'cantidad'">{{Invertido?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                    <mat-icon *ngIf="CampoSorteando != 'cantidad'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                </div>
+            </th>
+            <th class="text-center">
+                <div (click)="SortBy('fabricante')" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                    <b>Fabricante</b>
+                    <mat-icon *ngIf="CampoSorteando == 'fabricante'">{{Invertido?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                    <mat-icon *ngIf="CampoSorteando != 'fabricante'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                </div>
+            </th>
+            <th class="text-center">
+                <div (click)="SortBy('presentacion')" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                    <b>Presentacion</b>
+                    <mat-icon *ngIf="CampoSorteando == 'presentacion'">{{Invertido?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                    <mat-icon *ngIf="CampoSorteando != 'presentacion'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                </div>
+            </th>
+            <th class="text-center">
+                <div (click)="SortBy('tax')" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                    <b>Porcentaje de IVA</b>
+                    <mat-icon *ngIf="CampoSorteando == 'tax'">{{Invertido?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                    <mat-icon *ngIf="CampoSorteando != 'tax'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                </div>
+            </th>
+            <th class="text-center">
+                <div (click)="SortBy('costo')" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                    <b>Precio Individual sin IVA</b>
+                    <mat-icon *ngIf="CampoSorteando == 'costo'">{{Invertido?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                    <mat-icon *ngIf="CampoSorteando != 'costo'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                </div>
+            </th>
+            <th class="text-center">
+                <div (click)="SortBy('costo')" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                    <b>Precio Individual con IVA</b>
+                    <mat-icon *ngIf="CampoSorteando == 'costo'">{{Invertido?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                    <mat-icon *ngIf="CampoSorteando != 'costo'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                </div>
+            </th>
+            <th class="text-center">
+                <div (click)="SortBy('costototal')" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                    <b>Precio Total</b>
+                    <mat-icon *ngIf="CampoSorteando == 'costototal'">{{Invertido?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                    <mat-icon *ngIf="CampoSorteando != 'costototal'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let elem of ListReportProd; let i = index">
+            <td class="text-center"> {{elem.ownbarcode}} </td>
+            <td class="text-center"> {{elem.producto}} </td>
+            <td class="text-center"> {{elem.marca}} </td>
+            <td class="text-center"> {{elem.categoria}} </td>
+            <td class="text-center"> {{elem.linea}} </td>
+            <td class="text-center"> {{elem.cantidad}} </td>
+            <td class="text-center"> {{elem.fabricante}} </td>
+            <td class="text-center"> {{elem.presentacion}} </td>
+            <td class="text-center"> {{elem.tax}} % </td>
+            <td class="text-center"> {{elem.costo | currency}} </td>
+            <td class="text-center"> {{elem.tax_IND + elem.costo | currency}} </td>
+            <td class="text-center"> {{elem.costototal | currency}} </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div class="ContenedorLoading" *ngIf="mostrandoCargando">
+    <div style="width: 30%;margin: auto;height: 30%;">
+        <mat-card class="example-card">
+            <mat-card-header>
+                <mat-card-title style="font-weight: 500;">Realizando operación, espere un momento.</mat-card-title>
+                <mat-card-subtitle>{{estadoCargando}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content style="align-items: center;justify-content: center;display: flex">
+                <mat-spinner style="margin: 10px"></mat-spinner>
+            </mat-card-content>
+        </mat-card>
+    </div>
+S</div>

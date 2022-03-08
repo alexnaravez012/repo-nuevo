@@ -1,0 +1,22 @@
+<div>
+    <mat-card style="text-align: center;">
+        <mat-grid-list cols="6" rowHeight="2:1" style="text-align: center;">
+            <mat-grid-tile *ngFor="let item of tableList" style="text-align:center;" [ngStyle]="{'background': item.naranja > 0 ?'#f59e47': ((item.naranja <= 0 && item.amarillo > 0)? '#ebeb5e': ((item.naranja <= 0 && item.amarillo <= 0 && item.azul) ? '#71b8eb':(item.naranja == 0 && item.amarillo == 0 && item.azul == 0 && item.rojo > 0) ? '#eb5e5e':'#54cc62' ))}">
+                <div (click)="openDetails(item)" class="col" style="text-align: center;">
+                    <div style="text-align: center;">
+                        <h3> {{item.mesa}} </h3>
+                    </div>
+                    <!-- <div style="text-align: center;">
+                        <div style="text-align: center;"> Mesero: {{item.mesero}} </div>
+                    </div> -->
+                    <div style="text-align: center;" *ngIf="item.purchase_DATE != null">
+                        <h5> Minutos: {{getDateInMinutes(item.purchase_DATE)}} </h5>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="text-align: center;"> <h5>{{item.totalprice | currency}}</h5> </div>
+                    </div>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-card>
+</div>

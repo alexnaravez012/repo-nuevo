@@ -1,0 +1,139 @@
+<div class="text-center">
+    <h4>
+      Estado
+    </h4>
+  </div>
+  <div class="text-center" *ngIf=" calculateBalance()==0">
+    <h4>
+      <em style="color: green;">Disponible para Aprobar.</em>
+    </h4>
+  </div>
+  <div class="text-center" *ngIf=" calculateBalance()!=0">
+    <h4>
+      <em style="color: red;">No se puede Aprobar.</em>
+    </h4>
+  </div>
+  <hr>
+
+  <div class="text-center">
+    <h4>
+      Documento
+    </h4>
+  </div>
+  <table style="width:100%">
+    <tr>
+        <td class="text-center"><em>Consecutivo: {{data.element.consecutivo}}</em></td>
+        <td class="text-center"><em>Tienda: {{data.element.store}}</em></td>
+    </tr>
+    <tr>
+        <td class="text-center"><em>Fecha: {{data.element.fecha}}</em></td>
+        <td class="text-center"><em>Tipo: {{data.element.document_TYPE}}</em></td>
+    </tr>
+    <tr>
+        <td class="text-center"><em>Estado: {{data.element.document_STATUS}}</em></td>
+        <td class="text-center"><em>Tercero: {{data.element.fullname}}</em></td>
+    </tr>
+  </table>
+  <div class="text-center">
+    <mat-form-field>
+      <input matInput class="text-center" type="text" placeholder="Notas" [(ngModel)] = "data.element.notes">
+    </mat-form-field>
+  </div>
+  <hr>
+  <div class="text-center">
+    <button mat-stroked-button color="primary" type="button" (click)="approveDoc()" [disabled]="data.element.id_DOCUMENT_STATUS!=1" >Aprobar Documento.</button>
+    <button mat-stroked-button color="primary" type="button" (click)="killDoc()" [disabled]="data.element.id_DOCUMENT_STATUS!=1">Anular Documento.</button>
+    <button mat-stroked-button color="primary" type="button" (click)="updateNotes()" [disabled]="data.element.id_DOCUMENT_STATUS!=1">Actualizar Notas.</button>
+  </div>
+  <hr>
+  <div class="form-row">
+    <div class="col" style="width: 100%;margin-left:20px">
+      <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel style="border:0px;box-shadow: none !important; width:100%;">
+        <mat-expansion-panel-header style="padding:0;margin:0">
+            <mat-panel-title style="font-size: 0.9;font-weight: 3000;text-emphasis: left;">
+              Despliegue para seleccionar Cuenta.
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ejs-treegrid #treegrid [dataSource]='datasource' [treeColumnIndex]='0' childMapping='children' [allowFiltering]="true" [allowPaging]="true" [pageSettings]='pageSettings' (rowSelected)="addElement()">
+          <e-columns>
+              <e-column field='codigoCuenta' headerText='Codigo' textAlign='Left' width=250 >
+                <div (click)="addElement()"></div>
+              </e-column>
+              <e-column field='filename' headerText='Cuenta' textAlign='left' width=300 (click)="addElement()"></e-column>
+          </e-columns>
+          </ejs-treegrid>
+      </mat-expansion-panel>
+    </mat-accordion>
+    </div>
+    <div class="col">
+      <mat-form-field>
+        <mat-label>Seleccione Naturaleza de Cuenta</mat-label>
+        <mat-select [(ngModel)]="selectedNat">
+          <mat-option value="C">
+            Credito
+          </mat-option>
+          <mat-option value="D">
+            Debito
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field>
+        <input currencyMask matInput class="text-center" placeholder="Valor de la cuenta" type="text" [(ngModel)]="cuenta" (click)="$event.target.select()">
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field>
+        <input matInput class="text-center" placeholder="Nota de la cuenta" type="text" [(ngModel)]="notesD">
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field>
+        <input matInput class="text-center" placeholder="Tercero asociado al Detalle" type="text" [(ngModel)]="third2">
+      </mat-form-field>
+    </div>
+    <div class="col" style="text-align: left; float: left;">
+      <em style="color: red;margin-top: 40%;">
+        <mat-icon aria-hidden="false" aria-label="Example home icon" (click)="searchClient3()" style="margin-top: 10%;">person_add</mat-icon>
+      </em>
+      <em style="color: red;margin-top: 40%;">
+        <mat-icon aria-hidden="false" aria-label="Example home icon" (click)="addDetail()" style="margin-top: 10%;margin-left: 20px;">add_to_photos</mat-icon>
+      </em></div>
+  </div>
+  <div class="row" style="margin: 0 auto;padding: 0 5px">
+    <div class="col"><h5>Cuenta</h5>{{this.selectedFirstCC}}</div>
+    <div class="col"><h5>Tercero</h5>{{this.detailThirdName}}</div>
+  </div>
+  
+  <hr>
+
+  <div class="text-center">
+    <h4>
+     Detalles
+    </h4>
+  </div>
+
+  <table style="width:100%">
+    <tr>
+        <th class="text-center"><em>Codigo de Cuenta</em></th>
+        <th class="text-center"><em>Descripcion</em></th>
+        <th class="text-center"><em>Naturaleza</em></th>
+        <th class="text-center"><em>Valor</em></th>
+        <th class="text-center"><em>Notas</em></th>
+        <th class="text-center"><em>Tercero</em></th>
+        <th class="text-center"><em> </em></th>
+    </tr>
+    <tr *ngFor="let item of details">
+        <td class="text-center"><em>{{item.codigo_CUENTA}}</em></td>
+        <td class="text-center"><em>{{item.descripcion}}</em></td>
+        <td class="text-center"><em>{{item.naturaleza}}</em></td>
+        <td class="text-center"><em>{{item.valor}}</em></td>
+        <td class="text-center"><em>{{item.notas}}</em></td>
+        <td class="text-center"><em>{{item.fullname}}</em></td>
+        <td class="text-center"><em style="color: red;"><mat-icon aria-hidden="false" aria-label="Example home icon" (click)="deleteDetail(item)">delete_outline</mat-icon></em></td>
+    </tr>
+  </table>
+
+

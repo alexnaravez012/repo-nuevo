@@ -1,0 +1,22 @@
+<div style="max-height: 85vh">
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+      <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">
+        Agregue las notas correspondientes a su Cierre de caja</mat-card-title>
+      <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;text-emphasis: left; color:white;margin-bottom:0px">
+        Por favor agregue notas en su cierre de caja si las tuviera.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row" style="padding:20px">
+        <div class="col">
+          <mat-form-field style="width: 100%">
+            <input [(ngModel)]="movementNotas" matInput class="text-center" type="text" placeholder="Notas" autofocus
+              type="text">
+          </mat-form-field>
+        </div>
+        <div class="col">
+            <!-- <button mat-stroked-button color="primary" type="button" (click)="closeDialog()" [disabled]="true">Cancelar</button> -->
+            <button mat-stroked-button color="primary" type="button" (click)="addNotes()" >Cerrar Caja</button>
+        </div>
+      </div>
+    </mat-card-content>
+</div>

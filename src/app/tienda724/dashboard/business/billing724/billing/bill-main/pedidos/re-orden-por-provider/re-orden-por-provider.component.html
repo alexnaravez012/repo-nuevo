@@ -1,0 +1,144 @@
+<mat-card-content style="margin: 0;">
+  <div style="padding: 10px;height: calc(100vh - 137px - 50px);">
+    <!--            CONTENEDOR DE OPCIONES-->
+    <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);display: flex;padding-top: 5px;font-size: larger;">
+      <mat-form-field style="width: 8%;margin: auto auto -10px;">
+        <mat-label>Seleccione tienda</mat-label>
+        <mat-select [(ngModel)]="SelectedStore" (selectionChange) = "getClients()">
+            <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+                {{elem.store_NAME}}
+            </mat-option>
+        </mat-select> 
+      </mat-form-field>
+      <!--      SELECTOR FECHA INICIAL-->
+      <mat-form-field style="width: 10%;margin: auto auto -10px;">
+        <input matInput [matDatepicker]="pickerthirds1" placeholder="Fecha Inicial" [(ngModel)]="Date1" (dateChange)="SelectorFechaFinal_Reorden.open()">
+        <mat-datepicker-toggle matSuffix [for]="pickerthirds1"></mat-datepicker-toggle>
+        <mat-datepicker #pickerthirds1 disabled="false"></mat-datepicker>
+      </mat-form-field>
+      <!--      SELECTOR FECHA FINAL-->
+      <mat-form-field style="width: 10%;margin: auto auto -10px;">
+        <input matInput [matDatepicker]="pickerthirds2" placeholder="Fecha Final" [(ngModel)]="Date2">
+        <mat-datepicker-toggle matSuffix [for]="pickerthirds2"></mat-datepicker-toggle>
+        <mat-datepicker #pickerthirds2 disabled="false"></mat-datepicker>
+      </mat-form-field>
+      <!--              INPUT DIAS A PEDIR-->
+      <mat-form-field style="width: 8%;margin: auto auto -10px;">
+        <mat-label>Dias a Pedir</mat-label>
+        <input required [(ngModel)]="daysForPedido" matInput type="number" step="1" id="readerQuantity" class="no-spin text-center" min="1" pattern="^[0-9]+.{1,}" oninput="validity.valid||(value='');">
+      </mat-form-field>
+      <mat-form-field style="width: 10%;margin: auto auto -10px;">
+        <mat-label>Seleccione cliente</mat-label>
+        <mat-select [(ngModel)]="SelectedStore4item">
+          <mat-option [value]="'-1'">
+            Todas
+          </mat-option>
+          <mat-option *ngFor="let elem of ClientStores" [value]="elem.id_STORE">
+              {{elem.store_NAME}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!--              SELECTOR DE PROVEEDOR-->
+      <mat-form-field style="width: 10%;margin: auto auto -10px;">
+        <mat-label>Proveedores</mat-label>
+        <mat-select (selectionChange)="ActualizarFiltradoProviders()" [(ngModel)]="ProveedorSeleccionado" [disabled]="reportReorderTable.length == 0">
+          <mat-option [value]="-1">Todos los proveedores.</mat-option>
+          <mat-option *ngFor="let item of ListadoProveedores" [value]="item['id_THIRD_DESTINITY']">{{item['cbi_FULLNAME']}}</mat-option>
+        </mat-select>
+      </mat-form-field> 
+      <!--              SELECTOR DE FABRICANTES-->
+      <mat-form-field style="width: 10%;margin: auto auto -10px;" >
+        <mat-label>Fabricantes</mat-label>
+        <mat-select (selectionChange)="ActualizarFiltradoFabricante()" [(ngModel)]="ListadoFabricantesSeleccionados" multiple [disabled]="ListadoFabricantesPorProvider.length == 0">
+          <mat-option [value]="-1">Todos los proveedores.</mat-option>
+          <mat-option *ngFor="let item of ListadoFabricantesPorProvider" [value]="item">{{item}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!--              SELECTOR DE MARCAS-->
+      <mat-form-field style="width: 10%;margin: auto auto -10px;" >
+        <mat-label>Marcas</mat-label>
+        <mat-select (selectionChange)="ActualizarFiltradoPorMarca()" [(ngModel)]="ListadoMarcasSeleccionadas" multiple [disabled]="reportReorderTable.length == 0">
+          <mat-option [value]="-1">Todas las Marcas.</mat-option>
+          <mat-option *ngFor="let item of ListadoMarcasFiltrado" [value]="item">{{item}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!--            CONTENEDOR DE TOTALES-->
+    <div style="display: flex;margin-top: 0.9%;font-size: large;text-align: center">
+      <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12); margin: auto auto auto 0;width: 16%">
+        <h5 style="margin: 5px 0 0;font-size: inherit">  N° de Productos  </h5>
+        <h3 style="font-size: inherit"> {{DataSourceReporte_Reorden.filteredData.length }} </h3>
+      </div>
+      <div style="margin: auto;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);width: 16%">
+        <h5 style="margin: 5px 0 0;font-size: inherit">  Subtotal  </h5>
+        <h3 style="font-size: inherit"> {{SubTotalReorden | currency : 'USD' : 'symbol' : '1.2-2' }} </h3>
+      </div>
+      <div style="margin: auto;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);width: 16%">
+        <h5 style="margin: 5px 0 0;font-size: inherit">  IVA  </h5>
+        <h3 style="font-size: inherit"> {{TotalIVA | currency : 'USD' : 'symbol' : '1.2-2' }} </h3>
+      </div>
+      <div style="margin: auto;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);width: 16%">
+        <h5 style="margin: 5px 0 0;font-size: inherit">  Total  </h5>
+        <h3 style="font-size: inherit"> {{TotalReorden | currency : 'USD' : 'symbol' : '1.2-2' }} </h3>
+      </div>
+      <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12); margin: auto 0 auto auto;width: 32%;display: flex;height: 6vh;">
+        <!--              BOTONES-->
+        <button [disabled]="Date1 == null || Date2 == null || EstadoBusqueda_Reorden == 1 || ClientStores.length <= 0" style="margin: auto;" mat-stroked-button color="primary" type="button" (click)="generate()">Consultar</button>
+        <button [disabled]="Date1 == null || Date2 == null || EstadoBusqueda_Reorden == 1 || ClientStores.length <= 0" style="margin: auto;" mat-stroked-button color="primary" type="button" (click)="cancel()">Cancelar</button>
+        <button [disabled]="ProveedorSeleccionado == null || ProveedorSeleccionado == -1 || ProveedorSeleccionado == 0" style="margin: auto;" mat-stroked-button color="primary" type="button" (click)="sendData()">Solicitar Pedido</button>
+        <button [disabled]="Date1 == null || Date2 == null || reportReorderTable.length == 0 || EstadoBusqueda_Reorden == 1" style="margin: auto;" mat-stroked-button color="primary" type="button" (click)="generatePedidosExcel()">Excel</button>
+      </div>
+    </div>
+<!--          TABLA DEL REPORTE-->
+    <div style="height: 79%;overflow: auto;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);margin-top: 0.9%;">
+      <div class="ScrollBar" style="height: 88.5%;overflow: auto;padding-left: 8px;padding-right: 8px;">
+        <table #SorterTablaReorden="matSort" mat-table multiTemplateDataRows [dataSource]="DataSourceReporte_Reorden" matSort class="mat-elevation-z8" style="width: 100%;box-shadow: unset;">
+          <!--              CREO LAS COLUMNAS-->
+          <ng-container matColumnDef="{{col}}" *ngFor="let col of GetKeysReporteReorden()">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">{{DictColumnas_Reorden[col][0]}}</th>
+            <div *ngIf="!col.includes('especial')">
+              <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'">
+                <div *ngIf="DictColumnas_Reorden[col][1] == 0">
+                  {{element[col]}}
+                </div>
+                <div *ngIf="DictColumnas_Reorden[col][1] == 1">
+                  {{element[col] | currency : 'USD' : 'symbol' : '1.2-2'}}
+                </div>
+              </td>
+            </div>
+            <div *ngIf="col.includes('especial')">
+              <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit;cursor: pointer" [style.text-align]="'center'">
+                <div *ngIf="col == 'especial1'">
+                  {{round(element["cantidad_VENDIDA"] / daysInBetweenDates,1)}}
+                </div>
+                <div *ngIf="col == 'especial2'">
+                  {{round(daysForPedido * element["cantidad_VENDIDA"] / daysInBetweenDates,0)}}
+                </div>
+                <div *ngIf="col == 'especial3'">
+                  {{round((daysForPedido * element["cantidad_VENDIDA"] / daysInBetweenDates)-element["cantidad_EN_INVENTARIO"],0)}}
+                </div>
+              </td>
+            </div>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="GetKeysReporteReorden(); sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: GetKeysReporteReorden();"></tr>
+        </table>
+        <!--                estado inicial-->
+        <div *ngIf="reportReorderTable.length == 0" style="height: 90%;background-color: white;">
+          <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+            <mat-icon *ngIf="EstadoBusqueda_Reorden == -1" style="font-size: 90px;text-align: center;width: 100%;color: gray;margin: auto auto 5%;">search</mat-icon>
+            <mat-icon *ngIf="EstadoBusqueda_Reorden == 1" style="font-size: 90px;text-align: center;width: 100%;color: gray;margin: auto auto 5%;">cached</mat-icon>
+            <mat-icon *ngIf="EstadoBusqueda_Reorden == 2" style="font-size: 90px;text-align: center;width: 100%;color: gray;margin: auto auto 5%;">error_outline</mat-icon>
+          </div>
+          <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+            <mat-label *ngIf="EstadoBusqueda_Reorden == -1" style="font-size: 30px;color: gray;margin: 1% auto auto;">Realice una consulta</mat-label>
+            <mat-label *ngIf="EstadoBusqueda_Reorden == 1" style="font-size: 30px;color: gray;margin: 1% auto auto;">Consultando, espere...</mat-label>
+            <mat-label *ngIf="EstadoBusqueda_Reorden == 2" style="font-size: 30px;color: gray;margin: 1% auto auto;">No se encontraron registros</mat-label>
+          </div>
+        </div>
+      </div>
+      <mat-paginator #PaginatorReorden style="height: 8%;" [pageSizeOptions]="[15, 20, 25, 50, 100]"></mat-paginator>
+    </div>
+  </div>
+</mat-card-content>
