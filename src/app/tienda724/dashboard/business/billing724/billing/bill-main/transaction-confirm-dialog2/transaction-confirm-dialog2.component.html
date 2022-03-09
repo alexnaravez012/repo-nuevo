@@ -83,10 +83,10 @@
         </div>
         <div style="padding-left: 20px;">
             <div class="row" style="margin-top:40px">
-                <b class="font-size-18 color-blue">Detalles de medios de pago</b>
+                <b class="font-size-23 color-blue">Detalles de medios de pago</b>
             </div>
             <div style="margin-top: 10px; margin-bottom: 30px;">
-                <div class="uk-flex uk-flex-between">
+                <div class="uk-flex">
                     <div>
                         <h6 class="uk-margin-remove font">Medio Pago</h6>
                         <div class="uk-margin-remove">
@@ -100,23 +100,23 @@
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <h6 class="uk-margin-remove font">Código Confirmación / Observaciones</h6>
-                        <input class="inputs" type="text" [(ngModel)]="newConfCode" style="width: 300px;">
+                    <div class="padding-horizontal-20">
+                        <h6 class="uk-margin-remove font">Valor pago</h6>
+                        <input class="inputs uk-text-left" style="width: 110px;" currencyMask [options]="{ precision: 0 }" [(ngModel)]="newValor" type="text">
                     </div>
                     <div>
-                        <h6 class="uk-margin-remove font">Valor pago</h6>
-                        <input class="inputs uk-text-left" currencyMask [options]="{ precision: 0 }" [(ngModel)]="newValor" type="text">
+                        <h6 class="uk-margin-remove font">Código Confirmación / Observaciones</h6>
+                        <input class="inputs" type="text" [(ngModel)]="newConfCode" style="width: 350px;">
                     </div>
                     <button class="button-add" (click)="efectivoValidation()" [disabled]="Number(newValor)<=0 || Number(newValor)>roundnum(data.total)-roundnum(getTotalPagos()) || roundnum(data.total)-roundnum(getTotalPagos()) == 0">+</button>
                 </div>
             </div>
             <table border="1" style="margin-top: 20px;">
                 <tr>
-                    <td class="uk-text-center uk-text-bold" height="35" width="150"> Medio Pago </td>
-                    <td class="uk-text-center uk-text-bold" width="350"> Código Confirmación / Observaciones </td>
-                    <td class="uk-text-center uk-text-bold" width="150"> Valor pago </td>
-                    <td class="uk-text-center uk-text-bold" width="100"></td>
+                    <td class="uk-text-center uk-text-bold font-size-18" height="35" width="150"> Medio Pago </td>
+                    <td class="uk-text-center uk-text-bold font-size-18" width="150"> Valor pago </td>
+                    <td class="uk-text-center uk-text-bold font-size-18" width="350"> Código Confirmación / Observaciones </td>
+                    <td class="uk-text-center uk-text-bold font-size-18" width="100"></td>
                 </tr>
                 <tr *ngFor="let item of paymentDetailList">
                     <td height="25">
@@ -133,11 +133,6 @@
                             </div>
                         </div>
                     </td>
-                    <td height="25">
-                        <div class=" uk-flex uk-flex-center">
-                            <input class="inputs-list uk-text-left" type="text" [(ngModel)]="item.cod" style="width: 290px;">
-                        </div>
-                    </td>
                     <td>
                         <div class=" uk-flex uk-flex-center">
                             <input class="inputs-list uk-text-center" type="text" currencyMask [options]="{ precision: 0 }" [(ngModel)]="item.valor" style="width: 90px;">
@@ -145,26 +140,31 @@
                     </td>
                     <td height="25">
                         <div class=" uk-flex uk-flex-center">
-                            <button class="button-red" (click)="deleteElement(item.id)">Quitar</button>
+                            <input class="inputs-list uk-text-left" type="text" [(ngModel)]="item.cod" style="width: 290px;">
+                        </div>
+                    </td>
+                    <td height="25">
+                        <div class=" uk-flex uk-flex-center">
+                            <button class="button-red-quit" (click)="deleteElement(item.id)">Quitar</button>
                             <!-- <button class="button-green">Guardar</button> -->
                         </div>
                     </td>
                 </tr>
             </table>
             <div class="row" style="margin-top:30px">
-                <b class="font-size-18 color-blue">Datos Cliente</b>
+                <b class="font-size-23 color-blue">Datos Cliente</b>
             </div>
             <div class="uk-flex uk-flex-between">
                 <div class="uk-flex uk-flex-middle">
                     <input class="input-date" type="text" placeholder="Cedula Cliente" id="reader" (keyup.enter)="searchClient($event)" [(ngModel)]="ccClient">
-                    <button (click)="searchClient2()" mat-stroked-button color="primary" type="submit">Buscar</button>
+                    <button (click)="searchClient2()" mat-stroked-button color="primary" type="submit" style="font-size: 15px;">Buscar</button>
                 </div>
                 <div class="col-6" style="margin-bottom: px;margin-top: 0px;">
-                    <h5> <span class="color-blue">Cliente:</span> Cliente: {{cliente}}</h5>
+                    <h5> <span class="color-blue uk-text-bold">Cliente:</span> Cliente: {{cliente}}</h5>
                 </div>
             </div>
             <div class="row" style="margin-top:30px">
-                <b class="font-size-18 color-blue">Agregar Observaciones</b>
+                <b class="font-size-23 color-blue">Agregar Observaciones</b>
             </div>
             <mat-form-field style="width: 100% !important; margin-top:15px;">
                 <textarea matInput placeholder="Ingrese aqui observaciones" [(ngModel)]="observations" style="width: 100% !important;"></textarea>
