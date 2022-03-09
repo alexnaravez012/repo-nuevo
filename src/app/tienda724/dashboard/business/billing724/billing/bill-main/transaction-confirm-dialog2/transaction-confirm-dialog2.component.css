@@ -79,6 +79,7 @@
     height: 30px;
     margin-left: 10px;
     font-size: 13px;
+    cursor: pointer;
 }
 
 .scroll {}
@@ -133,4 +134,35 @@
     border: none;
     border-bottom: 1px solid grey;
     margin-right: 15px;
+}
+
+.select-list {
+    border: none;
+    font-size: 14px;
+    background-color: white;
+    width: 150px;
+    margin-top: 4px;
+    cursor: pointer;
+}
+
+.inputs-list {
+    border: none;
+}
+
+.button-green-conf {
+    background-color: green;
+    color: white;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    width: 80px;
+    margin-left: 5px;
+    font-size: 12px;
+}
+
+.button-green-conf:disabled,
+.button-green-conf[disabled] {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
 }
