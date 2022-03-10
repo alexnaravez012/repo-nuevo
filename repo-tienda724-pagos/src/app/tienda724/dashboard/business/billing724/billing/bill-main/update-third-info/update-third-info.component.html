@@ -1,0 +1,51 @@
+<div>
+    <mat-card style="height: 100%;width:100%;padding:0">
+      <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+        <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Haga las modificaciones necesarias al tercero.</mat-card-title>
+      </mat-card-header>
+    </mat-card>
+    <mat-card style="padding:20px">
+        <mat-card-content style="padding:20px">
+            <div style="display: flex">
+                <div class="card-content table-responsive">
+                    <table class="table table-hover" style="text-align: center;">
+                        <tr>
+                            <th>Cliente: {{data.elem.fullname}}</th>
+                            <th>Documento: {{data.elem.document_TYPE}} - {{data.elem.document_NUMBER}}</th>
+                        </tr>
+                    </table>
+                </div>
+            </div> 
+            <div >
+                <div class="card-content table-responsive">
+                    <table class="table table-hover" style="text-align: center;">
+                        <tr>
+                            <th>Teelefono</th>
+                            <th>Direccion</th>
+                            <th>Correo</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <mat-form-field style="margin: auto;width: unset;font-size: medium;">
+                                    <input matInput class="text-center" type="text" placeholder="Buscador de productos" [(ngModel)] = "data.elem.phone">
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field style="margin: auto;width: unset;font-size: medium;">
+                                    <input matInput class="text-center" type="text" placeholder="Buscador de productos" [(ngModel)] = "data.elem.address">
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field style="margin: auto;width: unset;font-size: medium;">
+                                    <input matInput class="text-center" type="text" placeholder="Buscador de productos" [(ngModel)] = "data.elem.city">
+                                </mat-form-field>    
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div> 
+            <button mat-dialog-close mat-stroked-button type="submit" style="width: 50%; color: blue;" (click)="updateThird()">Actualizar Tercero</button>
+            <button mat-dialog-close mat-stroked-button type="submit" style="width: 50%; color: red;" (click)="close()">Cerrar Ventana</button>
+        </mat-card-content>
+    </mat-card>
+</div>

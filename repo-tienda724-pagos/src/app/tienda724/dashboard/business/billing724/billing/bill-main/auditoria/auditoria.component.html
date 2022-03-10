@@ -1,0 +1,131 @@
+<!-- CONTENEDOR COMPLETO AUDITORIAS-->
+<div style="margin-top:-10vh">
+<!--  OTRO CONTENEDOR-->
+  <span>
+<!--    MAT CARD INICIAL-->
+    <mat-card style="padding-top: 100px">
+<!--      EL MATCARD CONTENT-->
+      <mat-card-content>
+<!--        OTRO CONTENEDOR-->
+        <div class="row" >
+<!--          OTRO CONTENEDOR-->
+          <div class="col">
+<!--            CONTENEDOR QUE TIENE TIENDA, FECHAS Y BOTON-->
+            <div class="row">
+<!--              CONTENEDOR DE ITEMS-->
+              <div class="col">
+<!--              CONTENEDOR DE ITEMS-->
+                <div class="row">
+<!--                  SELECTOR TIENDA-->
+                  <div class="Opcion">
+<!--                    SELECTOR TIENDA-CONTENEDOR-->
+                    <mat-form-field>
+<!--                    SELECTOR TIENDA-TEXTO-->
+                      <mat-label>Seleccione tienda</mat-label>
+<!--                    SELECTOR TIENDA-GENERO LAS OPCIONES-->
+                      <mat-select [(ngModel)]="SelectedStore">
+                        <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+                          {{elem.store_NAME}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+<!--                  SELECTOR FECHA INICIAL-->
+                  <div class="Opcion">
+<!--                    SELECTOR FECHA INICIAL-CONTENEDOR-->
+                    <mat-form-field>
+<!--                    SELECTOR FECHA INICIAL-FECHA-->
+                      <input matInput [matDatepicker]="picker" placeholder="Fecha Inicial" [(ngModel)]="date">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker disabled="false"></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+<!--                  SELECTOR FECHA FINAL-->
+                  <div class="Opcion">
+<!--                    SELECTOR FECHA FINAL-CONTENEDOR-->
+                      <mat-form-field>
+<!--                    SELECTOR FECHA FINAL-FECHA-->
+                        <input matInput [matDatepicker]="picker2" placeholder="Fecha Final" [(ngModel)]="date2">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+<!--                  BOTON GENERAR AUDITORIA-->
+                  <div class="Opcion">
+                    <button mat-stroked-button color="primary" type="submit" (click)="getAudit()">Cargar Auditoria</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+<!--            CONTENEDOR QUE CONTIENE LA TABLA-->
+            <div class="table-responsive">
+<!--              DEFINICIÓN FORMAL TABLA-->
+              <table class="table table-hover" style="text-align: center">
+<!--                DEFINICION DEL HEAD-->
+                <thead>
+<!--                DEFINO TODAS LOS TITULOS DE LAS COLUMNAS-->
+                  <tr>
+                    <th class="text-center">
+                      <div (click)="SortBy('fecha')" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                        <b>Fecha</b>
+                        <mat-icon *ngIf="CampoSorteando == 'fecha'">{{Invertido?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                        <mat-icon *ngIf="CampoSorteando != 'fecha'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                      </div>
+                    </th>
+                    <th class="text-center">
+                      <div (click)="SortBy('empleado')" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                        <b>Empleado</b>
+                        <mat-icon *ngIf="CampoSorteando == 'empleado'">{{Invertido?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                        <mat-icon *ngIf="CampoSorteando != 'empleado'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                      </div>
+                    </th>
+                    <th class="text-center">
+                      <div (click)="SortBy('message')" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                        <b>Cambio</b>
+                        <mat-icon *ngIf="CampoSorteando == 'message'">{{Invertido?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                        <mat-icon *ngIf="CampoSorteando != 'message'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                      </div>
+                    </th>
+                    <th class="text-center">
+                      <div (click)="SortBy('valor_CAMBIO')" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                        <b>Valor Nuevo</b>
+                        <mat-icon *ngIf="CampoSorteando == 'valor_CAMBIO'">{{Invertido?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                        <mat-icon *ngIf="CampoSorteando != 'valor_CAMBIO'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                      </div>
+                    </th>
+                    <th class="text-center">
+                      <div (click)="SortBy('valor_ANTERIOR')" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                        <b>Valor Anterior</b>
+                        <mat-icon *ngIf="CampoSorteando == 'valor_ANTERIOR'">{{Invertido?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                        <mat-icon *ngIf="CampoSorteando != 'valor_ANTERIOR'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+<!--                DEFINICIÓN DEL BODY-->
+                <tbody>
+<!--                DEFINO EL CONTENIDO DE LAS COLUMNAS-->
+                  <tr *ngFor="let key of Audits; let idx= index; let last= last;">
+                    <td> {{key.fecha}} </td>
+                    <td> {{key.empleado}} </td>
+                    <td> {{key.message}} </td>
+                    <td> {{roundDecimals(key.valor_CAMBIO)}} </td>
+                    <td> {{roundDecimals(key.valor_ANTERIOR)}} </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </span>
+</div>
+  
+  
+  
+  
+  
+  
+  
+  

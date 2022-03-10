@@ -1,0 +1,222 @@
+<mat-card style="height: 100%;width:100%;padding:0">
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+        <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Confirma la Transacción</mat-card-title>
+    </mat-card-header>
+    <mat-card-content style="padding:20px">
+      <div class="row">
+        <div class="col"style="text-align: left">
+          <h2 style="font-size: 1.6em; font-weight: 600">Total: {{roundnum(data.total) | currency  : 'USD' : 'symbol' : '1.0'}}</h2>
+        </div>
+        <div class="col"style="text-align: right">
+          <button mat-dialog-close mat-stroked-button color="primary" type="submit">Cancelar</button>
+          <button mat-stroked-button color="primary" type="submit" (click)="returnData()" [disabled]="disableButton()">Confirmar</button>
+        </div>
+      </div>
+      <span *ngIf="paymentMethod=='efectivo' && wayToPay == 'contado' ">
+          <!-- <div class="row">
+            <div class="col">
+              Cantidad Recibida
+            </div>
+          </div> -->
+          <div >
+          <div class="row">
+
+            <div class="col-8" style="text-align: center">
+              <div class="row" *ngIf="sum==true">
+                <img src='{{Urlbase.imagenes+"/billetes/1000.jpg"}}'  height="55" width="95" (click)="add(1000)">
+                <img src='{{Urlbase.imagenes+"/billetes/2000.jpg"}}'  height="55" width="95" (click)="add(2000)">
+                <img src='{{Urlbase.imagenes+"/billetes/5000.jpg"}}'  height="55" width="95" (click)="add(5000)">
+                <img src='{{Urlbase.imagenes+"/billetes/10000.jpg"}}'  height="55" width="95" (click)="add(10000)">
+                <img src='{{Urlbase.imagenes+"/billetes/20000.jpg"}}'  height="55" width="95" (click)="add(20000)">
+                <img src='{{Urlbase.imagenes+"/billetes/50000.jpg"}}'  height="55" width="95" (click)="add(50000)">
+              </div>
+              <div class="row" *ngIf="sum==true">
+                <img src='{{Urlbase.imagenes+"/billetes/50.jpg"}}'  height="55" width="55" (click)="add(50)">
+                <img src='{{Urlbase.imagenes+"/billetes/100.jpeg"}}'  height="55" width="55" (click)="add(100)">
+                <img src='{{Urlbase.imagenes+"/billetes/200.jpeg"}}'  height="55" width="55" (click)="add(200)">
+                <img src='{{Urlbase.imagenes+"/billetes/500.jpeg"}}'  height="55" width="55" (click)="add(500)">
+                <img src='{{Urlbase.imagenes+"/billetes/1000m.jpg"}}'  height="55" width="55" (click)="add(1000)">
+              </div>
+              <div class="row" *ngIf="sum==false">
+                <img src='{{Urlbase.imagenes+"/billetes/1000.jpg"}}'  height="55" width="95" (click)="remove(1000)">
+                <img src='{{Urlbase.imagenes+"/billetes/2000.jpg"}}'  height="55" width="95" (click)="remove(2000)">
+                <img src='{{Urlbase.imagenes+"/billetes/5000.jpg"}}'  height="55" width="95" (click)="remove(5000)">
+                <img src='{{Urlbase.imagenes+"/billetes/10000.jpg"}}'  height="55" width="95" (click)="remove(10000)">
+                <img src='{{Urlbase.imagenes+"/billetes/20000.jpg"}}'  height="55" width="95" (click)="remove(20000)">
+                <img src='{{Urlbase.imagenes+"/billetes/50000.jpg"}}'  height="55" width="95" (click)="remove(50000)">
+              </div>
+              <div class="row" *ngIf="sum==false">
+                <img src='{{Urlbase.imagenes+"/billetes/50.jpg"}}'  height="55" width="55" (click)="remove(50)">
+                <img src='{{Urlbase.imagenes+"/billetes/100.jpeg"}}'  height="55" width="55" (click)="remove(100)">
+                <img src='{{Urlbase.imagenes+"/billetes/200.jpeg"}}'  height="55" width="55" (click)="remove(200)">
+                <img src='{{Urlbase.imagenes+"/billetes/500.jpeg"}}'  height="55" width="55" (click)="remove(500)">
+                <img src='{{Urlbase.imagenes+"/billetes/1000m.jpg"}}'  height="55" width="55" (click)="remove(1000)">
+              </div>
+              <div class="row">
+                <mat-radio-group [(ngModel)]="sum">
+                  <mat-radio-button [value]="true">Sumar</mat-radio-button>
+                  <mat-radio-button [value]="false">Restar</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+
+            <div class="col-4" style="text-align: right">
+              <div class="row">
+                <h5 style="font-weight: 250;margin-top: 50px">
+                  Cantidad Recibida:
+                </h5>
+                <mat-form-field>
+                  <h5 style="font-weight: 500">
+                    <input (click)="$event.target.select()" currencyMask [options]="{ precision: 0 }" matInput [(ngModel)]="cash" autofocus type="money" (keyup.enter)="returnData()" md-select-on-focus>
+                  </h5>
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <button mat-stroked-button color="primary" type="submit" (click)="setCash(0)">Limpiar Recibido</button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-9" style="text-align: right">
+              <h3 style="font-weight: 250">Cambio: </h3>
+            </div>
+            <div class="col" style="text-align: right">
+              <h3>{{roundnum(getStringAsNum(cash) - getStringAsNum(data.total)) | currency  : 'USD' : 'symbol' : '1.0'}}</h3>
+            </div>
+          </div>
+          <div class="row">
+          <div class="col-6">
+            <mat-form-field>
+              <input currencyMask [options]="{ precision: 0 }" matInput type="text" placeholder="Valor Descuento" (keyup)="calcPercent()"  [(ngModel)]="disccount" (click)="$event.target.select()">
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field>
+              <input matInput type="number" placeholder="Porcentaje Descuento" (keyup)="calcDiscount()" [(ngModel)]="disccountPercent" (click)="$event.target.select()">
+            </mat-form-field>
+          </div>
+        </div>
+        </div>
+        </span>
+        <div class="col-12" *ngIf="(paymentMethod=='debito' && wayToPay == 'contado')||(paymentMethod=='credito' && wayToPay == 'contado')||(paymentMethod=='transferencia' && wayToPay == 'contado')">
+          <div class="row mt-5">
+            <div class="col-6">
+              <h2>N° de aprobación</h2>
+            </div>
+            <div class="col-6">
+              <h2>
+                <input type="text" class="tcgw-100" [(ngModel)]="transactionCode" >
+              </h2>
+            </div>
+          </div>
+          <!-- <div class="row mb-5">
+            <div class="col-6">
+              <h2>Entidad Bancaria</h2>
+            </div>
+            <div class="col-6">
+              <h2>
+              <mat-form-field>
+                <mat-select [(value)]="creditBank">
+                  <mat-option value="">Seleccionar</mat-option>
+                  <mat-option value="1">Option1</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </h2>
+            </div>
+          </div> -->
+        </div>
+        <div class="col-12" *ngIf="paymentMethod=='credito' && wayToPay == 'credito'">
+          <div class="row mt-5">
+            <div class="col-6">
+              <h2>N° de aprobación</h2>
+            </div>
+            <div class="col-6">
+              <h2>
+                <input type="text" class="tcgw-100" [(ngModel)]="transactionCode" >
+              </h2>
+            </div>
+          </div>
+          <!-- <div class="row mb-5">
+            <div class="col-6">
+              <h2>Entidad Bancaria</h2>
+            </div>
+            <div class="col-6">
+                <h2>
+              <mat-form-field>
+                <mat-select [(value)]="creditBank">
+                  <mat-option value="">Seleccionar</mat-option>
+                  <mat-option value="1">Option1</mat-option>
+                </mat-select>
+              </mat-form-field>
+                </h2>
+            </div>
+          </div> -->
+        </div>
+        <div>
+
+
+            <div class="row" style="margin-top:10px">
+              <b>Método de Pago</b>
+            </div>
+            <div class="row" style="margin-top:10px">
+              <div class="col" style="padding-left: 25px;padding-right: 25px">
+                <label>Selecciona la forma de pago</label>
+                <mat-radio-group [(ngModel)]="wayToPay">
+                  <mat-radio-button value="contado" (click)="clickedOn('efectivo')">Contado</mat-radio-button>
+                  <!-- <mat-radio-button value="credito" (click)="clickedOn('credito')">Credito</mat-radio-button> -->
+                </mat-radio-group>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col" style="padding-left: 25px;padding-right: 25px">
+                  <label>Selecciona el medio de pago</label>
+                  <mat-radio-group [(ngModel)]="paymentMethod" *ngIf = "wayToPay == 'contado'">
+                      <mat-radio-button value="efectivo">Efectivo</mat-radio-button>
+                      <mat-radio-button value="debito">Tarjeta débito</mat-radio-button>
+                      <mat-radio-button value="credito">Tarjeta de crédito</mat-radio-button>
+                      <mat-radio-button value="transferencia">Transferencia</mat-radio-button>
+                    </mat-radio-group>
+                    <mat-radio-group [(ngModel)]="paymentMethod"  *ngIf = "wayToPay == 'credito'">
+                      <mat-radio-button value="efectivo">Efectivo</mat-radio-button>
+                      <mat-radio-button value="debito">Tarjeta débito</mat-radio-button>
+                      <mat-radio-button value="credito">Tarjeta de crédito</mat-radio-button>
+                      <mat-radio-button value="transferencia">Transferencia</mat-radio-button>
+                    </mat-radio-group>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top:10px">
+              <b>Datos Cliente</b>
+            </div>
+              <div class="row">
+                <div class="col-4 text-center">
+                  <mat-form-field>
+                    <input matInput class="text-center" type="text"  placeholder="Cedula Cliente" id="reader" (keyup.enter)="searchClient($event)" [(ngModel)]="ccClient">
+                  </mat-form-field>
+                </div>
+                <div class="col-2 text-center">
+                  <button (click)="searchClient2()" mat-stroked-button color="primary" type="submit">Buscar</button>
+                </div>
+                <div class="col-6" style="margin-bottom: px;margin-top: 0px;">
+                  <h4>Cliente: {{cliente}}</h4>
+                </div>
+              </div>
+              <div class="row" style="margin-top:10px">
+                <b>Agregar Observaciones</b>
+              </div>
+            <mat-form-field>
+              <textarea matInput placeholder="Ingrese aqui observaciones" [(ngModel)]="observations"></textarea>
+            </mat-form-field>
+          </div>
+
+
+
+
+
+
+
+      </mat-card-content>
+</mat-card>
+
+
+

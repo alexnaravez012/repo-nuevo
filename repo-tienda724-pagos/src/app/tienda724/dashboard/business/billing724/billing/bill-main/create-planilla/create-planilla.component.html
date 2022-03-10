@@ -1,0 +1,15 @@
+<div class="text-center" style="width: 100%;margin: auto;">
+    <h1>Seleccione un Vehiculo al cual asociar la Planilla nueva.</h1>
+</div>
+<div class="text-center" style="width: 100%;margin: auto;">
+    <mat-form-field>
+        <mat-label>Seleccione Vehiculo</mat-label>
+        <mat-select [(ngModel)]="SelectedVehicle">
+            <mat-option *ngFor="let item of ListVehicles" [value]="item.id_VEHICULO">{{item.placa}} - {{item.conductor}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div class="text-center" style="width: 100%;margin: auto;">
+    <button style="width: 100%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="postPlanilla()">Crear nueva planilla</button>
+</div>
+           

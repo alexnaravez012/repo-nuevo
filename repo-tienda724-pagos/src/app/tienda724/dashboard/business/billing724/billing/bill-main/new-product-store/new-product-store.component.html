@@ -1,0 +1,48 @@
+
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+        <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Registrando nuevo producto</mat-card-title>
+        <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;text-emphasis: left; color:white;margin-bottom:0px">Necesita hacer el registro del producto en su tienda.</mat-card-subtitle>
+</mat-card-header>
+<mat-card-content style="padding:25px">
+  <div class="row" style="width:100%">
+    <div class="col">
+<mat-form-field>
+  <input matInput placeholder="Nombre el producto" [(ngModel)]="body.product_store_name" autofocus type="text">
+</mat-form-field>
+</div>
+</div>
+<div class="row" style="width:100%">
+    <div class="col">
+<mat-form-field>
+  <input matInput placeholder="Codigo acceso rapido" [(ngModel)]="body.product_store_code" autofocus type="text">
+</mat-form-field>
+</div>
+</div>
+<div class="row" style="width:100%">
+    <div class="col">
+<mat-form-field>
+  <input matInput placeholder="Precio de Compra" [(ngModel)]="body.standard_price" autofocus type="text">
+</mat-form-field>
+</div>
+</div>
+<div class="row" style="width:100%">
+    <div class="col">
+<mat-form-field>
+  <input matInput placeholder="Nombre del precio del producto" [(ngModel)]="priceName" autofocus type="text">
+</mat-form-field>
+</div>
+</div>
+<div class="row" style="width:100%">
+    <div class="col">
+<mat-form-field>
+  <input matInput placeholder="Valor del precio" [(ngModel)]="price" autofocus type="text">
+</mat-form-field>
+</div>
+</div>
+<div class="row" style="width:100%">
+    <div class="col">
+<button mat-dialog-close mat-stroked-button color="primary" type="submit">Cancelar</button>
+<button mat-stroked-button color="primary" type="submit" (click)="returnData()">Confirmar</button>
+</div>
+</div>
+</mat-card-content>

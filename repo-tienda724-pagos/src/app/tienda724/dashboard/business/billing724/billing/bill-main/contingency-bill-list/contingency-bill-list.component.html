@@ -1,0 +1,22 @@
+<div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th class="text-center"><b>Empresa</b></th>
+          <th class="text-center"><b>Cajero</b></th>
+          <th class="text-center"><b>Document</b></th>
+          <th class="text-center"><b>Cantidad Total</b></th>
+          <th class="text-center"><b>Precio Total</b></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of listelem">
+          <td class="text-center" (click)= "GeneratePdfFast(item)"> {{locStorage.getThird().info.fullname}} </td>
+          <td class="text-center" (click)= "GeneratePdfFast(item)"> {{locStorage.getPerson().info.fullname}} </td>
+          <td class="text-center" (click)= "GeneratePdfFast(item)"> {{locStorage.getPerson().info.type_document + "-" + locStorage.getPerson().info.document_number}} </td>
+          <td class="text-center" (click)= "GeneratePdfFast(item)"> {{getQuantity(item.details)}} </td>
+          <td class="text-center" (click)= "GeneratePdfFast(item)"> {{getTotal(item.details) | currency}} </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

@@ -1,0 +1,334 @@
+<div style="">
+  <mat-card style="height: 100%;width:100%;padding:0" *ngIf="!currentCategory">
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+      <mat-card-title style="font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white"><span *ngIf="selectedTab === 0">Categorías</span><span *ngIf="selectedTab === 1">Tiendas</span></mat-card-title>
+      <mat-card-subtitle  style="font-size: 0.8em;font-weight: 300;color:white;margin-bottom:0">Por favor seleccione una <span *ngIf="selectedTab === 0">categoria</span><span *ngIf="selectedTab === 1">tienda</span>.</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+  <mat-card style="height: 100%;width:100%;padding:0" *ngIf="currentCategory">
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+      <mat-card-title style="font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">{{currentCategory}}</mat-card-title>
+      <mat-card-subtitle  style="font-size: 0.8em;font-weight: 300; color:white;margin-bottom:0">Subcategorias</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+  <mat-card style="padding:0">
+    <mat-card-content>
+      <mat-tab-group (selectedTabChange)="tabChanged($event)">
+        <mat-tab label="Categorias">
+          <div class="row" style="padding:20px">
+            <div class="col my-col" *ngIf="categoryStack && categoryStack.length > 0" style="padding-top: 40px;padding-left: 14px;padding-right: 14px;">
+              <button mat-flat-button color="primary" (click)="gotoFatherCategory()">Volver</button>
+            </div>
+            <div class="col my-col" *ngIf="categoryStack && categoryStack.length > 0" style="padding-top: 40px;padding-left: 14px;padding-right: 14px;">
+              <button mat-flat-button color="primary" (click)="gotoProductsCategory()">Productos</button>
+            </div>
+            <div class="col my-col" *ngFor="let category of generalCategories" >
+              <mat-card color="toolbar" (click)="loadCategory(category)" float-right style="width:120px;max-height: 120px;overflow: visible;padding:0;">
+                <img src={{category.img_URL}} style="width:100%;height:80px" />
+                <mat-card-header style="word-wrap: break-word;">
+                  <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap matTooltip={{category.category}} *ngIf="category.category">{{category.category}}</mat-card-title>
+                  <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap matTooltip={{category.name}} *ngIf="category.name">{{category.name}}</mat-card-title>
+                </mat-card-header>
+              </mat-card>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Tiendas">
+          <div class="row" style="width: 100%;padding:20px">
+            <div class="col my-col" *ngFor="let store of stores">
+              <mat-card color="toolbar" (click)="loadStore(store)" float-right style="width:120px;height: 120px;">
+                <mat-card-header style="word-wrap: break-word;font-weight: 400;text-align: center">
+                  <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px;text-align:center;width:100%; color:rgb(126,126,126)"><mat-icon>home</mat-icon></mat-card-title>
+                  <mat-card-title style="padding-top: 0px;font-size: 1em;width:100%;line-height : 15px;max-height: 25px" text-wrap>{{store?.store_NAME}}</mat-card-title>
+                </mat-card-header>
+              </mat-card>
+            </div>
+          </div>
+        </mat-tab> 
+        <mat-tab label="Reporte Inventario">
+          <!--            CONTENIDO DE LA PESTAÑA-->
+          <div style="padding: 10px;height: calc(100vh - 115px);">
+            <!--            CONTENEDOR DE OPCIONES-->
+            <div style="display: flex;padding-top: 5px;height: 10%;">
+              <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);display: flex;font-size: larger;width: 70%;">
+                <!--      SELECTOR TIENDA-->
+                <!-- <mat-form-field style="width: 12%;margin: auto;margin-bottom: -10px;">
+                  <mat-label>Sel. tienda</mat-label>
+                  <mat-select [(ngModel)]="SelectedStoreProd">
+                    <mat-option value="-1">
+                      Todas
+                    </mat-option>
+                    <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+                      {{elem.store_NAME}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+
+                <!--      SELECTOR LINEA-->
+                <mat-form-field style="width: 12%;margin: auto;margin-bottom: -10px;">
+                  <mat-label>Sel. Linea</mat-label>
+                  <mat-select [(ngModel)]="SelectedLine" (selectionChange) = "getSecondLvlCategory()">
+                    <mat-option [value]="-1">Todas</mat-option>
+                    <mat-option *ngFor="let elem of CategoryFirstLvlList" [value]="elem.id_CATEGORY" >
+                      {{elem.category}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <!--      SELECTOR CATEGORIA -->
+                <mat-form-field style="width: 12%;margin: auto;margin-bottom: -10px;">
+                  <mat-label>Sel. categoria</mat-label>
+                  <mat-select [(ngModel)]="SelectedSubCategory">
+                    <mat-option [value]="-1">Todas</mat-option>
+                    <mat-option *ngFor="let elem of SubCategoryList" [value]="elem.id_CATEGORY">
+                      {{elem.category}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <!--      SELECTOR MARCA -->
+                <mat-form-field style="width: 12%;margin: auto;margin-bottom: -10px;">
+                  <mat-label>Sel. marca</mat-label>
+                  <mat-select [(ngModel)]="SelectedBrand">
+                    <mat-option [value]="-1">Todas</mat-option>
+                    <mat-option *ngFor="let elem of Brands" [value]="elem.id_BRAND">
+                      {{elem.brand}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <!--      SELECTOR INVENTARIO -->
+                <mat-form-field style="width: 10%;margin: auto;margin-bottom: -10px;">
+                  <mat-label>Inventario >= </mat-label>
+                  <input required [(ngModel)]="filterNumber" (keyup) ="SortByInventary()" matInput type="number" step="1" id="readerQuantity" class="no-spin text-center" [disabled]="dataTable.length<=0">
+                </mat-form-field>
+                <mat-form-field style="width: 10%;margin: auto;margin-bottom: -10px;">
+                  <mat-label>Filtrado </mat-label>
+                  <input required [(ngModel)]="filterBox" (keyup) ="SortByFilter()" matInput type="text" class="no-spin text-center" >
+                </mat-form-field>
+                <!--      BOTON GENERAR REPORTE PRODUCTOS-->
+                <button [disabled]="EstadoBusqueda_Reporte_Inventario == 1" style="width: 11%;height: 65%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="generate()">Generar</button>
+                <!--      BOTON VER EXCEL-->
+                <button [disabled]="EstadoBusqueda_Reporte_Inventario == 1" style="width: 12%;height: 65%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="setCero()">Limpiar negativos</button>
+                <!--      BOTON VER EXCEL-->
+                <button [disabled]="dataTable.length == 0 || EstadoBusqueda_Reporte_Inventario == 1" style="width: 12%;height: 65%;margin: auto;color: green;margin-left: 10px;" mat-stroked-button color="primary" type="button" (click)="excel()">Excel<img style="margin-left: 10px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Microsoft_Office_Excel_%282018%E2%80%93present%29.svg/1200px-Microsoft_Office_Excel_%282018%E2%80%93present%29.svg.png" height="15" width="15" /></button>
+              </div>
+              <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);display: flex;width: 29%;text-align: center;margin-left: auto;;font-size: larger">
+                <!--            TOTAL PRODUCTOS-->
+                <div style="margin: auto;text-align: center;width: 35%;font-size: inherit">
+                  <h5 style="margin: 0;margin-top: 5px;font-size: inherit">  N° Productos  </h5>
+                  <h3 style="font-size: inherit"> {{DataSourceReporte_Inventario.filteredData.length }} </h3>
+                </div>
+                <div style="margin: auto;font-size: inherit">
+                  <h5 style="margin: 0;margin-top: 5px;font-size: inherit">  Cantidad </h5>
+                  <h3 style="font-size: inherit"> {{Cantidad }} </h3>
+                </div>
+                <div style="margin: auto;font-size: inherit">
+                  <h5 style="margin: 0;margin-top: 5px;font-size: inherit"> Costo Total </h5>
+                  <h3 style="font-size: inherit"> {{CostoTotal | currency}} </h3>
+                </div>
+              </div>
+            </div>
+            <!--      TABLA DEL REPORTE-->
+            <div style="height: 88%;overflow: auto;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);margin-top: 0.9%;">
+              <div class="ScrollBar" style="height: 89%;overflow: auto;margin-top: 0.9%;">
+                <table #SorterTablaReporte_Inventario="matSort" mat-table multiTemplateDataRows [dataSource]="DataSourceReporte_Inventario" matSort class="mat-elevation-z8" style="width: 100%;box-shadow: unset;">
+                  <!--              CREO LAS COLUMNAS-->
+                  <ng-container matColumnDef="{{col}}" *ngFor="let col of GetKeysReporteInventario()">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">{{DictColumnas_Reporte_Inventario[col][0]}}</th>
+                    <div *ngIf="col != 'nodisp'">
+                      <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'" (click)="openKardex(element)">
+                        <div *ngIf="DictColumnas_Reporte_Inventario[col][1] == 0" class="ColumnasTablas">
+                          {{element[col]}} 
+                        </div>
+                        <div *ngIf="DictColumnas_Reporte_Inventario[col][1] == 1">
+                          {{element[col] | currency : 'USD' : 'symbol' : '1.2-2'}}
+                        </div>
+                      </td>
+                    </div>
+                    <div *ngIf="col == 'nodisp'">
+                      <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit;cursor: pointer" (click)="openKardex(element)" [style.text-align]="'center'" (click)="openDialog(element.barcode)">
+                        {{element[col]}}
+                      </td>
+                    </div>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="GetKeysReporteInventario(); sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: GetKeysReporteInventario();"></tr>
+                </table>
+                <!--                estado inicial-->
+                <div *ngIf="dataTable.length == 0" style="height: 90%;background-color: white;">
+                  <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                    <mat-icon *ngIf="EstadoBusqueda_Reporte_Inventario == -1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">search</mat-icon>
+                    <mat-icon *ngIf="EstadoBusqueda_Reporte_Inventario == 1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">cached</mat-icon>
+                    <mat-icon *ngIf="EstadoBusqueda_Reporte_Inventario == 2" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">error_outline</mat-icon>
+                  </div>
+                  <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                    <mat-label *ngIf="EstadoBusqueda_Reporte_Inventario == -1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Realice una consulta</mat-label>
+                    <mat-label *ngIf="EstadoBusqueda_Reporte_Inventario == 1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Consultando, espere...</mat-label>
+                    <mat-label *ngIf="EstadoBusqueda_Reporte_Inventario == 2" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">No se encontraron registros</mat-label>
+                  </div>
+                </div>
+              </div>
+              <mat-paginator style="height: 8%;" [pageSizeOptions]="[15, 20, 25, 50, 100]"></mat-paginator>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Reporte Rotacion">
+          <div class="row" style="width: 100%;padding:20px">
+            <!-- <mat-form-field style="padding-left: 10px;">
+              <mat-label>Seleccione tienda</mat-label>
+              <mat-select [(ngModel)]="SelectedStoreProd">
+                <mat-option value="-1">
+                  Todas
+                </mat-option>
+                <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+                  {{elem.store_NAME}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>  -->
+            <mat-form-field style="padding-left: 10px;">
+              <mat-label>Seleccione Linea</mat-label>
+              <mat-select [(ngModel)]="SelectedLine" (selectionChange) = "getSecondLvlCategory()">
+                <mat-option [value]="-1">Todas</mat-option>
+                <mat-option *ngFor="let elem of CategoryFirstLvlList" [value]="elem.id_CATEGORY">
+                  {{elem.category}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field style="padding-left: 10px;">
+              <mat-label>Seleccione categoria</mat-label>
+              <mat-select [(ngModel)]="SelectedSubCategory">
+                <mat-option [value]="-1">Todas</mat-option>
+                <mat-option *ngFor="let elem of SubCategoryList" [value]="elem.id_CATEGORY">
+                  {{elem.category}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field style="padding-left: 10px;">
+              <mat-label>Seleccione marca</mat-label>
+              <mat-select [(ngModel)]="SelectedBrand">
+                <mat-option [value]="-1">Todas</mat-option>
+                <mat-option *ngFor="let elem of Brands" [value]="elem.id_BRAND">
+                  {{elem.brand}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field style="padding-left: 10px;">
+              <input [(ngModel)]="days" matInput type="number" placeholder="Dias rotacion" autofocus>
+            </mat-form-field>
+            <div class="col my-col" style="padding-left: 10px;">
+              <button mat-flat-button color="primary" (click)="gen()">Generar</button>
+            </div>
+            <div class="col my-col" style="padding-left: 10px;">
+              <input type="image" (click)="excelrot()" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Microsoft_Office_Excel_%282018%E2%80%93present%29.svg/1200px-Microsoft_Office_Excel_%282018%E2%80%93present%29.svg.png" height="42" width="42" />
+            </div>
+          </div>
+          <div class="row" style="text-align:center;width: 100%">
+            <div class="col">
+              <h5 class="left-scroll">
+                Cantidad Actual
+              </h5>
+              <h3 class="left-scroll">
+                {{CantidadA}}
+              </h3>
+            </div>
+            <div class="col">
+              <h5 class="left-scroll">
+                Cantidad Vendida
+              </h5>
+              <h3 class="left-scroll">
+                {{CantidadV}}
+              </h3>
+            </div>
+            <div class="col">
+              <h5 class="left-scroll">
+                Días de Rotacion
+              </h5>
+              <h3 class="left-scroll">
+                {{roundRot()}}
+              </h3>
+            </div>
+          </div>
+          <mat-card-content>
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th class="text-center">
+                    <div (click)="SortBy('producto',1)" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                      <b>Producto</b>
+                      <mat-icon *ngIf="CampoSorteando[1] == 'producto'">{{Invertido[1]?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                      <mat-icon *ngIf="CampoSorteando[1] != 'producto'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                    </div>
+                  </th>
+                  <th class="text-center">
+                    <div (click)="SortBy('linea',1)" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                      <b>Linea</b>
+                      <mat-icon *ngIf="CampoSorteando[1] == 'linea'">{{Invertido[1]?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                      <mat-icon *ngIf="CampoSorteando[1] != 'linea'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                    </div>
+                  </th>
+                  <th class="text-center">
+                    <div (click)="SortBy('categoria',1)" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                      <b>Categoria</b>
+                      <mat-icon *ngIf="CampoSorteando[1] == 'categoria'">{{Invertido[1]?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                      <mat-icon *ngIf="CampoSorteando[1] != 'categoria'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                    </div>
+                  </th>
+                  <th class="text-center">
+                    <div (click)="SortBy('marca',1)" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                      <b>Marca</b>
+                      <mat-icon *ngIf="CampoSorteando[1] == 'marca'">{{Invertido[1]?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                      <mat-icon *ngIf="CampoSorteando[1] != 'marca'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                    </div>
+                  </th>
+                  <th class="text-center">
+                    <div (click)="SortBy('cantidadactual',1)" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                      <b>Cantidad Actual</b>
+                      <mat-icon *ngIf="CampoSorteando[1] == 'cantidadactual'">{{Invertido[1]?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                      <mat-icon *ngIf="CampoSorteando[1] != 'cantidadactual'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                    </div>
+                  </th>
+                  <th class="text-center">
+                    <div (click)="SortBy('cantidadvendida',1)" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                      <b>Cantidad Vendida</b>
+                      <mat-icon *ngIf="CampoSorteando[1] == 'cantidadvendida'">{{Invertido[1]?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                      <mat-icon *ngIf="CampoSorteando[1] != 'cantidadvendida'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                    </div>
+                  </th>
+                  <th class="text-center">
+                    <div (click)="SortBy('dias_ROTACION',1)" style="justify-content: center;align-items: center;display: flex;cursor: pointer;">
+                      <b>Dias Rotacion</b>
+                      <mat-icon *ngIf="CampoSorteando[1] == 'dias_ROTACION'">{{Invertido[1]?"arrow_drop_down":"arrow_drop_up"}}</mat-icon>
+                      <mat-icon *ngIf="CampoSorteando[1] != 'dias_ROTACION'" style="color:#d9d9d9">arrow_drop_down</mat-icon>
+                    </div>
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let elem of dataTable2">
+                  <td class="text-center"> {{elem.producto}} </td>
+                  <td class="text-center"> {{elem.linea}} </td>
+                  <td class="text-center"> {{elem.categoria}} </td>
+                  <td class="text-center"> {{elem.marca}} </td>
+                  <td class="text-center"> {{elem.cantidadactual}} </td>
+                  <td class="text-center"> {{elem.cantidadvendida}} </td>
+                  <td class="text-center"> {{elem.dias_ROTACION}} </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </mat-card-content>
+        </mat-tab>
+        <mat-tab label="Actualizar Inventario">
+          <app-products-oncategory-update></app-products-oncategory-update>
+        </mat-tab>
+        <mat-tab label="Auditoria">
+          <app-auditoria></app-auditoria>
+        </mat-tab>
+      </mat-tab-group>
+
+    </mat-card-content>
+  </mat-card>
+</div>

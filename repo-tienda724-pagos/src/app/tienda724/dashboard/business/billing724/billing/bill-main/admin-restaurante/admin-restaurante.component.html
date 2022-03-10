@@ -1,0 +1,24 @@
+<mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+    <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">
+        Administración Restaurante
+    </mat-card-title>
+    <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;text-emphasis: left; color:white;margin-bottom:0px">
+        Seleccione la opción que desea utilizar.
+    </mat-card-subtitle>
+</mat-card-header>
+<mat-card-content>
+    <mat-tab-group style="background-color: white" [selectedIndex] = "SelectedTabIndexGlobal" (selectedIndexChange)="SelectedTabIndexGlobal = $event" >
+        <mat-tab label="Mesas">
+            <app-table-read [mainclassref_input] = "this" #grilla></app-table-read>
+        </mat-tab>
+        <mat-tab label="Registrar Pedido" >
+            <app-registrar-pedido-restaurante [mainclassref_input] = "this" #generar></app-registrar-pedido-restaurante>
+        </mat-tab>
+        <mat-tab label="Mesas 2" *ngIf="false">
+            <app-mesas2></app-mesas2>
+        </mat-tab>
+        <!-- <mat-tab label="Creados">
+            <app-pedidos-restaurantes-creados [mainclassref_input] = "this" #recibidos></app-pedidos-restaurantes-creados>
+        </mat-tab> -->
+    </mat-tab-group>
+</mat-card-content>

@@ -1,0 +1,41 @@
+
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+        <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">
+          <span *ngIf="selectedTab === 0">Categorías</span><span *ngIf="selectedTab === 1">Marcas</span><span
+            *ngIf="selectedTab === 2">Unidades de Medida</span></mat-card-title>
+        <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;text-emphasis: left; color:white;margin-bottom:0px">Por
+          favor seleccione una <span *ngIf="selectedTab === 0">categoria</span><span
+            *ngIf="selectedTab === 1">marca</span><span *ngIf="selectedTab === 2">unidad de medida</span>.
+        </mat-card-subtitle>
+      </mat-card-header> 
+
+
+      <mat-card-content>
+              <div class="row" style="padding:20px">
+                  <div class="col my-col" *ngIf="categoryStack && categoryStack.length > 0" >
+                      <mat-card color="toolbar" (click)="gotoFatherCategory()" float-right style="width:120px;height: 120px;">
+                        <mat-card-header style="word-wrap: break-word;">
+                          <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px"><mat-icon style="color:rgb(126,126,126)">backspace</mat-icon></mat-card-title>
+                          <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>Volver</mat-card-title>
+                        </mat-card-header>
+                      </mat-card>
+                    </div>
+                    <div class="col my-col" *ngIf="categoryStack && categoryStack.length > 0" >
+                        <mat-card color="toolbar" (click)="gotoProductsCategory()" float-right style="width:120px;height: 120px;">
+                          <mat-card-header style="word-wrap: break-word;">
+                            <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px"><mat-icon style="color:rgb(126,126,126)">dashboard</mat-icon></mat-card-title>
+                            <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>Productos</mat-card-title>
+                          </mat-card-header>
+                        </mat-card>
+                      </div>
+                <div class="col my-col" *ngFor="let category of generalCategories" >
+                  <mat-card color="toolbar" (click)="loadCategory(category)" float-right style="width:120px;max-height: 120px;overflow: visible; padding: 0px;">
+<!--                    <img *ngIf="!editing" src={{category.img_URL}} style="width:100%;height:80px" />-->
+                    <mat-card-header style="word-wrap: break-word;">
+                      <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap matTooltip={{category.category}} *ngIf="category.category">{{category.category}}</mat-card-title>
+                      <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap matTooltip={{category.name}} *ngIf="category.name">{{category.name}}</mat-card-title>
+                    </mat-card-header>
+                  </mat-card>
+                </div>
+              </div>
+      </mat-card-content>

@@ -1,0 +1,50 @@
+<p>
+  bill-dialog-third works!
+</p>
+
+<div class="container row ">
+  
+          <mat-card class="col-sm-12 col-mat-12	col-lg-12 col-xl-12 mat-elevation-z12">
+            <mat-card-title class="center-text text-center">Documento Identificación</mat-card-title>
+            <mat-card-content>
+              <form  novalidate [formGroup]="form" >
+                <table class="field-full-width center-text text-center" cellspacing="0">
+                  <tr class="row">
+                    <td class=" col-sm-12	col-mat-6	col-lg-6 col-xl-6 ">
+                        <mat-form-field class="example-full-width"  >
+                            <mat-select placeholder="Tipo de Documento" formControlName="document_type">
+                                <mat-option *ngFor="let documentType of documentTypes" required [value]="documentType.id_document_type"  >
+                                  {{ documentType.name }}
+                                </mat-option>
+                              </mat-select>
+  
+                              <mat-error *ngIf="form.controls.document_type.errors && form.controls.document_type.touched">
+                                  <mat-error *ngIf="form.controls.document_type.errors.required">
+                                      Tipo de Doc. es <strong>requerido</strong>
+                                  </mat-error>
+                              </mat-error>
+                        </mat-form-field>
+                    </td>
+                    <td class="example-full-width col-sm-12	col-mat-3	col-lg-3 col-xl-3 ">
+      
+      
+                      <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Numero de Documento" formControlName="document_number" >
+                      </mat-form-field>
+                    </td>
+                    <td class=" col-sm-12	col-mat-3	col-lg-3 col-xl-3 ">
+<!--       
+                      <button mat-raised-button  (click)="filterThird()"  [disabled]="!form.valid " matTooltip="Iniciar Proceso de Busqueda!">
+                            <mat-icon>search</mat-icon>
+                        </button> -->
+      
+                    </td>
+      
+                  </tr>
+                </table>
+              </form>
+      
+            </mat-card-content>
+          </mat-card>
+      
+      </div>

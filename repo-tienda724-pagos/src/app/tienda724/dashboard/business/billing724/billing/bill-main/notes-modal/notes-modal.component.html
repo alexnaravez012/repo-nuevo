@@ -1,0 +1,15 @@
+<div>
+  <mat-card style="height: 100%;width:100%;padding:0">
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+      <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Por favor escriba las notas de la planilla</mat-card-title>
+    </mat-card-header>
+  </mat-card>
+  <mat-card style="padding:20px">
+    <mat-form-field style="width:100%">
+      <mat-label>Notas</mat-label>
+      <input [(ngModel)]="notes" matInput type="text"class="no-spin text-center">
+    </mat-form-field>
+    <button mat-stroked-button color="primary" type="button" (click)="acept()">Aceptar</button>
+    <button mat-stroked-button color="primary" type="button" (click)="close()">Cancelar</button>
+  </mat-card>
+</div>

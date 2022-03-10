@@ -1,0 +1,201 @@
+.width-150 {
+    width: 150px;
+}
+
+.font {
+    font-size: 20px;
+    text-transform: capitalize;
+}
+
+.width-300 {
+    width: 300px;
+}
+
+.hr-tab {
+    border-bottom: 1px solid grey;
+}
+
+.color-grey {
+    color: grey;
+}
+
+.font-size-13 {
+    font-size: 13px;
+    text-transform: capitalize !important;
+    color: grey;
+}
+
+.font-size-18 {
+    font-size: 18px;
+}
+
+.button-red {
+    background-color: red;
+    color: white;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 90px;
+}
+
+.button-red:focus {
+    outline: none;
+}
+
+.button-green {
+    background-color: green;
+    color: white;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    margin-left: 5px;
+    font-size: 18px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.inputs {
+    border-bottom: 1px solid grey !important;
+    border: none;
+    font-size: 18px;
+}
+
+.select {
+    border: none;
+    font-size: 18px;
+    border-bottom: 1px solid grey !important;
+    background-color: white;
+    width: 140px;
+    margin-top: 4px;
+    cursor: pointer;
+}
+
+.button-add {
+    background-color: rgb(0, 140, 150);
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    margin-left: 20px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.scroll {}
+
+.scroll::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+.scroll::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    background: #c2c2c2;
+    border: 0px none #ffffff;
+    border-radius: 50px;
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+    background: #c7c7c7;
+}
+
+.scroll::-webkit-scrollbar-thumb:active {
+    background: #b3b3b3;
+}
+
+.scroll::-webkit-scrollbar-track {
+    background: #ffffff;
+    border: 0px none #ffffff;
+    border-radius: 50px;
+}
+
+.scroll::-webkit-scrollbar-track:hover {
+    background: #ffffff;
+}
+
+.scroll::-webkit-scrollbar-track:active {
+    background: #ffffff;
+}
+
+.scroll::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+.color-blue {
+    color: #05356B;
+}
+
+.input-date {
+    border: none;
+    border-bottom: 1px solid grey;
+    margin-right: 15px;
+    font-size: 18px;
+}
+
+.select-list {
+    border: none;
+    font-size: 18px;
+    background-color: white;
+    width: 150px;
+    margin-top: 4px;
+    cursor: pointer;
+}
+
+.inputs-list {
+    border: none;
+    font-size: 18px;
+}
+
+.button-green-conf {
+    background-color: green;
+    color: white;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    margin-left: 5px;
+    font-size: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 90px;
+}
+
+.button-green-conf:disabled,
+.button-green-conf[disabled] {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+}
+
+.font-size-23 {
+    font-size: 23px;
+}
+
+.font-size-20 {
+    font-size: 20px;
+}
+
+.padding-horizontal-20 {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.button-red-quit {
+    background-color: red;
+    color: white;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 25px;
+}

@@ -1,0 +1,78 @@
+.ContenedorLoading{
+    display: flex;
+    left: 0;
+    width: 100%;
+    position: absolute;
+    height: 100vh;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .ContenedorLoading::before{
+    content: "";
+    background-color: gray;
+    opacity: 0.5;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+  }
+  
+  
+  
+  table {
+    width: 100%;
+  }
+  
+  tr.example-detail-row {
+    height: 0;
+    color: black;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):hover {
+    background: #777;
+    color: white;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+    color: black;
+  }
+  
+  .example-element-row td {
+    border-bottom-width: 0;
+  }
+  
+  .example-element-detail {
+    overflow: hidden;
+    display: flex;
+  }
+  
+  .collapsed{
+    height: 0;
+    min-height: 0;
+  }
+  
+  /*
+   *  STYLE 2
+   */
+  
+  .ScrollBar::-webkit-scrollbar
+  {
+    width: 8px;
+    background-color: #e4e4e3;
+  }
+  
+  .ScrollBar::-webkit-scrollbar-thumb
+  {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #cacaca;
+  }
+  
+  :host ::ng-deep .mat-sort-header-container {
+    display: flex;
+    justify-content: center;
+    font-size: larger;
+    font-weight: 800 !important;
+  }
+  

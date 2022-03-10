@@ -1,0 +1,138 @@
+<div style="">
+<!--  HEADER-->
+  <mat-card style="height: 100%;width:100%;padding:0">
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+<!--      TITULO DEL HEADER-->
+      <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Manejo de terceros</mat-card-title>
+    </mat-card-header>
+  </mat-card>
+  <mat-tab-group>
+<!--    PESTAÑA DE BUSCAR TERCERO-->
+    <mat-tab label="Buscar">
+      <mat-card>
+        <mat-card-content>
+          <div class="col" >
+<!--        FILA QUE CONTIENE EL BUSCADOR Y LOS BOTONES    -->
+            <div class="row">
+<!--              BUSCADOR-->
+              <div class="col-6">
+                <mat-form-field>
+                  <input matInput class="text-center" type="text"  placeholder="Documento Tercero"  (keyup.enter)="searchClient($event)" [(ngModel)]="ccClient" #nameot>
+                </mat-form-field>
+              </div>
+<!--              BOTONES-->
+              <div class="col-6">
+                <button (click)="searchClient2()" mat-stroked-button color="primary" type="submit">Buscar</button>
+                <button (click)="update()" mat-stroked-button color="primary" type="submit">Actualizar Datos</button>
+              </div>
+            </div>
+<!--            FILA QUE CONTIENE DIRECCION TELEFONO EMAIL-->
+            <div class="row">
+              <div class="col-3" style="margin-bottom: px;margin-top: 0px;">
+                <h4>Tercero: </h4>{{cliente}}
+              </div>
+              <div class="col-2" style="margin-bottom: px;margin-top: 0px;">
+                <h4>Documento: </h4>{{clientData.document_type}} - {{clientData.document_number}}
+              </div>
+              <div class="col-2" style="margin-bottom: px;margin-top: 0px;">
+                <!-- <h4>Direccion: </h4>{{clientData.address}} -->
+                <mat-form-field>
+                  <input matInput class="text-center" type="text"  placeholder="Direccion:"  [(ngModel)]="clientData.address" >
+                </mat-form-field>
+              </div>
+              <div class="col-2" style="margin-bottom: px;margin-top: 0px;">
+                <!-- <h4>Telefono: </h4>{{clientData.phone}} -->
+                <mat-form-field>
+                  <input matInput class="text-center" type="text"  placeholder="Telefono:"  [(ngModel)]="clientData.phone" >
+                </mat-form-field>
+              </div>
+              <div class="col-2" style="margin-bottom: px;margin-top: 0px;">
+                <!-- <h4>Email: </h4>{{clientData.email}} -->
+                <mat-form-field>
+                  <input matInput class="text-center" type="text"  placeholder="E-Mail:"  [(ngModel)]="clientData.email" >
+                </mat-form-field>
+              </div>
+            </div>
+<!--            FILA QUE CONTIENE LA CREACIÓN DE LOS USUARIOS-->
+            <!-- <span *ngIf="id_person!=0">Datos para registrar a la persona como empleado.</span> -->
+
+
+            <!-- <div class="row" *ngIf="id_person!=0"> -->
+              <span *ngIf="false">Datos para registrar a la persona como empleado.</span>
+            <div class="row" *ngIf="false">
+              <div class="col">
+                <mat-form-field>
+                  <input matInput placeholder="Usuario" style="font-size: 1.5em" [(ngModel)]="usuario">
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field>
+                  <input matInput placeholder="Contraseña" style="font-size: 1.5em" [(ngModel)]="password">
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field >
+                  <mat-label>Seleccione rol</mat-label>
+                  <mat-select [(ngModel)]="SelectedRol">
+                    <mat-option [value]="21">
+                      Dueño de tienda.
+                    </mat-option>
+                    <mat-option [value]="7777">
+                      Supervisor.
+                    </mat-option>
+                    <mat-option [value]="8888">
+                      Cajero.
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <button mat-stroked-button color="primary" type="button" (click)="crearUsuario()">
+                  Registrar Tercero como usuario.
+                </button>
+              </div>
+
+            </div>
+<!--            FILA QUE CONTIENE LA TIENDA Y LA CAJA PARA ASOCIAR-->
+            <!-- <span *ngIf="id_person!=0">Datos para registrar las cajas y tiendas para el empleado.</span>
+            <div class="row" *ngIf="id_person!=0"> -->
+              <span *ngIf="false">Datos para registrar las cajas y tiendas para el empleado.</span>
+            <div class="row" *ngIf="false">
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>Seleccione tienda</mat-label>
+                  <mat-select [(ngModel)]="SelectedStore" (selectionChange) = "getBoxes()">
+                    <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+                      {{elem.store_NAME}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>Seleccione Caja</mat-label>
+                  <mat-select [(ngModel)]="SelectedBox" >
+                    <mat-option *ngFor="let elem of boxes" [value]="elem.id_CAJA">
+                      {{elem.description}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <button mat-stroked-button color="primary" type="button" (click)="asociarCajaTienda()">Asociar tienda y caja.</button>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+<!--    PESTAÑA DE PERSONA-->
+    <mat-tab label="Persona">
+      <app-new-person></app-new-person>
+    </mat-tab>
+<!--    PESTAÑA -->
+    <mat-tab label="Empresa">
+      <app-new-third></app-new-third>
+    </mat-tab>
+  </mat-tab-group>
+</div>

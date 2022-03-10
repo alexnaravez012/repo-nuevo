@@ -1,0 +1,62 @@
+<mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+    <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">
+        Domicilios
+    </mat-card-title>
+    <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;text-emphasis: left; color:white;margin-bottom:0px">
+        Seleccione la opcion que desea utilizar.
+    </mat-card-subtitle>
+</mat-card-header>
+<mat-card-content>
+
+    <mat-tab-group style="background-color: white" [selectedIndex] = "SelectedTabIndexGlobal" (selectedIndexChange)="SelectedTabIndexGlobal = $event" >
+        <mat-tab label="Registrar Pedido">
+            <app-domicilios-telefonicos [mainclassref_input] = "this"></app-domicilios-telefonicos>
+        </mat-tab>
+        <mat-tab label="Creados">
+            <app-pedidos-domicilios-recibidos [mainclassref_input] = "this" #recibidos></app-pedidos-domicilios-recibidos>
+        </mat-tab>
+        <mat-tab label="Procesados">
+            <mat-tab-group style="background-color: white" [selectedIndex] = "SelectedTabIndexProcesados" (selectedIndexChange)="SelectedTabIndexProcesados = $event">
+                <mat-tab label="Con Novedad">
+                    <app-pedidos-domicilios-procesados-n [mainclassref_input] = "this" #procesadosNovedad></app-pedidos-domicilios-procesados-n>
+                </mat-tab>
+                <mat-tab label="Sin Novedad">
+                    <app-pedidos-domicilios-procesados-s [mainclassref_input] = "this" #procesadosSinNovedad></app-pedidos-domicilios-procesados-s>
+                </mat-tab>
+            </mat-tab-group>
+        </mat-tab>   
+        <mat-tab label="Facturados">
+            <app-pedidos-facturados [mainclassref_input] = "this" #facturados></app-pedidos-facturados>
+        </mat-tab>
+        <mat-tab label="En camino">
+            <app-pedidos-domicilios-encamino [mainclassref_input] = "this" #enCamino></app-pedidos-domicilios-encamino>
+        </mat-tab>
+        <mat-tab label="Entregados">
+            <mat-tab-group style="background-color: white" [selectedIndex] = "SelectedTabIndexEntregados" (selectedIndexChange)="SelectedTabIndexEntregados = $event" >
+                <mat-tab label="Con Novedad" >
+                    <app-pedidos-domicilios-entregados-n [mainclassref_input] = "this" #entregadoConNovedad></app-pedidos-domicilios-entregados-n>
+                </mat-tab>
+                <mat-tab label="Sin Novedad">
+                    <app-pedidos-domicilios-entregados-s [mainclassref_input] = "this" #entregadoSinNovedad></app-pedidos-domicilios-entregados-s>
+                </mat-tab>
+            </mat-tab-group>
+        </mat-tab>
+        <mat-tab label="Finalizados"> 
+            <mat-tab-group style="background-color: white" [selectedIndex] = "SelectedTabIndexEntregados" (selectedIndexChange)="SelectedTabIndexFinalizados = $event" >
+                <mat-tab label="Con Novedad" >
+                    <app-pedidos-domicilios-finalizados-n [mainclassref_input] = "this" #finalizadoConNovedad></app-pedidos-domicilios-finalizados-n>
+                </mat-tab>
+                <mat-tab label="Sin Novedad">
+                    <app-pedidos-domicilios-finalizados-s #finalizadoSinNovedad></app-pedidos-domicilios-finalizados-s>
+                </mat-tab>
+            </mat-tab-group>
+        </mat-tab>
+        <mat-tab label="Calificados">
+            <app-pedidos-domicilios-calificados [mainclassref_input] = "this" #calificados></app-pedidos-domicilios-calificados>
+        </mat-tab>
+        <mat-tab label="Cancelados">
+            <app-pedidos-domicilios-cancelados #cancelados></app-pedidos-domicilios-cancelados>
+        </mat-tab>
+    </mat-tab-group>
+
+</mat-card-content>

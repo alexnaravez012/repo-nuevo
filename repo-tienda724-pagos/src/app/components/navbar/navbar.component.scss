@@ -1,0 +1,30 @@
+.box {
+    overflow:hidden;
+    padding:1px;
+    padding-left: 20px;
+    padding-right: 0px;
+    
+    
+    background-color:#FFE0B2;
+    border:1px solid #757575;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    }
+
+    .btn-exit {
+        overflow:hidden;
+        padding-left: 20px;
+        background-color:#FFE0B2;
+        border:1px solid #757575;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        }
+
+    $primary-color-dark:   #F57C00;
+    $primary-color:        #FF9800;
+    $primary-color-light:  #FFE0B2;
+    $primary-color-text:   #212121;
+    $accent-color:         #607D8B;
+    $primary-text-color:   #212121;
+    $secondary-text-color: #757575;
+    $divider-color:        #BDBDBD;

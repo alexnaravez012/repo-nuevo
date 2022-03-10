@@ -1,0 +1,50 @@
+<mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+      <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Registrando un nuevo precio</mat-card-title>
+      <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;text-emphasis: left; color:white;margin-bottom:0px">Necesita hacer el registro del precio de producto en su tienda.</mat-card-subtitle>
+</mat-card-header>
+<div>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th class="text-center"><b>Nombre Precio</b></th>
+                <th class="text-center"><b>Precio</b></th>
+                <th class="text-center"><b>Eliminar</b></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let elem of ListPrice">
+                <td class="text-center"> {{elem.price_DESCRIPTION}}</td>
+                <td class="text-center"> {{elem.price | currency}} </td>
+                <td class="text-center">
+                  <button mat-icon-button color="primary" (click)="deletePrice(elem.price_DESCRIPTION)">
+                    <mat-icon aria-label="Example icon-button with a heart icon">clear</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div>
+    <div class="row" style="width: 100%">
+      <div class="col">
+        <mat-form-field>
+          <input matInput placeholder="Nombre del precio del producto" [(ngModel)]="priceName" autofocus type="text">
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field>
+          <input currencyMask [options]="{ precision: 2 }" matInput placeholder="Valor del precio" [(ngModel)]="price" autofocus type="text">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+       <button mat-dialog-close mat-stroked-button color="primary" type="submit">Cancelar</button>
+        <button mat-stroked-button color="primary" type="submit" (click)="postPrice()">Confirmar</button>
+      </div>
+    </div>
+</div>

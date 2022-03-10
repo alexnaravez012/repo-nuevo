@@ -1,0 +1,319 @@
+    <mat-card class="col-sm-12 col-mat-12	col-lg-12 col-xl-12">
+      <mat-card-title>Registrar una nueva Empresa</mat-card-title>
+      <mat-card-content>
+        <form>
+          <form novalidate [formGroup]="form_third">
+            <mat-card class="field-full-width " *ngIf="!isNaturalPerson">
+              <span>Información básica del nuevo tercero</span>
+              <br>
+              <br>
+              <table class="field-full-width center-text text-center" cellspacing="0">
+                <tr class="row">
+                  <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3 ">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Nombre" formControlName="fullname">
+                    </mat-form-field> 
+                  </td>
+                  <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3 ">
+                    <mat-form-field class="example-full-width">
+                      <mat-select placeholder="Tipo de Documento" formControlName="document_type">
+                        <mat-option *ngFor="let documentType of documentTypes" [value]="documentType.id_document_type">
+                          {{ documentType.name }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="form_third.controls.document_type.errors && form_third.controls.document_type.touched">
+                        <mat-error *ngIf="form_third.controls.document_type.errors.required">
+                          Tipo de Doc. es
+                          <strong>requerido</strong>
+                        </mat-error>
+                      </mat-error>
+                    </mat-form-field>
+                  </td>
+                  <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3  ">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Numero de Documento" formControlName="document_number">
+                    </mat-form-field>
+                  </td>
+                </tr> 
+                <span>Directorio</span>
+                <tr class=" field-full-width row">
+                  <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3 ">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Dirección" formControlName="address_th">
+                    </mat-form-field>
+                  </td>
+                  <!-- <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3 ">
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Pais" formControlName="country_th">
+                        </mat-form-field>
+                      </td> -->
+                  <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3 ">
+                    <span>Pais
+                      <h6>{{form_third.value['country_th']}}</h6>
+                    </span>
+                  </td>
+                  <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3 ">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Pagina Web" formControlName="webpage_th">
+                    </mat-form-field>
+                  </td>
+                  <td class=" col-sm-12	col-mat-12	col-lg-12 col-xl-12 ">
+                    <div class="example-full-width row">
+                      <mat-card class="col-sm-12	col-mat-6	col-lg-6 col-xl-6">
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Telefono" formControlName="phone_th">
+                        </mat-form-field>
+                      </mat-card>
+                      <mat-card class="col-sm-12	col-mat-6	col-lg-6 col-xl-6">
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Mail" formControlName="mail_th">
+                        </mat-form-field>
+                      </mat-card>
+                    </div>
+                  </td>
+                </tr> 
+              </table>
+            </mat-card>
+          </form>
+          <div class=" col " (click)="clickOnCitySel()">
+            <mat-form-field (click)="clickOnCitySel()">
+              <mat-select placeholder="Ciudad" [(ngModel)]="citySel" (selectionChange)="setTextCity(citySel)" name="first" (click)="clickOnCitySel()">
+                <input class="myInput" #myInput matInput focused="'true'" type="text" (keyup)="search($event.target.value)" autocomplete="off" placeholder="search">
+          <mat-divider></mat-divider>
+                <mat-option *ngFor="let city of cityList2" [value]="city.id_CITY">
+                  {{ city.city_NAME }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <h1> </h1>
+          <form novalidate [formGroup]="form">
+            <mat-card class="field-full-width " *ngIf="isNaturalPerson">
+              <span>Datos para registrar a la nueva persona natural</span>
+              <br>
+              <br>
+              <table class="field-full-width center-text text-center" cellspacing="0">
+                <tr class="row">
+                  <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3 ">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Primer Nombre" formControlName="first_name">
+                    </mat-form-field>
+                  </td>
+                  <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3 ">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Segundo Nombre" formControlName="second_name">
+                    </mat-form-field>
+                  </td>
+                  <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3 ">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Primer apellido" formControlName="first_lastname">
+                    </mat-form-field>
+                  </td>
+                  <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3 ">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Segundo Apellido" formControlName="second_lastname">
+                    </mat-form-field>
+                  </td>
+                  <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3 ">
+                    <mat-form-field class="example-full-width">
+                      <mat-select placeholder="Tipo de Documento" formControlName="id_document_type_prof">
+                        <mat-option *ngFor="let documentType of documentTypes" [value]="documentType.id_document_type">
+                          {{ documentType.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                  <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3 ">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Número de documento" formControlName="document_number_prof">
+                    </mat-form-field>
+                  </td>
+                  <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3 " *ngIf= "form.get('id_document_type_prof').value == '62'" >
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Digito de Verificacion" formControlName="verification_digit">
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <span>Directorio</span>
+                <tr class=" field-full-width row">
+                  <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3 ">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Dirección" formControlName="address_prof">
+                    </mat-form-field>
+                  </td>
+                  <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3 ">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="telefono" formControlName="phone_prof">
+                    </mat-form-field>
+                  </td>
+                  <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3 ">
+                    <span>Pais
+                      <h6>{{form.value['country_prof']}}</h6>
+                    </span>
+                  </td>
+                  <td class=" col-sm-12	col-mat-4	col-lg-3 col-xl-3 ">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Ciudad" formControlName="city_prof">
+                    </mat-form-field>
+                  </td>
+                  <td *ngIf="flagRedirect" class=" col-sm-12	col-mat-12	col-lg-12 col-xl-12 ">
+                    <div class="example-full-width row">
+                      <mat-checkbox class="tky-right example-margin" formControlName="isEmployee" checked="true">
+                        <span>Es un empleado?</span>
+                      </mat-checkbox>
+                      <mat-card class="field-full-width " *ngIf="form.value.isEmployee">
+                        <div class="row">
+                          <mat-card class="col-sm-12	col-mat-6	col-lg-6 col-xl-6">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Email (opcional)" formControlName="mail_prof">
+                            </mat-form-field>
+                          </mat-card>
+                          <mat-card class="col-sm-12	col-mat-6	col-lg-6 col-xl-6">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Salario" formControlName="salary">
+                            </mat-form-field>
+                          </mat-card>
+                          <form novalidate [formGroup]="form_auth">
+                            <td class="example-full-width col-sm-12	col-mat-12	col-lg-12 col-xl-12 ">
+                              <div class="example-full-width row">
+                                <mat-checkbox class="tky-right example-margin" formControlName="isCredential">
+                                  <span>Crear credenciales?</span>
+                                </mat-checkbox>
+                                <mat-card class="field-full-width col-sm-12	col-mat-12	col-lg-12 col-xl-12" *ngIf="form_auth.value.isCredential">
+                                  <div class="example-full-width row">
+                                    <mat-card class="col-sm-12	col-mat-6	col-lg-6 col-xl-6">
+                                      <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Email" formControlName="username">
+                                      </mat-form-field>
+                                      <div *ngIf="form_auth.controls.username.errors && form_auth.controls.username.touched">
+                                        <div *ngIf="form_auth.controls.username.errors.required" class="alert alert-danger">
+                                          El Campo es requerido!
+                                        </div>
+                                      </div>
+                                    </mat-card>
+                                    <div class="example-full-width col-sm-12	col-mat-6	col-lg-6 col-xl-6">
+                                      <mat-card class="row">
+                                        <mat-form-field class="example-full-width">
+                                          <input matInput placeholder="Contraseña" formControlName="password">
+                                        </mat-form-field>
+                                        <div *ngIf="form_auth.controls.password.errors && form_auth.controls.password.touched">
+                                          <div *ngIf="form_auth.controls.password.errors.required" class="alert alert-danger">
+                                            El Campo es requerido!
+                                          </div>
+                                          <div *ngIf="form_auth.controls.password.errors.minlength" class="alert alert-danger">
+                                            El Campo debe ser mayor a 7 caracteres!
+                                          </div>
+                                          <div *ngIf="form_auth.controls.password.errors.pattern" class="alert alert-danger">
+                                            pattern!
+                                          </div>
+                                        </div>
+                                      </mat-card>
+                                      <mat-card class="row">
+                                        <mat-form-field class="example-full-width">
+                                          <input matInput placeholder="Confirmar contraseña" formControlName="confirm">
+                                        </mat-form-field>
+                                        <div *ngIf="form_auth.controls.confirm.errors && form_auth.controls.confirm.touched">
+                                          <div *ngIf="form_auth.controls.confirm.errors.required" class="alert alert-danger">
+                                            El campo es requerido!
+                                          </div>
+                                          <div *ngIf="form_auth.controls.confirm.errors.MatchPassword" class="alert alert-danger">
+                                            La contraseña no coincide!
+                                          </div>
+                                        </div>
+                                      </mat-card>
+                                    </div>
+                                  </div>
+                                </mat-card>
+                              </div>
+                            </td>
+                          </form>
+                        </div>
+                      </mat-card>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </mat-card>
+          </form>
+          <h1> </h1>
+        </form>
+      </mat-card-content>
+      <mat-slide-toggle [(ngModel)]="isLegalData" [hidden]="true">
+        Crear Datos Legales
+      </mat-slide-toggle>
+      <span *ngIf="isLegalData">
+      <div class="row" style="margin-top:10px">
+        <div class="col">
+          <mat-form-field>
+            <input matInput placeholder="Ciudad" style="font-size: 1.5em">
+          </mat-form-field>
+        </div>
+      <div class="col">
+          <mat-form-field>
+            <input matInput placeholder="País" style="font-size: 1.5em">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field>
+              <input matInput placeholder="Dirección" style="font-size: 1.5em" [(ngModel)]="legalData.address">
+          </mat-form-field>
+        </div>
+        <div class="col">
+            <mat-form-field>
+                <input matInput placeholder="Teléfono" style="font-size: 1.5em" [(ngModel)]="legalData.phone1">
+            </mat-form-field>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+            <mat-form-field>
+                <input matInput placeholder="Resolución DIAN" style="font-size: 1.5em" [(ngModel)]="legalData.resolucion_dian">
+            </mat-form-field>
+          </div>
+          <div class="col">
+              <mat-form-field>
+                  <input matInput placeholder="Régimen Tributario" style="font-size: 1.5em" [(ngModel)]="legalData.regimen_tributario">
+              </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+              <mat-form-field>
+                  <input matInput placeholder="Autoretenedor" style="font-size: 1.5em" [(ngModel)]="legalData.autoretenedor">
+              </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <input matInput placeholder="URL del logo" style="font-size: 1.5em" [(ngModel)]="legalData.url_logo">
+                </mat-form-field>
+              </div>
+          </div>
+        <div class="row">
+          <div class="col">
+              <mat-form-field>
+                  <input matInput placeholder="Prefijo de factura" style="font-size: 1.5em" [(ngModel)]="legalData.prefix_bill">
+              </mat-form-field>
+            </div>
+        </div>
+      <div class="row">
+        <div class="col">
+            <mat-form-field>
+                <input matInput placeholder="Correo electronico" style="font-size: 1.5em" [(ngModel)]="legalData.email">
+            </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col">
+              <mat-form-field>
+                  <input matInput placeholder="Notas" style="font-size: 1.5em" [(ngModel)]="legalData.notes">
+              </mat-form-field>
+          </div>
+        </div>
+      </span>
+      <button mat-fab color="primary" [disabled]="(!form_auth.valid && (isNaturalPerson && form_auth.value['isCredential'] && form.value['isEmployee']))"
+        (click)="createNewThird()" class="tky-right">
+        <mat-icon>save</mat-icon>
+      </button>
+    </mat-card>

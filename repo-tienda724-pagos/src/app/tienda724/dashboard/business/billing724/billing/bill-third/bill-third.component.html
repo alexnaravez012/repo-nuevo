@@ -1,0 +1,23 @@
+<div class="row tky-full-width">
+  <div class="col col-50  ky-full-width">
+    <mat-card class="tky-top-buffer text-center">
+      <mat-card-title>Buscar Cliente</mat-card-title>
+      <!-- Incluir la la busqueda por número de factura  -->
+      <h3>
+
+      </h3>
+      <button mat-raised-button color="primary" class="tky-right" (click)="searchThird()">Buscar</button>
+    </mat-card>
+  </div>
+  <div class="col col-50  ky-full-width">
+    <mat-card class="tky-top-buffer text-center">
+      <mat-card-title>Descripcón del Cliente</mat-card-title>
+      <h5>Cliente Ocasional
+      </h5>
+          <div *ngIf="thirdSearched != null">
+            <h3>Nombre: {{thirdSearched.info.fullname}}</h3>
+            <h3>Número de identofocación: {{thirdSearched.info.document_number}}</h3>
+          </div>
+    </mat-card>
+  </div>
+</div>

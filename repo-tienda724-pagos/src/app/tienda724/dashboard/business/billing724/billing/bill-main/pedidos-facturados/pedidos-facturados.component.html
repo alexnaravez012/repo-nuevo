@@ -1,0 +1,185 @@
+ <!--            CONTENIDO DE LA PESTAÑA-->
+ <div style="padding: 10px;height: calc(100vh - 137px - 2px);">
+    <!--            CONTENEDOR DE OPCIONES-->
+    <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);display: flex;padding-top: 5px;height: 9%;">
+      <!--          SELECCIONAR TIPO-->
+      <mat-form-field style="width: 16%;margin: auto;" *ngIf="false">
+        <mat-label>Selec. tipo factura</mat-label>
+        <mat-select [(ngModel)]="SelectedBillType" (selectionChange)="cleanList2()">
+          <mat-option value="86">Pedidos Proveedor</mat-option>
+          <mat-option value="87">Pedidos Cliente</mat-option>
+          <mat-option value="88">Remision</mat-option>
+          <mat-option value="89">Pedidos Faltantes Bodega</mat-option>
+          <mat-option value="90">Pedidos Faltantes Cliente</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!--          SELECCIONAR ESTADO-->
+      <mat-form-field style="width: 15%;margin: auto;" *ngIf="false">
+        <mat-label>Selec. Estado de Factura</mat-label>
+        <mat-select [(ngModel)]="SelectedBillState" (selectionChange)="cleanList()" *ngIf="SelectedBillType=='1' || SelectedBillType=='2' || SelectedBillType=='3' || SelectedBillType=='4'">
+          <mat-option value="1">Factura Creada</mat-option>
+          <mat-option value="41">Anulada por devolucion</mat-option>
+          <mat-option value="42">Pendiente de pago</mat-option>
+          <mat-option value="43">Anulada</mat-option>
+        </mat-select>
+        <mat-select [(ngModel)]="SelectedBillState" (selectionChange)="cleanList()" *ngIf="SelectedBillType=='86'">
+          <mat-option value="62">Solicitud Recibida</mat-option>
+          <mat-option value="82">Pedidos Pendientes por Aceptar</mat-option>
+          <mat-option value="63">Pedido Despachado</mat-option>
+        </mat-select>
+        <mat-select [(ngModel)]="SelectedBillState" (selectionChange)="cleanList()" *ngIf="SelectedBillType=='87'">
+          <mat-option value="61">Solicitud Enviada</mat-option>
+          <mat-option value="81">Pedidos Pendientes por Recibir</mat-option>
+          <mat-option value="64">Pedido Recibido</mat-option>
+        </mat-select>
+        <mat-select [(ngModel)]="SelectedBillState" (selectionChange)="cleanList()" *ngIf="SelectedBillType=='88'">
+          <mat-option value="1">Factura Creada</mat-option>
+        </mat-select>
+        <mat-select [(ngModel)]="SelectedBillState" (selectionChange)="cleanList()" *ngIf="SelectedBillType=='89'">
+          <mat-option value="65">Pedido Faltante Proveedor - Pendiente</mat-option>
+          <mat-option value="66">Pedido Faltante Proveedor - Entregado</mat-option>
+        </mat-select>
+        <mat-select [(ngModel)]="SelectedBillState" (selectionChange)="cleanList()" *ngIf="SelectedBillType=='90'">
+          <mat-option value="67">Pedido Faltante Cliente - Pendiente</mat-option>
+          <mat-option value="68">Pedido Faltante Cliente - Entregado</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field style="width: 16%;margin: auto;">
+        <input matInput [matDatepicker]="picker" placeholder="Inicio" [(ngModel)]="date1" (dateChange)="SelectorFechaFinal_Facturacion.open()">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker disabled="false"></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field style="width: 16%;margin: auto;">
+        <input matInput [matDatepicker]="picker2" placeholder="Fin" [(ngModel)]="date2">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+      </mat-form-field>
+      
+      <!--          BOTON CONSULTAR-->
+      <button style="width: 16%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="getRepProdList()">Consultar</button>
+      <mat-form-field style="width: 16%;margin: auto;">
+        <mat-select style="padding: 0;margin: 0;" [(value)]="selectedPlanilla" (selectionChange) = "filterTable()" >
+          <!--suppress TypeScriptUnresolvedVariable, TypeScriptUnresolvedVariable -->
+          <mat-option *ngFor="let domi of listPlanillas" [value]="domi.id_PLANILLA">
+            {{domi.num_PLANILLA}} - {{domi.domiciliario}}
+          </mat-option> 
+        </mat-select>
+      </mat-form-field>
+      <button style="width: 16%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="openPlanilla()" [disabled]=" listPlanillas.length<=0" >Ver planilla</button>
+      <button style="width: 16%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="sendPlanillas()" [disabled]=" listPlanillas.length<=0" >Enviar pedidos por planilla</button>
+      <!--          BOTON ENVIAR VARIOS PEDIDOS-->
+      <button style="width: 10%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="NewSendItems()" *ngIf="this.SelectedBillType == '86' && this.SelectedBillState == '62'" [disabled]="GetKeysSeleccionados().length == 0" [hidden]="true">Enviar Pedidos</button>
+      <!--          BOTON PICKING-->
+      <button style="width: 10%;margin: auto" mat-stroked-button color="primary" type="button" (click)="getPicking()" *ngIf="SelectedBillType == '86' && SelectedBillState == '82'" [disabled]="GetKeysSeleccionados().length == 0" [hidden]="true">Generar Picking</button>
+    </div>
+    <!--          SEGUNDA FILA EN CASO DE PEDIDOS PROVEEDOR-->
+    <div [hidden]="true" style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);display: flex;height: 9%;margin-top: 0.9%;" *ngIf="(this.SelectedBillType == '86' && this.SelectedBillState == '62')">
+      <!--            SELECCIONAR PLANILLA-->
+      <mat-form-field style="width: 30%;margin: auto;" *ngIf="(this.SelectedBillType == '86' && this.SelectedBillState == '62')">
+        <mat-label>Seleccione Planilla</mat-label>
+        <mat-select [(ngModel)]="selectedPlanilla">
+          <mat-option *ngFor="let item of planillasSelector" [value]="item.id_PLANILLA">{{item.num_PLANILLA}} - {{item.placa}} - {{item.conductor}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!--          BOTON CREAR PLANILLAS NUEVAS-->
+    </div>
+    <div class="ScrollBar" style="overflow: auto;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);margin-top: 0.9%;" [style.height] = "(this.SelectedBillType == '86' && this.SelectedBillState == '62') ? '80%':'89.8%'">
+      <div [hidden]="isListProdFull" style="height: 100%;">
+        <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+          <mat-icon style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">search</mat-icon>
+        </div>
+        <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+          <mat-label style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Acá aparecerá su consulta</mat-label>
+        </div>
+      </div>
+      <div [hidden]="!isListProdFull" style="max-height: 75vh;overflow: visible;">
+        <div *ngIf="false">
+          <mat-form-field style="margin-left: 20px">
+            <!--suppress TypeScriptUnresolvedVariable -->
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscador">
+          </mat-form-field>
+          <mat-label style="color: gray; font-size: 13px;  text-align: center; margin-left: 20px;">De click sobre un pedido para ver más opciones</mat-label>
+        </div>
+        <!--            MAT_TABLE-->
+        <table mat-table multiTemplateDataRows [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width: 100%">
+          <!--              CREO LAS COLUMNAS DINAMICAMENTE-->
+          <ng-container *ngFor="let col of GetKeys()" matColumnDef="{{col}}">
+            <!--                CASO ESPECIFICO PARA EL CHECKBOX-->
+            <div *ngIf="col == 'select'">
+              <th mat-header-cell *matHeaderCellDef style="width: 1vw">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? masterToggle() : null" [checked]="GetKeysSeleccionados().length > 0 && isAllSelected()" [indeterminate]="GetKeysSeleccionados().length > 0 && !isAllSelected()" [aria-label]="checkboxLabel()">
+                </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let row" style="width: 1vw">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? CustomSelect(row) : null" [checked]="DictSelection[row.id_BILL] != null" [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+              </td>
+            </div>
+            <!--                RESTO DE LOS CASOS-->
+            <div *ngIf="col != 'select'">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header [style.width]=AnchosColumnas[col] [style.max-width]=AnchosColumnas[col] style="padding: 0 !important;text-align: center !important;">{{DiccionarioColumnas[col]}}</th>
+              <td mat-cell *matCellDef="let element" [style.width]=AnchosColumnas[col] [style.max-width]=AnchosColumnas[col] style="word-break: break-word;padding: 0 !important;color: inherit" [style.text-align]="col == 'fecha' ? 'center':'center'" 
+              [style]="'background-color: '+ReturnColorStoreClient(element['id_STORE_CLIENT'])">
+                <div *ngIf="col!='timer' && col!= 'body' && col!='totalprice' && col!='id_STORE_CLIENT'" >
+                  {{element[col]}}
+                </div>
+                <div *ngIf="col=='timer'">
+                  <h5>
+                  <!-- {{getTimer(element)}} Segundos. -->
+                    {{segs[element.id_BILL]}} Minutos.
+                  </h5>
+                </div>
+                <div *ngIf="col=='body'" (click)="openObs(element.body)">
+                  {{getObs(element)}}
+                </div>
+                <div *ngIf="col=='totalprice'">
+                  <h5> 
+                    {{element[col] | currency}}
+                  </h5>
+                </div>
+                <div *ngIf="col=='id_STORE_CLIENT' && element[col]==10">
+                  <h5> 
+                    <mat-icon aria-hidden="false">settings_cell</mat-icon>
+                  </h5>
+                </div>
+                <div *ngIf="col=='id_STORE_CLIENT' && element[col]==11">
+                  <h5> 
+                    <mat-icon aria-hidden="false">perm_phone_msg</mat-icon>
+                  </h5>
+                </div> 
+              </td>
+            </div> 
+          </ng-container>
+
+          <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="GetKeys().length">
+              <div style="background-color: #f1f1f1;border-radius: 20px;" class="example-element-detail" [ngClass]="element == expandedElement ? '' : 'collapsed'">
+                <div style="width: 100%; height: 40px; margin: 5px; display: flex;">
+                  <!-- <div style="display: flex;margin:auto;width: 25%">
+                    <button style="margin: auto;" class="text-center" mat-stroked-button color="primary" type="button" (click)="aprobarPedido(element)">Procesar</button>
+                  </div>
+                  <div style="display: flex;margin:auto;width: 25%" >
+                    <button style="margin: auto;" class="text-center" mat-stroked-button color="primary" type="button" (click)="aprobarPedidoConNovedad(element)">Procesar con novedad</button>
+                  </div> --> 
+                  <div style="display: flex;margin:auto;width: 33%">
+                    <button style="margin: auto; color: blue;" mat-stroked-button color="primary" type="button" (click)="details(element)">Detalles</button>
+                  </div>
+                  <div style="display: flex;margin:auto;width: 33%">
+                    <button style="margin: auto; color: red;" mat-stroked-button color="primary" type="button" (click)="pdf(element)">PDF<img style="margin-left: 10px;" src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" height="15" width="15" /></button>
+                  </div>
+                  <div style="display: flex;margin: auto;width: 33%;">
+                    <button style="margin: auto; color: red;" class="text-center" mat-stroked-button color="primary" type="button" (click)="cancelarPedido(element)">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="GetKeys(); sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: GetKeys();" class="example-element-row" [class.example-expanded-row]="expandedElement === row" (click)="expandedElement = expandedElement === row ? null : row"> </tr>
+          <tr mat-row *matRowDef="let row2; columns: ['expandedDetail']" class="example-detail-row"></tr>
+        </table>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,53 @@
+<div style="">
+    <span>
+        <mat-card style="height: 100%;width:100%;padding:0">
+            <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+                <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Actualizar Producto</mat-card-title>
+                <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;text-emphasis: left; color:white;margin-bottom:0px">Esta a punto de actualizar el producto {{data.element.product_STORE_NAME}}.</mat-card-subtitle>
+            </mat-card-header>
+        </mat-card>
+            <mat-form-field class="example-full-width  center-text text-center">
+                <mat-label>Seleccione Unidad de Medida</mat-label>
+                <mat-select [(ngModel)]="SelectedMun">
+                  <mat-option [value]="-1">Sin Unidad de medida</mat-option>
+                  <mat-option *ngFor="let measureUnit of measureUnitList" [value]="measureUnit.id_MEASURE_UNIT">
+                      {{measureUnit.measure_UNIT}}
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="example-full-width  center-text text-center">
+                <mat-label>Seleccione Linea</mat-label>
+                <mat-select [(ngModel)]="SelectedLine" (selectionChange) = "getSecondLvlCategory()">
+                  <mat-option [value]="-1">Sin linea</mat-option>
+                  <mat-option *ngFor="let elem of CategoryFirstLvlList" [value]="elem.id_CATEGORY" [hidden]="elem.id_CATEGORY == 1108">
+                    {{elem.category}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <!--  SELECTOR CATEGORIA-->
+              <mat-form-field *ngIf="SelectedLine != -1" class="example-full-width  center-text text-center">
+                <mat-label>Seleccione categoria</mat-label>
+                <mat-select [(ngModel)]="SelectedSubCategory">
+                  <mat-option [value]="-1">Sin categoria</mat-option>
+                  <mat-option *ngFor="let elem of SubCategoryList" [value]="elem.id_CATEGORY">
+                    {{elem.category}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="example-full-width  center-text text-center">
+                <mat-label>Seleccione Marca</mat-label>
+                <mat-select [(ngModel)]="SelectedBrand">
+                  <mat-option [value]="-1">Sin Marca</mat-option>
+                  <mat-option *ngFor="let elem of brands" [value]="elem.id_BRAND" [hidden]="elem.id_BRAND == 4368">
+                    {{elem.brand}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="example-full-width  center-text text-center">
+                <input matInput placeholder="Nombre Producto" [(ngModel)]="productName">
+              </mat-form-field>
+              <button style="width: 20%;margin: auto;" [disabled]="SelectedBrand == -1 || SelectedMun == -1 || SelectedSubCategory == -1" mat-stroked-button color="primary" type="button" (click)="updateProduct()">Actualizar Producto</button>
+
+
+    </span> <!-- hasta aca -->
+  </div>

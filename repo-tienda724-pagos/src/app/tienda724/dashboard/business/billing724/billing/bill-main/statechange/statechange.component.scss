@@ -1,0 +1,22 @@
+.wrapper {
+    text-align: center;
+}
+
+.ContenedorLoading{
+    display: flex;
+    left: 0;
+    width: 100vw;
+    position: absolute;
+    height: 100vh;
+    top: 0;
+}
+
+.ContenedorLoading::before{
+    content: "";
+    background-color: gray;
+    opacity: 0.5;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+}
+

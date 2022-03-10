@@ -1,0 +1,65 @@
+database:
+  # the name_payment_state of your JDBC driver
+  driverClass: oracle.jdbc.driver.OracleDriver
+  # the username
+  user: facturacion724
+  # the password
+  password: tienda724
+  # the JDBC URL
+  url: jdbc:oracle:thin:@//sysware-pruebas.cw2rwsqphepo.us-east-1.rds.amazonaws.com:1521/SYSWAREP      #jdbc:oracle:thin:@//localhost/prod  
+#url: jdbc:oracle:thin:@//sysware-backup.cw2rwsqphepo.us-east-1.rds.amazonaws.com:1521/BACKUP1    #jdbc:oracle:thin:@//129.150.71.191/prod
+
+
+  # any properties specific to your JDBC driver:
+  properties:
+    charSet: UTF-8
+    useSSL: false
+    memory: 300m
+
+  # the maximum amount of time to wait on an empty pool before throwing an exception
+  maxWaitForConnection: 1s
+
+  # the SQL query to run when validating a connection's liveness
+  validationQuery: "SELECT 1 FROM DUAL"
+
+  # the minimum number of connections to keep open
+  initialSize: 4 
+  minSize: 4
+
+
+  # the maximum number of connections to keep open
+  maxSize: 8
+
+  # whether or not idle connections should be validated
+  checkConnectionWhileIdle: false
+
+  # the amount of time to sleep between runs of the idle connection validation, abandoned cleaner and idle pool resizing
+  evictionInterval: 10s
+
+  # the minimum amount of time an connection must sit idle in the pool before it is eligible for eviction
+  minIdleTime: 1 minute
+
+
+
+databaseConfiguration:
+
+  driverClassName: oracle.jdbc.driver.OracleDriver
+  url: jdbc:oracle:thin:@//sysware-pruebas.cw2rwsqphepo.us-east-1.rds.amazonaws.com:1521/SYSWAREP      #jdbc:oracle:thin:@//localhost/prod  
+#url: jdbc:oracle:thin:@//sysware-backup.cw2rwsqphepo.us-east-1.rds.amazonaws.com:1521/ORCL    #jdbc:oracle:thin:@//129.150.71.191/prod
+  username: facturacion724
+  password: tienda724
+
+
+
+server:
+  type: simple
+  applicationContextPath: /
+  #adminContextPath: /admin # If you plan to use an admin path, you'll need to also use non-root app path
+  connector:
+    type: https
+    port: 8451
+    keyStorePath: /home/ec2-user/ssl.jks
+    keyStorePassword: Jkbotero2020$$
+    keyStoreType: JKS
+    validateCerts: false
+    validatePeers: false

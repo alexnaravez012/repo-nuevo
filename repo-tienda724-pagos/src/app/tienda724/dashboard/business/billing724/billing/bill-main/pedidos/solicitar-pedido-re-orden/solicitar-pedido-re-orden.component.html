@@ -1,0 +1,21 @@
+<div style="max-height: 85vh">
+  <mat-card >
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+      <mat-card-title style="font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Solicitar Pedido</mat-card-title>
+    </mat-card-header>
+    <mat-card-content style="padding:25px">
+<!--      SELECTOR-->
+      <mat-form-field style="width: 100%;margin: auto;margin-bottom: -10px;">
+        <mat-label>Fabricantes</mat-label>
+        <mat-select [(ngModel)]="OpcionSelectorSeleccionada">
+          <mat-option *ngFor="let item of OpcionesSelector" [value]="item">{{item['cbi_FULLNAME']}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+<!--      BOTONES DEL FINAL-->
+      <div mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">Cerrar</button>
+        <button mat-button [mat-dialog-close]="retorno" cdkFocusInitial (click)="postPedido()">Solicitar</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

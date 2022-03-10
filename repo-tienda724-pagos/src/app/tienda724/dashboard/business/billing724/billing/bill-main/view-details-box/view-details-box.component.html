@@ -1,0 +1,24 @@
+<mat-card style="height: 100%;width:100%;padding:0; max-height: 85vh">
+  <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+    <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">
+      Movimientos de Caja
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content style="padding:25px">
+    <table class="table table-hover" style="text-align: center">
+      <tr>
+        <th>Fecha</th>
+        <th>Tipo</th>
+        <th>Notas</th>
+        <th>Valor</th>
+      </tr>
+      <tr *ngFor="let detail of myDetails">
+        <td>{{detail.movement_DATE}}</td>
+        <td>{{detail.naturaleza === 'D' ? "Débito":"Crédito"}}</td>
+        <td>{{detail.notes}}</td>
+        <td>{{detail.valor | currency}}</td>
+      </tr>
+    </table>
+    <button mat-stroked-button color="primary" type="button" (click)="closeDialog()">Volver</button>
+  </mat-card-content>
+</mat-card>

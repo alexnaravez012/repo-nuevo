@@ -1,0 +1,14 @@
+<table style="width:100%" class="text-center">
+    <tr>
+      <th class="text-center"># Documento</th>
+      <th class="text-center">Fecha</th>
+      <th class="text-center">Precio</th>
+      <th class="text-center">Cantida de Producto</th>
+    </tr>
+    <tr *ngFor="let item of items">
+      <td><div (click)="generatePdfRoute(item)" class="text-center"> {{item.document_NUMBER}} </div></td>
+      <td><div (click)="generatePdfRoute(item)" class="text-center"> {{item.purchase_DATE}} </div></td>
+      <td><div (click)="generatePdfRoute(item)" class="text-center"> {{item.totalprice}} </div></td>
+      <td><div (click)="generatePdfRoute(item)" class="text-center"> {{item.quantity}} </div></td>
+    </tr>
+  </table>

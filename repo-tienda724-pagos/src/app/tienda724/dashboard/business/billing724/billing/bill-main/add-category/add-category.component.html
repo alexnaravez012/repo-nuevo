@@ -1,0 +1,26 @@
+
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+      <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white"><span *ngIf="editing">Editando</span><span *ngIf="!editing">Agregando</span> categoria</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+                <form #catForm="ngForm" class="my-form" (ngSubmit)="createNewCategory()">
+                    <div class="row" style="padding: 20px">
+                        <div class="col">
+                    <mat-form-field>
+                      <input [(ngModel)]="categoryToPost.categoryName" matInput class="text-center" type="text" placeholder="Nombre de la categoria" id="reader" autofocus type="text" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input [(ngModel)]="categoryToPost.categoryDescription" matInput class="text-center" type="text" placeholder="Descripcion de la categoria" id="reader" autofocus type="text" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input [(ngModel)]="categoryToPost.img_url" matInput class="text-center" type="text" placeholder="Url de la imagen" id="reader" autofocus type="text" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col">
+                    <button mat-stroked-button color="primary" type="submit" [disabled]="!catForm.valid"><span *ngIf="!editing">Agregar</span><span *ngIf="editing">Editar</span> Categoría</button>
+                  </div>
+                  </form>
+
+        </mat-card-content>

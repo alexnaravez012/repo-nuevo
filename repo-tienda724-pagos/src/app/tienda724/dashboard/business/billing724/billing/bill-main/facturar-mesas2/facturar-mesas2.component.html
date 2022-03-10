@@ -1,0 +1,279 @@
+<div class="container-open-table-order-status">
+    <div class="uk-flex uk-flex-between">
+        <div class="uk-flex uk-flex-middle" (click)="closeDialog()">
+            <div class="uk-flex uk-flex-middle cursor-pointer">
+                <i class="fas fa-caret-left uk-margin-remove color-blue"></i>
+                <h6 class="uk-text-light uk-margin-remove color-blue uk-text-bold" style="padding-left: 10px;"> Mesa/{{data.item.mesa}} </h6>
+            </div>
+        </div>
+        <div style="margin-right: 20px;">
+            <i class="fas fa-ellipsis-v cursor-pointer font-size-18" uk-toggle="#menu-processes-order-status"></i>
+            <div id="menu-processes-order-status" uk-modal>
+                <div class="uk-modal-dialog uk-modal-body menu-processes-order-status-tables">
+                    <div class="uk-flex uk-flex-center">
+                        <h3 class="color-blue uk-text-bold">Procesos de pedido</h3>
+                    </div>
+                    <div class="uk-flex uk-flex-around">
+                        <button uk-toggle="target: #sure-cancel-order" class="button-card-modal-status-tables">Cancelar pedido</button>
+                        <button (click)="printBill()" *ngIf="!disabledComanda()" class="button-card-modal-status-tables uk-modal-close" style="margin-left: 5px;">Comanda</button>
+                        <button (click)="closeBill()" *ngIf="!disabled()" class="button-card-modal-status-tables uk-modal-close" style="margin-left: 5px;">Facturar</button>
+                        <div id="sure-cancel-order" uk-modal>
+                            <div class="uk-modal-dialog uk-modal-body menu-processes-order-status-tables" style="width: 450px !important;">
+                                <h3 class="uk-text-center color-blue uk-text-bold">Esta apunto de cancelar el pedido, ¿Esta seguro que quiere continuar?</h3>
+                                <div class=" uk-flex uk-flex-center uk-flex-middle" style="margin-top: 10px;">
+                                    <h5 class="uk-margin-remove uk-text-bold" style="padding-right: 10px;">Motivos:</h5>
+                                    <select class="form-select-tables" style="width: 300px !important; ">
+                                      <option class="select-items-tables" value=" ">Errores</option>
+                                  </select>
+                                </div>
+                                <div class="uk-flex uk-flex-center" style="padding-top: 20px;" (click)="cancelTable()">
+                                    <button class="button-card-modal-status-tables uk-modal-close" (click)="cancelTable()" >Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-flex uk-flex-middle" style="padding-top: 20px;">
+        <h4 class="uk-text-bold uk-margin-remove" style="padding-bottom: 2px;"> {{data.item.mesa}} </h4>
+        <h6 class="uk-margin-remove uk-text-bold" style="padding-left:20px;">Tiempo: {{getDateInMinutes(data.item.purchase_DATE)}} Minutos</h6>
+        <h6 class="uk-margin-remove uk-text-bold" style="padding-left:20px;">{{data.item.totalprice | currency}}</h6>
+        <h6 class="uk-margin-remove" style="padding-left:50px;"> <span class="uk-text-bold">Mesero:</span> {{data.item.mesero}}</h6>
+        <h6 class="uk-margin-remove cursor-pointer uk-text-muted uk-text-bold font-size-12" style="padding-left:20px;">Cambiar mesero</h6>
+    </div>
+    <div class="uk-flex uk-flex-middle uk-flex-wrap" style="padding-top: 30px;">
+        <h6 class="uk-text-muted uk-margin-remove font-size-15" style="padding-right:10px;">Información del cliente</h6>
+        <div class="uk-flex">
+            <h6 class="uk-margin-remove uk-text-bold">Documento del cliente:</h6>
+            <input class="input-line-tables" type="text">
+        </div>
+        <div class="uk-flex" style="padding-left: 30px;">
+            <h6 class="uk-margin-remove uk-text-bold">Notas del cliente:</h6>
+            <input class="input-line-tables" type="text" style="width: 300px;" [(ngModel)]="nota">
+        </div>
+    </div>
+</div>
+<div class="uk-flex uk-flex-middle uk-flex-between container-open-table-add-product">
+    <h5 class="uk-text-bold uk-margin-remove">Productos añadidos</h5>
+    <div style="padding-right: 30% ;">
+        <button class="button-add-product-tables uk-text-bold" (click)="openInventoryList()">Agregar Producto</button>
+    </div>
+</div>
+<div class="order-status-titles-tables">
+    <div class="uk-flex uk-flex-middle uk-flex-around padding-vertical-10 ">
+        <h5 class="uk-margin-remove uk-text-bold color-blue width-300 uk-text-center ">Producto</h5>
+        <h5 class="uk-margin-remove uk-text-bold color-blue width-200 uk-text-center ">Estado</h5>
+        <h5 class="uk-margin-remove uk-text-bold color-blue width-200 uk-text-center "></h5>
+    </div>
+</div>
+<div *ngFor="let element of productListToShow" class="button-status-tables uk-margin-remove-vertical uk-padding-remove-vertical " style="margin-top:10px !important;" [ngStyle]="{'background-color': element.ownbarcode == '45000198' ? 'white':(element.color == 'AZUL' ? '#71b8eb': (element.color == 'AMARILLO' ? '#ebeb5e': (element.color == 'ROJO'  ? '#eb5e5e':'#f59e47' )))}"
+    uk-alert>
+    <div class="uk-flex uk-flex-middle uk-flex-around ">
+        <h6 class=" uk-margin-remove uk-text-bold width-300 uk-text-center "> {{element.producto}} </h6>
+        <div class="uk-flex uk-flex-middle" style="width: 210px !important;">
+            <h6 class="uk-margin-remove uk-text-bold uk-text-center "> {{element.estado}} </h6>
+            <i *ngIf="element.estado != 'CANCELADO' && element.estado != 'ENTREGADO EN MESA'" class="far fa-play-circle font-size-18 cursor-pointer uk-text-center" style="padding-left: 10px;" (click)="nextStatus(element)"></i>
+        </div>
+        <div class="width-150 uk-text-center ">
+            <img class="img-setup-size-tables cursor-pointer " uk-toggle="target: #status-1" src="assets/img/data/setup.png" alt=" " (click)="eliminationOrEditDetail(element)">
+            <div id="status-1" uk-modal>
+                <div class="uk-flex uk-flex-middle uk-modal-dialog uk-modal-body " style="border-radius: 20px; ">
+                    <div class="uk-width-1-1 ">
+                        <div>
+                            <h4 class="uk-margin-remove color-blue uk-text-bold ">Cambiar estado de producto</h4>
+                            <div class="uk-flex uk-flex-middle">
+                                <h6 class="uk-text-bold uk-margin-remove" style="padding-right:5px ;">Fecha de pedido:</h6>
+                                <h6 class="uk-margin-remove " style="padding-top: 5px; ">{{elementToUse.fecha_EVENTO}}</h6>
+                            </div>
+                            <h6 class="uk-margin-remove uk-text-bold " style="padding-top: 5px; ">{{elementToUse.producto}}</h6>
+                        </div>
+                        <div class=" uk-flex uk-flex-middle " style="margin-top: 10px; ">
+                            <div>
+                                <select class="form-select-tables" style="width: 70% !important; " [(ngModel)]="setStatus">
+                              <option class="select-items-tables " value="1501">
+                                En proceso
+                              </option>
+                              <option class="select-items-tables " value="1502">
+                                Entregado a mesero
+                              </option>
+                              <option class="select-items-tables " value="1503">
+                                Entregado en mesa
+                              </option>
+                              <option class="select-items-tables " value="1599">
+                                Cancelado
+                              </option>
+                            </select>
+                            </div>
+                            <input class="input-line-tables" placeholder="Notas " type="text " style="width: 150px; " [(ngModel)]="notas">
+                        </div>
+                    </div>
+                    <div class="uk-width-1-2 ">
+                        <div class="uk-flex uk-flex-column ">
+                            <button class="button-card-modal-tables cursor-pointer uk-text-bold " (click)="send()">Aceptar</button>
+                            <!--<button class="button-card-modal-tables uk-modal-close cursor-pointer uk-text-bold " style="margin-top: 10px; " uk-toggle="target: #modal-cancel-product-1">Eliminar producto</button>
+                           <div id="modal-cancel-product-1" uk-modal>
+                              <div class="uk-modal-dialog uk-modal-body menu-processes-order-tables" style="width: 450px !important;">
+                                  <h4 class="uk-text-center color-blue uk-text-bold">¿Esta seguro de eliminar este producto del pedido?</h4>
+                                  <h6 class="uk-margin-remove uk-text-bold ">{{element.producto}}</h6>
+                                  <div class="uk-flex uk-flex-middle">
+                                      <h6 class="uk-text-bold uk-margin-remove" style="padding-right:5px ;">Fecha de pedido:</h6>
+                                      <h6 class="uk-margin-remove " style="padding-top: 5px; ">{{element.fecha_EVENTO}}</h6>
+                                  </div>
+                                  <div class=" uk-flex uk-flex-middle">
+                                      <h6 class="uk-margin-remove uk-text-bold" style="padding-right: 5px;">Motivos:</h6>
+                                      <select class="form-select-tables  font-size-15" style="width: 180px !important; ">
+                                          <option class="select-items-tables " value=" ">Errores</option>
+                                      </select>
+                                  </div>
+                                  <div class="uk-flex uk-flex-center">
+                                      <input class="input-line-tables font-size-15 uk-text-center" placeholder="Observaciones" type="text " style="width: 350px; padding-top: 10px;">
+                                  </div>
+                                  <div class="uk-flex uk-flex-center uk-flex-around" style="padding-top: 20px;">
+                                      <button class="button-card-modal-tables">Aceptar</button>
+                                      <button class="button-card-modal-tables uk-modal-close">Cancelar</button>
+                                  </div>
+                              </div>
+                          </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="button-status-tables uk-margin-remove-vertical uk-padding-remove-vertical " style="margin-top:10px !important; background-color: #F59E47; " uk-alert>
+  <div class="uk-flex uk-flex-middle uk-flex-around ">
+      <h6 class=" uk-margin-remove uk-text-bold width-300 uk-text-center ">Cerveza lata poker x473 ml</h6>
+      <div class="uk-flex uk-flex-middle width-200">
+          <h6 class="uk-margin-remove uk-text-bold uk-text-center ">Entregado a mesero</h6>
+          <i class="far fa-play-circle font-size-18 cursor-pointer uk-text-center" style="padding-left: 10px;"></i>
+      </div>
+      <div class="width-150 uk-text-center ">
+          <img class="img-setup-size-tables cursor-pointer " uk-toggle="target: #status-2" src="assets/img/data/setup.png " alt=" ">
+          <div id="status-2" uk-modal>
+              <div class="uk-flex uk-flex-middle uk-modal-dialog uk-modal-body " style="border-radius: 20px; ">
+                  <div class="uk-width-1-1 ">
+                      <div>
+                          <h4 class="uk-margin-remove color-blue uk-text-bold ">Cambiar estado de producto</h4>
+                          <div class="uk-flex uk-flex-middle">
+                              <h6 class="uk-text-bold uk-margin-remove" style="padding-right:5px ;">Fecha de pedido:</h6>
+                              <h6 class="uk-margin-remove " style="padding-top: 5px; ">2021-01-04 09:31:10</h6>
+                          </div>
+                          <h6 class="uk-margin-remove uk-text-bold " style="padding-top: 5px; ">Cerveza lata poker x473 ml</h6>
+                      </div>
+                      <div class=" uk-flex uk-flex-middle " style="margin-top: 10px; ">
+                          <div>
+                              <select class="form-select-tables " style="width: 70% !important; ">
+                              <option class="select-items-tables " value=" ">En proceso</option>
+                              <option class="select-items-tables " value=" ">CANCELADO</option>
+                              <option class="select-items-tables " value=" ">Entregado a mesero</option>
+                          </select>
+                          </div>
+                          <input class="input-line-tables" placeholder="Notas " type="text " style="width: 150px; ">
+                      </div>
+                  </div>
+                  <div class="uk-width-1-2 ">
+                      <div class="uk-flex uk-flex-column ">
+                          <button class="button-card-modal-tables cursor-pointer uk-text-bold ">Aceptar</button>
+                          <button class="button-card-modal-tables uk-modal-close cursor-pointer uk-text-bold " style="margin-top: 10px; " uk-toggle="target: #modal-cancel-product-2">Eliminar producto</button>
+                          <div id="modal-cancel-product-2" uk-modal>
+                              <div class="uk-modal-dialog uk-modal-body menu-processes-order-tables" style="width: 450px !important;">
+                                  <h4 class="uk-text-center color-blue uk-text-bold">¿Esta seguro de eliminar este producto del pedido?</h4>
+                                  <h6 class="uk-margin-remove uk-text-bold ">Cerveza lata poker x473 ml</h6>
+                                  <div class="uk-flex uk-flex-middle">
+                                      <h6 class="uk-text-bold uk-margin-remove" style="padding-right:5px ;">Fecha de pedido:</h6>
+                                      <h6 class="uk-margin-remove" style="padding-top: 5px; ">2021-01-04 09:31:10</h6>
+                                  </div>
+                                  <div class=" uk-flex uk-flex-middle">
+                                      <h6 class="uk-margin-remove uk-text-bold" style="padding-right: 5px;">Motivos:</h6>
+                                      <select class="form-select-tables  font-size-15" style="width: 180px !important; ">
+                                          <option class="select-items-tables" value=" ">Errores</option>
+                                          <option class="select-items-tables" value=" ">Errores</option>
+                                          <option class="select-items-tables" value=" ">Errores</option>
+                                      </select>
+                                  </div>
+                                  <div class="uk-flex uk-flex-center">
+                                      <input class="input-line-tables font-size-15 uk-text-center" placeholder="Observaciones" type="text " style="width: 350px; padding-top: 10px;">
+                                  </div>
+                                  <div class="uk-flex uk-flex-center uk-flex-around" style="padding-top: 20px;">
+                                      <button class="button-card-modal-tables">Aceptar</button>
+                                      <button class="button-card-modal-tables uk-modal-close">Cancelar</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="button-status-tables uk-margin-remove-vertical uk-padding-remove-vertical " style="margin-top:10px !important; background-color: #EBEB5E; " uk-alert>
+  <div class="uk-flex uk-flex-middle uk-flex-around ">
+      <h6 class=" uk-margin-remove uk-text-bold width-300 uk-text-center ">Cerveza lata poker x473 ml</h6>
+      <div class="uk-flex uk-flex-middle width-200">
+          <h6 class="uk-margin-remove uk-text-bold uk-text-center ">En proceso</h6>
+          <i class="far fa-play-circle font-size-18 cursor-pointer uk-text-center" style="padding-left: 10px;"></i>
+      </div>
+      <div class="width-150 uk-text-center ">
+          <img class="img-setup-size-tables cursor-pointer " uk-toggle="target: #status-3" src="assets/img/data/setup.png " alt=" ">
+          <div id="status-3" uk-modal>
+              <div class="uk-flex uk-flex-middle uk-modal-dialog uk-modal-body " style="border-radius: 20px; ">
+                  <div class="uk-width-1-1 ">
+                      <div>
+                          <h4 class="uk-margin-remove color-blue uk-text-bold ">Cambiar estado de producto</h4>
+                          <div class="uk-flex uk-flex-middle">
+                              <h6 class="uk-text-bold uk-margin-remove" style="padding-right:5px ;">Fecha de pedido:</h6>
+                              <h6 class="uk-margin-remove " style="padding-top: 5px; ">2021-01-04 09:31:10</h6>
+                          </div>
+                          <h6 class="uk-margin-remove uk-text-bold " style="padding-top: 5px; ">Cerveza lata poker x473 ml</h6>
+                      </div>
+                      <div class=" uk-flex uk-flex-middle " style="margin-top: 10px; ">
+                          <div>
+                            <select class="form-select-tables " style="width: 70% !important; ">
+                              <option class="select-items-tables " value=" ">En proceso</option>
+                              <option class="select-items-tables " value=" ">CANCELADO</option>
+                              <option class="select-items-tables " value=" ">Entregado a mesero</option>
+                            </select>
+                          </div>
+                          <input class="input-line-tables font-size-15" placeholder="Notas " type="text " style="width: 150px; ">
+                      </div>
+                  </div>
+                  <div class="uk-width-1-2 ">
+                      <div class="uk-flex uk-flex-column ">
+                          <button class="button-card-modal-tables cursor-pointer uk-text-bold ">Aceptar</button>
+                          <button class="button-card-modal-tables uk-modal-close cursor-pointer uk-text-bold " style="margin-top: 10px; " uk-toggle="target: #modal-cancel-product-3">Eliminar producto</button>
+                          <div id="modal-cancel-product-3" uk-modal>
+                              <div class="uk-modal-dialog uk-modal-body menu-processes-order-tables" style="width: 450px !important;">
+                                  <h4 class="uk-text-center color-blue uk-text-bold">¿Esta seguro de eliminar este producto del pedido?</h4>
+                                  <h6 class="uk-margin-remove uk-text-bold ">Cerveza lata poker x473 ml</h6>
+                                  <div class="uk-flex uk-flex-middle">
+                                      <h6 class="uk-text-bold uk-margin-remove" style="padding-right:5px ;">Fecha de pedido:</h6>
+                                      <h6 class="uk-margin-remove " style="padding-top: 5px; ">2021-01-04 09:31:10</h6>
+                                  </div>
+                                  <div class=" uk-flex uk-flex-middle">
+                                      <h6 class="uk-margin-remove uk-text-bold" style="padding-right: 5px;">Motivos:</h6>
+                                      <select class="form-select-tables  font-size-15" style="width: 180px !important; ">
+                                          <option class="select-items-tables " value=" ">Errores</option>
+                                          <option class="select-items-tables " value=" ">Errores</option>
+                                          <option class="select-items-tables " value=" ">Errores</option>
+                                      </select>
+                                  </div>
+                                  <div class="uk-flex uk-flex-center">
+                                      <input class="input-line-tables font-size-15 uk-text-center" placeholder="Observaciones" type="text " style="width: 350px; padding-top: 10px;">
+                                  </div>
+                                  <div class="uk-flex uk-flex-center uk-flex-around" style="padding-top: 20px;">
+                                      <button class="button-card-modal-tables">Aceptar</button>
+                                      <button class="button-card-modal-tables uk-modal-close">Cancelar</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div> -->

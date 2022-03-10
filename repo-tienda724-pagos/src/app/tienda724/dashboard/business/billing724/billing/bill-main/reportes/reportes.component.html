@@ -1,0 +1,853 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="">
+  <!--  ENCABEZADO, TITULO DE LA SECCIÓN-->
+  <mat-card style="height: 100%;width:100%;padding:0">
+    <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+      <mat-card-title style="font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Generador de reporte</mat-card-title>
+      <mat-card-subtitle  style="font-size: 0.8em;font-weight: 300; color:white;margin-bottom:0">Por favor, selecciona un tipo de reporte y rango de fecha</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+  <mat-card style="padding:0 !important;">
+    <!--  GRUPO DE PESTAÑAS-->
+    <mat-tab-group>
+      <!--    PESTAÑA REPORTES-->
+      <mat-tab label="Reportes" *ngIf="this.locStorage.getRol()[0].id_rol!=8888">
+        <!--            CONTENIDO DE LA PESTAÑA-->
+        <div style="padding: 10px;height: calc(100vh - 147px - 2px);">
+          <!--            CONTENEDOR DE OPCIONES-->
+          <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);display: flex;padding-top: 5px;">
+            <!--      SELECTOR DE TIENDA-->
+            <!-- <mat-form-field style="width: 24%;margin: auto;margin-bottom: -10px;">
+              <mat-label>Seleccione tienda</mat-label>
+              <mat-select [(ngModel)]="SelectedStorerep">
+                <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+                  {{elem.store_NAME}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field> -->
+            <!--      SELECTOR FECHA INICIAL-->
+            <mat-form-field style="width: 13%;margin: auto;margin-bottom: -10px;">
+              <input matInput [matDatepicker]="picker" placeholder="Fecha Inicial" [(ngModel)]="date1" (dateChange)="SelectorFechaFinal_Reportes.open()">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <!--      SELECTOR FECHA FINAL-->
+            <mat-form-field style="width: 12%;margin: auto;margin-bottom: -10px;">
+              <input matInput [matDatepicker]="picker2" placeholder="Fecha Final" [(ngModel)]="date2">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <!--      SELECTOR MOVIMIENTO-->
+            <mat-form-field style="width: 14%;margin: auto;margin-bottom: -10px;">
+              <mat-label>Seleccione movimiento</mat-label>
+              <mat-select [(ngModel)]="tipoFactura">
+                <mat-option [value]="1">Venta</mat-option>
+                <mat-option [value]="2">Compra</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!--  SELECTOR INTERVALO-->
+            <mat-form-field style="width: 14%;margin: auto;margin-bottom: -10px;">
+              <mat-label>Seleccione intervalo</mat-label>
+              <mat-select [(ngModel)]="tipoIntervalo">
+                <mat-option [value]="1">Diario</mat-option>
+                <mat-option [value]="2">Semanal</mat-option>
+                <mat-option [value]="3">Mensual</mat-option>
+                <mat-option [value]="4">Horas</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);display: flex;padding-top: 5px;margin-top: 10px;">
+            <!--    SELECTOR LINEA-->
+            <mat-form-field style="width: 20%;margin: auto;margin-bottom: -10px;">
+              <mat-label>Seleccione Linea</mat-label>
+              <mat-select [(ngModel)]="SelectedLine" (selectionChange) = "getSecondLvlCategory()">
+                <mat-option [value]="-1">Sin linea</mat-option>
+                <mat-option *ngFor="let elem of CategoryFirstLvlList" [value]="elem.id_CATEGORY">
+                  {{elem.category}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!--  SELECTOR CATEGORIA-->
+            <mat-form-field *ngIf="SelectedLine != -1" style="width: 20%;margin: auto;margin-bottom: -10px;">
+              <mat-label>Seleccione categoria</mat-label>
+              <mat-select [(ngModel)]="SelectedSubCategory" (selectionChange) = "getProductList()">
+                <mat-option [value]="-1">Sin categoria</mat-option>
+                <mat-option *ngFor="let elem of SubCategoryList" [value]="elem.id_CATEGORY">
+                  {{elem.category}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!--  SELECTOR PRODUCTOS-->
+            <mat-form-field *ngIf="SelectedSubCategory != -1 && SelectedLine != -1" style="width: 20%;margin: auto;margin-bottom: -10px;">
+              <mat-label>Seleccione producto</mat-label>
+              <mat-select [(ngModel)]="SelectedProduct">
+                <mat-option [value]="-1">Sin Producto</mat-option>
+                <mat-option *ngFor="let elem of ProductList" [value]="elem.id_PRODUCT_STORE">
+                  {{elem.product_STORE_NAME}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!--      BOTON GENERAR REPORTE-->
+            <button [disabled]="this.EstadoBusqueda_Reportes == 1" style="width: 24%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="generateReport()">Generar Reportes</button>
+          </div>
+          <!--        CANVAS DONDE SALE EL REPORTE-->
+          <div class="ScrollBar" style="height: 81%;overflow: auto;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);margin-top: 0.9%;">
+            <canvas [hidden]="BarChart == null" id="barChart"></canvas>
+            <!--                estado inicial-->
+            <div *ngIf="BarChart == null" style="height: 90%;background-color: white;">
+              <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                <mat-icon *ngIf="EstadoBusqueda_Reportes == -1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">search</mat-icon>
+                <mat-icon *ngIf="EstadoBusqueda_Reportes == 1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">cached</mat-icon>
+              </div>
+              <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                <mat-label *ngIf="EstadoBusqueda_Reportes == -1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Realice una consulta</mat-label>
+                <mat-label *ngIf="EstadoBusqueda_Reportes == 1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Consultando, espere...</mat-label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <!--    PESTAÑA GRAFICO PRODUCTOS-->
+      <mat-tab label="Gráfico por Productos" *ngIf="this.locStorage.getRol()[0].id_rol!=8888">
+        <!--            CONTENIDO DE LA PESTAÑA-->
+        <div style="padding: 10px;height: calc(100vh - 147px - 2px);">
+          <!--            CONTENEDOR DE OPCIONES-->
+          <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);display: flex;padding-top: 5px;">
+            <!--      SELECTOR TIENDA-->
+            <!-- <mat-form-field style="width: 20%;margin: auto;margin-bottom: -10px;">
+              <mat-label>Seleccione tienda</mat-label>
+              <mat-select [(ngModel)]="SelectedStore3">
+                <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+                  {{elem.store_NAME}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field> -->
+            <!--      SELECTOR FECHA INICIAL-->
+            <mat-form-field style="width: 20%;margin: auto;margin-bottom: -10px;">
+              <input matInput [matDatepicker]="picker3" placeholder="Fecha Inicial" [(ngModel)]="date3" (dateChange)="SelectorFechaFinal_GPProductos.open()">
+              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+              <mat-datepicker #picker3 disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <!--      SELECTOR FECHA FINAL-->
+            <mat-form-field style="width: 20%;margin: auto;margin-bottom: -10px;">
+              <input matInput [matDatepicker]="picker4" placeholder="Fecha Final" [(ngModel)]="date4">
+              <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+              <mat-datepicker #picker4 disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <button style="width: 20%;margin: auto;" [disabled]="EstadoBusqueda_GPProductos == 1" mat-stroked-button color="primary" type="button" (click)="getChartData2()">Generar Reporte</button>
+          </div>
+          <!--        CANVAS DONDE SALE EL REPORTE-->
+          <div class="ScrollBar" style="height: 89%;overflow: auto;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);margin-top: 0.9%;">
+            <canvas [hidden]="LineChartTotal == null" id="lineChartTotal"></canvas>
+            <!--                estado inicial-->
+            <div *ngIf="LineChartTotal == null" style="height: 90%;background-color: white;">
+              <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                <mat-icon *ngIf="EstadoBusqueda_GPProductos == -1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">search</mat-icon>
+                <mat-icon *ngIf="EstadoBusqueda_GPProductos == 1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">cached</mat-icon>
+              </div>
+              <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                <mat-label *ngIf="EstadoBusqueda_GPProductos == -1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Realice una consulta</mat-label>
+                <mat-label *ngIf="EstadoBusqueda_GPProductos == 1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Consultando, espere...</mat-label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <!--    PESTAÑA PRODUCTOS-->
+      <mat-tab label="Productos" *ngIf="this.locStorage.getRol()[0].id_rol!=8888">
+        <!--            CONTENIDO DE LA PESTAÑA-->
+        <div style="padding: 10px;height: calc(100vh - 147px - 2px);">
+          <!--            CONTENEDOR DE OPCIONES-->
+          <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);display: flex;padding-top: 5px;">
+            <!--      SELECTOR TIENDA-->
+            <!-- <mat-form-field style="width: 13%;margin: auto;margin-bottom: -10px;margin-left: 10px">
+              <mat-label>Seleccione tienda</mat-label>
+              <mat-select [(ngModel)]="SelectedStoreProd">
+                <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+                  {{elem.store_NAME}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field> -->
+
+            <!--      SELECTOR LINEA-->
+            <mat-form-field style="width: 10%;margin: auto;margin-bottom: -10px;">
+              <mat-label>Seleccione Linea</mat-label>
+              <mat-select [(ngModel)]="SelectedLine2" (selectionChange) = "getSecondLvlCategory2()">
+                <mat-option [value]="-1">Sin Linea</mat-option>
+                <mat-option *ngFor="let elem of CategoryFirstLvlList" [value]="elem.id_CATEGORY" >
+                  {{elem.category}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!--      SELECTOR CATEGORIA -->
+            <mat-form-field style="width: 12%;margin: auto;margin-bottom: -10px;">
+              <mat-label>Seleccione categoria</mat-label>
+              <mat-select [(ngModel)]="SelectedSubCategory2">
+                <mat-option [value]="-1">Sin Categoria</mat-option>
+                <mat-option *ngFor="let elem of SubCategoryList" [value]="elem.id_CATEGORY">
+                  {{elem.category}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!--      SELECTOR MARCA -->
+            <mat-form-field style="width: 11%;margin: auto;margin-bottom: -10px;">
+              <mat-label>Seleccione marca</mat-label>
+              <mat-select [(ngModel)]="SelectedBrand2" (selectionChange) = "resetCategories()">
+                <mat-option [value]="-1">Sin Marca</mat-option>
+                <mat-option *ngFor="let elem of Brands" [value]="elem.id_BRAND">
+                  {{elem.brand}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!--      SELECTOR FECHA INICIAL-->
+            <mat-form-field style="width: 8%;margin: auto;margin-bottom: -10px;">
+              <input matInput [matDatepicker]="pickerP1" placeholder="F. Inicial" [(ngModel)]="dateP1" (dateChange)="SelectorFechaFinal_Productos.open()">
+              <mat-datepicker-toggle matSuffix [for]="pickerP1"></mat-datepicker-toggle>
+              <mat-datepicker #pickerP1 disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <!--      SELECTOR FECHA FINAL-->
+            <mat-form-field style="width: 8%;margin: auto;margin-bottom: -10px;">
+              <input matInput [matDatepicker]="pickerP2" placeholder="F. Final" [(ngModel)]="dateP2">
+              <mat-datepicker-toggle matSuffix [for]="pickerP2"></mat-datepicker-toggle>
+              <mat-datepicker #pickerP2 disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field style="width: 10%;margin: auto;margin-bottom: -10px;">
+              <mat-label>Filtrado </mat-label>
+              <input required [(ngModel)]="filterBox" (keyup) ="SortByFilter()" matInput type="text" class="no-spin text-center" >
+            </mat-form-field>
+
+            <!--      BOTON GENERAR REPORTE PRODUCTOS-->
+            <button [disabled]="dateP1 == null || dateP2 == null" style="width: 8%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="getRepProdList()">Generar</button>
+            <!--      BOTON VER EXCEL-->
+            <button [disabled]="ListReportProd.length == 0 || DataSourceProductos.filteredData.length == 0" style="width: 8%;margin: auto;color: green;margin-left: 10px;" mat-stroked-button color="primary" type="button" (click)="excelProductos()">Excel<img style="margin-left: 10px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Microsoft_Office_Excel_%282018%E2%80%93present%29.svg/1200px-Microsoft_Office_Excel_%282018%E2%80%93present%29.svg.png" height="15" width="15" /></button>
+            <!--            TOTAL PRODUCTOS-->
+            <div style="margin: auto;text-align: center; margin-left: 0;width: 10%">
+              <h5 style="margin: 0;margin-top: 5px;font-size: inherit">  N° Productos  </h5>
+              <h3 style="font-size: inherit"> {{ListReportProd.length }} </h3>
+            </div>
+          </div>
+          <!--      TABLA DEL REPORTE-->
+          <div class="ScrollBar" style="height: 90.3%;overflow: auto;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);margin-top: 0.9%;">
+            <table #SorterTablaProductos="matSort" mat-table multiTemplateDataRows [dataSource]="DataSourceProductos" matSort class="mat-elevation-z8" style="width: 100%;box-shadow: unset;">
+              <!--              CREO LAS COLUMNAS-->
+              <ng-container matColumnDef="{{col}}" *ngFor="let col of ['ownbarcode','product','linea','categoria','marca','venta','costo','utilidad','pct_MARGEN','numventas']">
+                <div *ngIf="(col == 'ownbarcode') || (col == 'categoria') || (col == 'product')  || (col == 'pct_MARGEN') || (col == 'numventas') || (col == 'marca') || (col == 'linea')">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">
+                    <div *ngIf="col=='ownbarcode'">Codigo de Barras</div>
+                    <div *ngIf="col=='product'">Producto</div>
+                    <div *ngIf="col=='categoria'">Categoria</div>
+                    <div *ngIf="col=='pct_MARGEN'">Margen</div>
+                    <div *ngIf="col=='numventas'">Unidades Vendidas</div>
+                    <div *ngIf="col=='marca'">Marca</div>
+                    <div *ngIf="col=='linea'">Linea</div>
+                  </th>
+                  <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'" >
+                    <div *ngIf="col=='pct_MARGEN'" (click)="openKardex(element)">
+                      {{element[col]}}%
+                    </div>
+                    <div *ngIf="col!='pct_MARGEN'" (click)="openKardex(element)">
+                      {{element[col]}}
+                    </div>
+                  </td>
+                </div>
+                <div *ngIf="(col == 'venta') || (col == 'costo') || (col == 'utilidad') ">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">
+                    <div *ngIf="col=='venta'">Ventas</div>
+                    <div *ngIf="col=='costo'">Costo</div>
+                    <div *ngIf="col=='utilidad'">Utilidades</div>
+                  </th>
+                  <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'"> <div (click)="openKardex(element)"> {{element[col] | currency : 'USD' : 'symbol' : '1.2-2'}} </div> </td>
+                </div>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="['ownbarcode','product','linea','categoria','marca','venta','costo','utilidad','pct_MARGEN','numventas']; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['ownbarcode','product','linea','categoria','marca','venta','costo','utilidad','pct_MARGEN','numventas'];"> </tr>
+            </table>
+            <!--                estado inicial-->
+            <div *ngIf="ListReportProd.length == 0" style="height: 90%;background-color: white;">
+              <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                <mat-icon *ngIf="EstadoBusqueda_Productos == -1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">search</mat-icon>
+                <mat-icon *ngIf="EstadoBusqueda_Productos == 1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">cached</mat-icon>
+                <mat-icon *ngIf="EstadoBusqueda_Productos == 2" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">error_outline</mat-icon>
+              </div>
+              <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                <mat-label *ngIf="EstadoBusqueda_Productos == -1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Realice una consulta</mat-label>
+                <mat-label *ngIf="EstadoBusqueda_Productos == 1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Consultando, espere...</mat-label>
+                <mat-label *ngIf="EstadoBusqueda_Productos == 2" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">No se encontraron registros</mat-label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <!--    PESTAÑA CATEGORIAS-->
+      <mat-tab label="Categorías" *ngIf="this.locStorage.getRol()[0].id_rol!=8888">
+        <!--            CONTENIDO DE LA PESTAÑA-->
+        <div style="padding: 10px;height: calc(100vh - 147px - 2px);">
+          <!--            CONTENEDOR DE OPCIONES-->
+          <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);display: flex;padding-top: 5px;">
+            <!--      SELECTOR DE TIENDA-->
+            <!-- <mat-form-field style="width: 24%;margin: auto;margin-bottom: -10px;">
+              <mat-label>Seleccione tienda</mat-label>
+              <mat-select [(ngModel)]="SelectedStoreCat">
+                <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+                  {{elem.store_NAME}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field> -->
+            <!--      SELECTOR FECHA INICAL-->
+            <mat-form-field style="width: 15%;margin: auto;margin-bottom: -10px;">
+              <input matInput [matDatepicker]="pickerC1" placeholder="Fecha Inicial" [(ngModel)]="dateC1" (dateChange)="SelectorFechaFinal_Categorias.open()">
+              <mat-datepicker-toggle matSuffix [for]="pickerC1"></mat-datepicker-toggle>
+              <mat-datepicker #pickerC1 disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <!--      SELECTOR FECHA FINAL-->
+            <mat-form-field style="width: 15%;margin: auto;margin-bottom: -10px;">
+              <input matInput [matDatepicker]="pickerC2" placeholder="Fecha Final" [(ngModel)]="dateC2">
+              <mat-datepicker-toggle matSuffix [for]="pickerC2"></mat-datepicker-toggle>
+              <mat-datepicker #pickerC2 disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <!--      BOTON GENERAR REPORTE CATEGORIAS-->
+            <button style="width: 20%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="getRepCatList()">Generar Reporte</button>
+            <!--      BOTON VER EXCEL-->
+            <button [disabled]="ListReportCat.length == 0" style="width: 20%;margin: auto;color: green;margin-left: 10px;" mat-stroked-button color="primary" type="button" (click)="excelCategorias()">Exportar En Excel<img style="margin-left: 10px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Microsoft_Office_Excel_%282018%E2%80%93present%29.svg/1200px-Microsoft_Office_Excel_%282018%E2%80%93present%29.svg.png" height="15" width="15" /></button>
+          </div>
+          <!--      TABLA DEL REPORTE-->
+          <div class="ScrollBar" style="height: 90.3%;overflow: auto;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);margin-top: 0.9%;">
+            <table #SorterTablaCategorias="matSort" mat-table multiTemplateDataRows [dataSource]="DataSourceCategorias" matSort class="mat-elevation-z8" style="width: 100%;box-shadow: unset;">
+              <!--              CREO LAS COLUMNAS-->
+              <ng-container matColumnDef="{{col}}" *ngFor="let col of ['linea','categoria','venta','costo','utilidad','pct_MARGEN','numventas']">
+                <div *ngIf="(col == 'categoria') || (col == 'numventas') || (col == 'pct_MARGEN') || (col == 'linea')">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">
+                    <div *ngIf="col=='linea'">Linea</div>
+                    <div *ngIf="col=='categoria'">Categoría</div>
+                    <div *ngIf="col=='pct_MARGEN'">Margen</div>
+                    <div *ngIf="col=='numventas'">N° Ventas</div>
+                  </th>
+                  <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'">
+                    <div *ngIf="col=='pct_MARGEN'">
+                      {{element[col]}}%
+                    </div>
+                    <div *ngIf="col!='pct_MARGEN'">
+                      {{element[col]}}
+                    </div>
+                  </td>
+                </div>
+                <div *ngIf="(col == 'venta') || (col == 'costo') || (col == 'utilidad') ">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">
+                    <div *ngIf="col=='venta'">Ventas</div>
+                    <div *ngIf="col=='costo'">Costo</div>
+                    <div *ngIf="col=='utilidad'">Utilidades</div>
+                  </th>
+                  <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'"> {{element[col] | currency : 'USD' : 'symbol' : '1.2-2'}} </td>
+                </div>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="['linea','categoria','venta','costo','utilidad','pct_MARGEN','numventas']; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['linea','categoria','venta','costo','utilidad','pct_MARGEN','numventas'];"> </tr>
+            </table>
+            <!--                estado inicial-->
+            <div *ngIf="ListReportCat.length == 0" style="height: 90%;background-color: white;">
+              <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                <mat-icon *ngIf="EstadoBusqueda_Categorias == -1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">search</mat-icon>
+                <mat-icon *ngIf="EstadoBusqueda_Categorias == 1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">cached</mat-icon>
+                <mat-icon *ngIf="EstadoBusqueda_Categorias == 2" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">error_outline</mat-icon>
+              </div>
+              <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                <mat-label *ngIf="EstadoBusqueda_Categorias == -1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Realice una consulta</mat-label>
+                <mat-label *ngIf="EstadoBusqueda_Categorias == 1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Consultando, espere...</mat-label>
+                <mat-label *ngIf="EstadoBusqueda_Categorias == 2" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">No se encontraron registros</mat-label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <!-- PESTAÑA FACTURACION-->
+      <mat-tab label="Facturación">
+        <!--            CONTENIDO DE LA PESTAÑA-->
+        <div style="padding: 10px;height: calc(100vh - 147px - 2px);">
+          <!--            CONTENEDOR DE OPCIONES-->
+          <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);display: flex;padding-top: 5px;">
+            <!--      SELECTOR DE TIENDA-->
+            <!-- <mat-form-field *ngIf="this.locStorage.getRol()[0].id_rol!=8888" style="width: 19%;margin: auto;margin-bottom: -10px;">
+              <mat-label>Seleccione tienda</mat-label>
+              <mat-select [(ngModel)]="SelectedStore">
+                <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+                  {{elem.store_NAME}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field> -->
+            <!--      SELECTOR DE TIENDA 2-->
+            <!-- <mat-form-field *ngIf="this.locStorage.getRol()[0].id_rol==8888" style="width: 19%;margin: auto;margin-bottom: -10px;">
+              <mat-label>Seleccione tienda</mat-label>
+              <mat-select [(ngModel)]="SelectedStore">
+                <mat-option [value]="storeId">
+                  Esta tienda.
+                </mat-option>
+              </mat-select>
+            </mat-form-field> -->
+            <!--      SELECTOR DE Tienda-->
+            <mat-form-field style="width: 10%;margin: auto;margin-bottom: -10px;">
+              <mat-label>Seleccione tienda</mat-label>
+              <mat-select  [(ngModel)]="SelectedStore" multiple (selectionChange)="showStuf()">
+                <mat-option [value]="-1">Todas</mat-option>
+                <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE" >
+                  {{elem.store_NAME}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!--      SELECTOR DE MOVIMIENTO-->
+            <mat-form-field style="width: 10%;margin: auto;margin-bottom: -10px;">
+              <mat-label>Seleccione movimiento</mat-label>
+              <mat-select [(ngModel)]="tipoFactura2" (selectionChange)="clearDataSource()">
+                <mat-option [value]="1">Venta</mat-option>
+                <mat-option [value]="2" *ngIf="this.locStorage.getRol()[0].id_rol!=8888">Compra</mat-option>
+                <mat-option [value]="3" *ngIf="this.locStorage.getRol()[0].id_rol!=8888">Entrada</mat-option>
+                <mat-option [value]="4" *ngIf="this.locStorage.getRol()[0].id_rol!=8888">Salida</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!--      SELECTOR DE FECHA INICIAL-->
+            <mat-form-field style="width: 10%;margin: auto;margin-bottom: -10px;">
+              <input matInput [matDatepicker]="pickerF1" placeholder="Fecha Inicial" [(ngModel)]="dateF1" (dateChange)="SelectorFechaFinal_Facturacion.open()">
+              <mat-datepicker-toggle matSuffix [for]="pickerF1"></mat-datepicker-toggle>
+              <mat-datepicker #pickerF1 disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <!--      SELECTOR FECHA FINAL-->
+            <mat-form-field style="width: 10%;margin: auto;margin-bottom: -10px;">
+              <input matInput [matDatepicker]="pickerF2" placeholder="Fecha Final" [(ngModel)]="dateF2">
+              <mat-datepicker-toggle matSuffix [for]="pickerF2"></mat-datepicker-toggle>
+              <mat-datepicker #pickerF2 disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <!--      BOTONES GENERAR REPORTES FACTURAS-->
+            <button style="width: 22%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="generateReportBillTable()">Generar Reporte Totalizado</button>
+            <button style="width: 22%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="generateReportBill()">Generar Reporte por Facturas</button>
+            <button [disabled]="ListReportBill.length == 0" style="width: 16%;margin: auto;color: green;" mat-stroked-button color="primary" type="button" (click)="excelFacturas()">Exportar En Excel<img style="margin-left: 10px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Microsoft_Office_Excel_%282018%E2%80%93present%29.svg/1200px-Microsoft_Office_Excel_%282018%E2%80%93present%29.svg.png" height="15" width="15" /></button>
+          </div>
+          <!--      COLUMAS SOBRE LA TABLA-->
+          <div style="margin-top: 10px;text-align:center;width: 100%;display: flex;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);">
+            <!--          COLUMNA VENTAS-->
+            <div *ngIf="tipoFactura2==1" style="padding: 2px;margin: auto;">
+              <h5 class="left-scroll">Ventas</h5> <!--          VAL--> <h4 class="left-scroll">{{ventasTotales | currency}}</h4>
+            </div>
+            <!--          COLUMNA COSTO-->
+            <div *ngIf="this.locStorage.getRol()[0].id_rol!=8888" style="padding: 2px;margin: auto;">
+              <h5 class="left-scroll">Costo</h5><!--            VAL--> <h4 class="left-scroll">{{costosTotales | currency}}</h4>
+            </div>
+            <!--          COLUMA UTILIDADES-->
+            <div *ngIf="tipoFactura2==1 && this.locStorage.getRol()[0].id_rol!=8888" style="padding: 2px;margin: auto;">
+              <h5 class="left-scroll">Utilidades</h5> <!--            VAL--> <h4 class="left-scroll">{{utilidadesTotales | currency}}</h4>
+            </div>
+            <!--          COLUMNA MARGEN VENTA-->
+            <div *ngIf="tipoFactura2==1 && this.locStorage.getRol()[0].id_rol!=8888" style="padding: 2px;margin: auto;">
+              <h5 class="left-scroll">% Margen Venta</h5> <!--            VAL--> <h4 class="left-scroll">{{margenPromedio*10 | percent}}</h4>
+            </div>
+            <!--          COLUMNA MARGEN COSTO-->
+            <div *ngIf="tipoFactura2==1 && this.locStorage.getRol()[0].id_rol!=8888" style="padding: 2px;margin: auto;">
+              <h5 class="left-scroll">% Margen Costo</h5> <!--            VAL--> <h4 class="left-scroll">{{margenPromedio2*10 | percent}}</h4>
+            </div>
+            <!--          COLUMNA FACTUAS-->
+            <div style="padding: 2px;margin: auto;">
+              <h5 class="left-scroll">Facturas</h5> <!--            VAL--> <h4 class="left-scroll">{{ListReportBill.length}}</h4>
+            </div>
+          </div>
+          <div style="margin-top: 10px;text-align:center;width: 100%;display: flex;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);" *ngIf="tipoFactura2==1">
+            <!--          COLUMNA DEVOLUCIONES-->
+            <div *ngIf="tipoFactura2==1 && this.locStorage.getRol()[0].id_rol!=8888" style="padding: 2px;margin: auto;">
+              <h5 class="left-scroll">Devoluciones</h5>
+              <!--            VAL-->
+              <h4 class="left-scroll">{{devolucionesVentas | currency}}</h4>
+            </div>
+            <!--          COLUMNA DOMICILIARIOS VENTAS-->
+            <div *ngIf="tipoFactura2==1 && this.locStorage.getRol()[0].id_rol!=8888" style="padding: 2px;margin: auto;">
+              <h5 class="left-scroll">Ventas Domicilios</h5>
+              <!--            VAL-->
+              <h4 class="left-scroll">{{ventasDomicilios | currency}}</h4>
+            </div>
+            <!--          COLUMNA TOTAL DOMICILIOS-->
+            <div *ngIf="tipoFactura2==1 && this.locStorage.getRol()[0].id_rol!=8888" style="padding: 2px;margin: auto;">
+              <h5 class="left-scroll">Total Domicilios</h5>
+              <!--            VAL-->
+              <h4 class="left-scroll">{{totalDomicilios}}</h4>
+            </div>
+          </div>
+          <!--      TABLA DEL REPORTE-->
+          <div class="ScrollBar" style="overflow: auto;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);margin-top: 0.9%;" [style.height]="tipoFactura2==1?'67.2%':'79%'">
+            <table #SorterTablaFacturacion="matSort" mat-table multiTemplateDataRows [dataSource]="DataSourceFacturacion" matSort class="mat-elevation-z8" style="width: 100%;box-shadow: unset;">
+              <!--              CREO LAS COLUMNAS-->
+              <ng-container matColumnDef="fullname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">Consecutivo</th>
+                <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit;cursor: pointer" [style.text-align]="'center'" (click)="generatePdfRoute(element)">{{element.fullname}}-{{element.num_DOCUMENTO}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="purchase_DATE">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">Fecha Factura</th>
+                <td  mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'">
+                  {{element.purchase_DATE}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="venta">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">Ventas</th>
+                <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'"> {{element.venta | currency : 'USD' : 'symbol' : '1.2-2'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="costo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">Costo</th>
+                <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'"> {{element.costo | currency : 'USD' : 'symbol' : '1.2-2'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="tax">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">Tax</th>
+                <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'"> {{element.tax | currency : 'USD' : 'symbol' : '1.2-2'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="utilidad">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">Utilidades</th>
+                <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'">
+                  <div *ngIf="tipoFactura2==1">{{element.utilidad | currency : 'USD' : 'symbol' : '1.2-2'}}</div>
+                  <div *ngIf="tipoFactura2!=1"> </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="pct_MARGEN_VENTA">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">% Margen Venta</th>
+                <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'">
+                  <div *ngIf="tipoFactura2==1">{{element.pct_MARGEN_VENTA}}%</div>
+                  <div *ngIf="tipoFactura2!=1"> </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="pct_MARGEN_COSTO">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">% Margen Costo</th>
+                <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'">
+                  <div *ngIf="tipoFactura2==1">{{element.pct_MARGEN_COSTO}}%</div>
+                  <div *ngIf="tipoFactura2!=1"> </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="caja">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">Caja</th>
+                <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'">
+                  <div *ngIf="tipoFactura2==1">{{element.caja}}</div>
+                  <div *ngIf="tipoFactura2!=1"> </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="cajero">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">Cajero</th>
+                <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'">{{element.cajero}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="id_BILL_STATE">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">Tipo Factura</th>
+                <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'">
+                  {{element.tipofactura == 0 ? 'Anulado Devolucion':(element.tipofactura == 1 ? 'Efectivo':(element.tipofactura == 2 ? 'T. Debito':(element.tipofactura == 3 ? 'T. Credito':(element.tipofactura==4 ? 'Transferencia' : '?'))))}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="domiciliario">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">Domiciliario</th>
+                <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'">
+                  <div *ngIf="tipoFactura2==1">{{element.domiciliario}}</div>
+                  <div *ngIf="tipoFactura2!=1"> </div>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="ListadoColumnasParaFacturacion; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: ListadoColumnasParaFacturacion;"> </tr>
+            </table>
+            <mat-paginator #paginatorBilling [pageSize]="[50, 100]" showFirstLastButtons></mat-paginator>
+            <!--                estado inicial-->
+            <div *ngIf="ListReportBill.length == 0" style="height: 85%;background-color: white;">
+              <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                <mat-icon *ngIf="EstadoBusqueda_Facturacion == -1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">search</mat-icon>
+                <mat-icon *ngIf="EstadoBusqueda_Facturacion == 1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">cached</mat-icon>
+                <mat-icon *ngIf="EstadoBusqueda_Facturacion == 2" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">error_outline</mat-icon>
+              </div>
+              <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                <mat-label *ngIf="EstadoBusqueda_Facturacion == -1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Realice una consulta</mat-label>
+                <mat-label *ngIf="EstadoBusqueda_Facturacion == 1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Consultando, espere...</mat-label>
+                <mat-label *ngIf="EstadoBusqueda_Facturacion == 2" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">No se encontraron registros</mat-label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <!--    PESTAÑA CAJA-->
+      <mat-tab label="Caja" *ngIf="this.locStorage.getRol()[0].id_rol!=8888">
+        <mat-tab-group>
+          <mat-tab label="Cajas cerradas">
+<!--            CONTENIDO DE LA PESTAÑA-->
+            <div style="padding: 10px;height: calc(100vh - 195px - 2px);">
+              <!--            CONTENEDOR DE OPCIONES-->
+              <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);display: flex;padding-top: 5px;">
+                <!--      SELECTOR TIENDA-->
+                <!-- <mat-form-field style="width: 24%;margin: auto;margin-bottom: -10px;">
+                  <mat-label>Seleccione tienda</mat-label>
+                  <mat-select [(ngModel)]="SelectedStore2">
+                    <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+                      {{elem.store_NAME}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+                <!--      SELECTOR FECHA INICIAL-->
+                <mat-form-field style="width: 15%;margin: auto;margin-bottom: -10px;">
+                  <input matInput [matDatepicker]="pickerCC1" placeholder="Fecha Inicial" [(ngModel)]="dateCC1" (dateChange)="SelectorFechaFinal.open()">
+                  <mat-datepicker-toggle matSuffix [for]="pickerCC1"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerCC1 disabled="false"></mat-datepicker>
+                </mat-form-field>
+                <!--      SELECTOR FECHA FINAL-->
+                <mat-form-field style="width: 15%;margin: auto;margin-bottom: -10px;">
+                  <input matInput [matDatepicker]="pickerCC2" placeholder="Fecha Final" [(ngModel)]="dateCC2">
+                  <mat-datepicker-toggle matSuffix [for]="pickerCC2"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerCC2 disabled="false"></mat-datepicker>
+                </mat-form-field>
+                <!--      BOTONES GENERAR REPORTES-->
+                <button style="width: 11%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="getRepCCList()">Consultar</button>
+                <button [disabled]="GetKeysFromNewData_Caja().length == 0" style="width: 18%;margin: auto;color: green;margin-left: 10px;" mat-stroked-button color="primary" type="button" (click)="excelCaja()">Exportar En Excel<img style="margin-left: 10px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Microsoft_Office_Excel_%282018%E2%80%93present%29.svg/1200px-Microsoft_Office_Excel_%282018%E2%80%93present%29.svg.png" height="15" width="15" /></button>
+              </div>
+<!--              EL CONTENIDO DEL REPORTE-->
+              <div class="ScrollBar" style="height: 90%;overflow: auto;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);margin-top: 0.9%;">
+<!--                CONTENEDOR PARA CADA CONSECUTIVO-->
+                <div *ngFor="let Consecutivo of GetKeysFromNewData_Caja()">
+                  <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);display: flex;margin: 10px 10px;padding: 5px 0;">
+<!--                    PARTE IZQUIERDA-->
+                    <div style="margin: auto;">
+                      <div style="display: flex;"><mat-label style="color: #757575;font-size: large;font-weight: bold;margin-right: 20px;">Consecutivo: </mat-label><mat-label style="font-size: large;margin: auto;display: flex;cursor: pointer;border-bottom: dotted;border-bottom-width: 2px;border-bottom-color: mediumblue;" (click)="generatePdfRoute2(DictTablaConsecutivos_caja[Consecutivo].RawData[0].idcaja,DictTablaConsecutivos_caja[Consecutivo].RawData[0].consecutive)">{{Consecutivo}}</mat-label></div>
+                      <div style="display: flex;"><mat-label style="color: #757575;font-size: large;font-weight: bold;margin-right: 20px;">Nombre Cajero: </mat-label><mat-label style="font-size: large;margin: auto">{{DictTablaConsecutivos_caja[Consecutivo].Cajero}}</mat-label></div>
+                    </div>
+                    <!--                    PARTE CENTRO IZQUIERDA-->
+                    <div style="margin: auto;">
+                      <div style="display: flex;"><mat-label style="color: #757575;font-size: large;font-weight: bold;margin-right: 20px;">Balance </mat-label><mat-label style="font-size: large;margin: auto" [style.color]="DictTablaConsecutivos_caja[Consecutivo]['balance'] >=0 ? 'green':'red'">{{DictTablaConsecutivos_caja[Consecutivo].balance | currency : 'USD' : 'symbol' : '1.2-2'}}</mat-label></div>
+                      <div style="display: flex;"><mat-label style="color: #757575;font-size: large;font-weight: bold;margin-right: 20px;">Caja N°: </mat-label><mat-label style="font-size: large;margin: auto">{{DictTablaConsecutivos_caja[Consecutivo].caja_NUMBER}}</mat-label></div>
+                    </div>
+                    <!--                    PARTE CENTRO DERECHA-->
+                    <div style="margin: auto;">
+                      <div style="display: flex;"><mat-label style="color: #757575;font-size: large;font-weight: bold;margin-right: 20px;">Fecha Apertura: </mat-label><mat-label style="font-size: large;margin: auto">{{DictTablaConsecutivos_caja[Consecutivo].FOpen}}</mat-label></div>
+                      <div style="display: flex;"><mat-label style="color: #757575;font-size: large;font-weight: bold;margin-right: 20px;">Fecha Cierre: </mat-label><mat-label style="font-size: large;margin: auto">{{DictTablaConsecutivos_caja[Consecutivo].FClose}}</mat-label></div>
+                    </div>
+                    <!--                    PARTE DERECHA-->
+                    <div style="margin: auto;">
+                      <div style="display: flex;"><mat-label style="color: #757575;font-size: large;font-weight: bold;margin-right: 20px;">Observaciones: </mat-label><mat-form-field style="width: 25vw;margin: auto;">
+                        <input matInput class="text-center" type="text"  placeholder="Observaciones Caja" [(ngModel)]="DictTablaConsecutivos_caja[Consecutivo].notes" #nameot>
+                      </mat-form-field></div>
+                      <div style="display: flex;"><mat-label style="font-size: large;margin: auto"><button style="width: 11%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="updateBox(DictTablaConsecutivos_caja[Consecutivo])" >Editar</button></mat-label></div>
+                    </div>
+                  </div>
+                  <table mat-table multiTemplateDataRows [dataSource]="DictTablaConsecutivos_caja[Consecutivo]['DataSource']" class="mat-elevation-z8" style="width: 100%;box-shadow: unset;">
+                    <!--              CREO LAS COLUMNAS-->
+                    <ng-container matColumnDef="{{col}}" *ngFor="let col of ['movement_DATE','valor','notas']">
+                      <div *ngIf="(col == 'movement_DATE') || (col == 'notas')">
+                        <th mat-header-cell *matHeaderCellDef style="padding: 0 !important;text-align: center !important;">
+                          <div *ngIf="col=='movement_DATE'">Fecha de Movimiento</div>
+                          <div *ngIf="col=='notas'">Notas Movimiento</div>
+                        </th>
+                        <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'"> {{element[col]}} </td>
+                      </div>
+                      <div *ngIf="col == 'valor'">
+                        <th mat-header-cell *matHeaderCellDef style="padding: 0 !important;text-align: center !important;">Valor</th>
+                        <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'"> {{element[col] | currency : 'USD' : 'symbol' : '1.2-2'}} </td>
+                      </div>
+                    </ng-container>
+                    <ng-container matColumnDef="naturaleza">
+                      <th mat-header-cell *matHeaderCellDef style="padding: 0 !important;text-align: center !important;">Naturaleza</th>
+                      <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'">
+                        <div *ngIf="element.naturaleza=='C'">Egreso de caja</div>
+                        <div *ngIf="element.naturaleza=='D'">Ingreso a caja</div>
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="['movement_DATE','naturaleza','valor','notas']; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ['movement_DATE','naturaleza','valor','notas'];"> </tr>
+                  </table>
+                </div>
+                <!--                estado inicial-->
+                <div *ngIf="EstadoBusqueda_Caja == -1" style="height: 90%;background-color: white;">
+                  <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                    <mat-icon style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">search</mat-icon>
+                  </div>
+                  <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                    <mat-label style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Realice una consulta</mat-label>
+                  </div>
+                </div>
+                <!--                estado buscando-->
+                <div *ngIf="EstadoBusqueda_Caja == 1" style="height: 90%;background-color: white;">
+                  <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                    <mat-icon style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">cached</mat-icon>
+                  </div>
+                  <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                    <mat-label style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Consultando, espere...</mat-label>
+                  </div>
+                </div>
+                <!--                estado finalizado y no encontrado-->
+                <div *ngIf="EstadoBusqueda_Caja == 2 && GetKeysFromNewData_Caja().length == 0" style="height: 90%;background-color: white;">
+                  <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                    <mat-icon style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">error_outline</mat-icon>
+                  </div>
+                  <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                    <mat-label style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">No se encontraron registros</mat-label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Cajas Abiertas">
+            <app-open-box-report></app-open-box-report>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-tab>
+      <!--    PESTAÑA TERCEROS-->
+      <mat-tab label="Terceros" *ngIf="this.locStorage.getRol()[0].id_rol!=8888">
+        <div style="padding: 10px;height: calc(100vh - 147px - 2px);">
+          <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);display: flex;padding-top: 5px;">
+            <!--      SELECTOR MOVIMIENTO-->
+            <mat-form-field style="width: 24%;margin: auto;margin-bottom: -10px;">
+              <mat-label>Seleccione movimiento</mat-label>
+              <mat-select [(ngModel)]="tipoFactura2">
+                <mat-option [value]="1">Venta</mat-option>
+                <mat-option [value]="2">Compra</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!--      SELECTOR FECHA INICIAL-->
+            <mat-form-field style="width: 15%;margin: auto;margin-bottom: -10px;">
+              <input matInput [matDatepicker]="pickerthirds1" placeholder="Fecha Inicial" [(ngModel)]="ThirdsDate1" (dateChange)="SelectorFechaFinal_Terceros.open()">
+              <mat-datepicker-toggle matSuffix [for]="pickerthirds1"></mat-datepicker-toggle>
+              <mat-datepicker #pickerthirds1 disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <!--      SELECTOR FECHA FINAL-->
+            <mat-form-field style="width: 15%;margin: auto;margin-bottom: -10px;">
+              <input matInput [matDatepicker]="pickerthirds2" placeholder="Fecha Final" [(ngModel)]="ThirdsDate2">
+              <mat-datepicker-toggle matSuffix [for]="pickerthirds2"></mat-datepicker-toggle>
+              <mat-datepicker #pickerthirds2 disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <!--      BOTONES GENERAR REPORTE-->
+            <button style="width: 20%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="genReport()">
+              Generar Reporte
+            </button>
+            <button [disabled]="dataTablaThirds.length == 0" style="width: 20%;margin: auto;color: green;margin-left: 10px;" mat-stroked-button color="primary" type="button" (click)="excelPersona()">Exportar En Excel<img style="margin-left: 10px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Microsoft_Office_Excel_%282018%E2%80%93present%29.svg/1200px-Microsoft_Office_Excel_%282018%E2%80%93present%29.svg.png" height="15" width="15" /></button>
+          </div>
+          <!--        LA TABLA DEL REPORTE-->
+          <div class="ScrollBar" style="height: 90.3%;overflow: auto;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);margin-top: 0.9%;">
+            <table #SorterTablaTerceros="matSort" mat-table multiTemplateDataRows [dataSource]="DataSourceTerceros" matSort class="mat-elevation-z8" style="width: 100%;box-shadow: unset;">
+              <!--              CREO LAS COLUMNAS-->
+              <ng-container matColumnDef="{{col}}" *ngFor="let col of ['fullname','document_TYPE','numventas','totalventas','address','phone','mail']">
+                <div *ngIf="col != 'totalventas'">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">
+                    <div *ngIf="col=='fullname'">Nombre</div>
+                    <div *ngIf="col=='document_TYPE'">Documento</div>
+                    <div *ngIf="col=='numventas'">Num Transacciones</div>
+                    <div *ngIf="col=='address'">Dirección</div>
+                    <div *ngIf="col=='phone'">Teléfono</div>
+                    <div *ngIf="col=='mail'">Correo</div>
+                  </th>
+                  <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'">
+                    <div *ngIf="col=='document_TYPE'">
+                      {{element['document_TYPE']}}-{{element['document_NUMBER']}}
+                    </div>
+                    <div *ngIf="col!='document_TYPE'">
+                      {{element[col]}}
+                    </div>
+                  </td>
+                </div>
+                <div *ngIf="col == 'totalventas'">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">Total Transacciones</th>
+                  <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'"> {{element[col] | currency : 'USD' : 'symbol' : '1.2-2'}} </td>
+                </div>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="['fullname','document_TYPE','numventas','totalventas','address','phone','mail']; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['fullname','document_TYPE','numventas','totalventas','address','phone','mail'];"> </tr>
+            </table>
+            <!--                estado inicial-->
+            <div *ngIf="dataTablaThirds.length == 0" style="height: 90%;background-color: white;">
+              <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                <mat-icon *ngIf="EstadoBusqueda_Terceros == -1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">search</mat-icon>
+                <mat-icon *ngIf="EstadoBusqueda_Terceros == 1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">cached</mat-icon>
+                <mat-icon *ngIf="EstadoBusqueda_Terceros == 2" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">error_outline</mat-icon>
+              </div>
+              <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                <mat-label *ngIf="EstadoBusqueda_Terceros == -1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Realice una consulta</mat-label>
+                <mat-label *ngIf="EstadoBusqueda_Terceros == 1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Consultando, espere...</mat-label>
+                <mat-label *ngIf="EstadoBusqueda_Terceros == 2" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">No se encontraron registros</mat-label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <!--    PESTAÑA PEDIDOS PENDIENTES-->
+      <mat-tab label="Pedidos Pendientes" *ngIf="this.locStorage.getIdStore() != 301">
+        <!-- <mat-form-field>
+          <mat-label>Seleccione tienda</mat-label>
+          <mat-select [(ngModel)]="SelectedStorerPend">
+            <mat-option *ngFor="let elem of Stores2" [value]="elem.id_STORE_CLIENT">
+              {{elem.description}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+        <div style="display: flex">
+          <div style="width: 33%;margin-left: 0.5%;">
+            <mat-form-field style="width: 100%;">
+              <mat-label>Seleccione cliente</mat-label>
+              <mat-select [(ngModel)]="SelectedStore4item">
+                <mat-option [value]="'-1'">
+                  Todas
+                </mat-option>
+                <mat-option *ngFor="let elem of ClientStores" [value]="elem.id_STORE">
+                    {{elem.store_NAME}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div style="width: 33%;margin-left: 0.5%;">
+            <button style="width: 100%;" mat-stroked-button color="primary" type="button" (click)="getPendientes()">Cargar Pendientes</button>
+          </div>
+          <div style="width: 33%;">
+            <button style="width: 100%;" mat-stroked-button color="primary" type="button" (click)="getPendExcel()">Generar Excel</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th class="text-center">
+                Codigo de Barras
+              </th>
+              <th class="text-center">
+                Nombre
+              </th>
+              <th class="text-center">
+                Cantidad
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let elem of pendings">
+              <td class="text-center"> {{elem.ownbarcode}} </td>
+              <td class="text-center"> {{elem.product_STORE_NAME}} </td>
+              <td class="text-center"> {{elem.quantity}} </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</div>
+
+
+<div class="ContenedorLoading" *ngIf="mostrandoCargando">
+  <div style="max-width: 500px;width: 50%;margin: auto;height: 30%;">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title style="font-weight: 500;">Espere un momento...</mat-card-title>
+      </mat-card-header>
+      <mat-card-content style="align-items: center;justify-content: center;display: flex">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,87 @@
+<div>
+    <mat-card style="height: 100%;width:100%;padding:0">
+      <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+        <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Log de Kárdex producto</mat-card-title>
+      </mat-card-header>
+    </mat-card>
+    <mat-card style="padding:20px">
+        <mat-card-content style="padding:20px">
+            <div style="display: flex">
+                <div class="card-content table-responsive">
+                    <table class="table table-hover" style="text-align: center;" >
+                        <tr>
+                            <th *ngIf="data.origin">Producto</th>
+                            <th *ngIf="!data.origin">Producto</th>
+                            <th>Línea</th>
+                            <th>Categoría</th>
+                        </tr>
+                        <tr>
+                            <td *ngIf="data.origin">{{data.element.producto}}</td>
+                            <td *ngIf="!data.origin">{{data.element.product}}</td>
+                            <td>{{data.element.linea}}</td>
+                            <td>{{data.element.categoria}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div style="display: flex">
+                <div class="card-content table-responsive">
+                    <table class="table table-hover" style="text-align: center;">
+                        <tr>
+                            <th>
+                                <mat-form-field style="width: 70%;margin: auto;margin-bottom: -10px;">
+                                    <input matInput [matDatepicker]="pickerC1" placeholder="Fecha Final" [(ngModel)]="date1">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerC1"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerC1 disabled="false"></mat-datepicker>
+                                </mat-form-field>
+                            </th>
+                            <th>
+                                <mat-form-field style="width: 70%;margin: auto;margin-bottom: -10px;">
+                                    <input matInput [matDatepicker]="pickerC2" placeholder="Fecha Final" [(ngModel)]="date2">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerC2"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerC2 disabled="false"></mat-datepicker>
+                                </mat-form-field>
+                            </th>
+                            <th>
+                                <div style="padding-top: 10px;">
+                                    <button mat-stroked-button color="primary" style="width: 70%;" (click)="getKardex()">Consultar</button>
+                                </div>
+                            </th>
+                            <th>
+                                <div style="padding-top: 10px;">
+                                    <button mat-stroked-button color="primary" style="width: 70%;" (click)="excel()">Excel</button>
+                                </div>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="ScrollBar" style="max-height: 400px; overflow-y: scroll">
+                <div class="card-content table-responsive">
+                    <table class="table table-hover" style="text-align: center;">
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Fecha Movimiento</th>
+                            <th>Tipo Movimiento</th>
+                            <th>Documento</th>
+                            <th>Cantidad</th>
+                            <th>Inventario Inicial</th>
+                            <th>Inventario Final</th>
+                        </tr>
+                        <tr *ngFor="let log of logs; let i = index">
+                            <td>{{log.usuario}}</td>
+                            <td>{{log.fecha_MOVIMIENTO}}</td>
+                            <td>{{log.tipo_MOVIMIENTO}}</td>
+                            <td *ngIf="log.documento!=='VACIO'"><div style="color: purple" (click)="billPdf(log)">{{log.documento}}</div></td>
+                            <td *ngIf="log.documento==='VACIO'"><div>  </div></td>
+                            <td>{{log.cantidad_MOVIMIENTO}}</td>
+                            <td>{{log.inventario_INICIAL}}</td>
+                            <td>{{log.inventario_FINAL}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <button mat-dialog-close mat-stroked-button color="primary" type="submit" style="width: 100%;" (click)="close()">Cerrar Ventana</button>
+        </mat-card-content>
+    </mat-card>
+</div>

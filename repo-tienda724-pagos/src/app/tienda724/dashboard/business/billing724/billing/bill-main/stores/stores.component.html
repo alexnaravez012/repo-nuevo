@@ -1,0 +1,121 @@
+<mat-tab-group style="max-height: 85vh">
+
+          <mat-tab label="Tiendas">
+            <div class="row">
+              <div class="col my-col" *ngFor="let store of stores">
+                  <mat-card color="toolbar" (click)="loadStore(store)" float-right style="width:120px;height: 120px;">
+                    <mat-card-header style="word-wrap: break-word;">
+                      <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px"><mat-icon *ngIf="!editingStore">home</mat-icon><mat-icon *ngIf="editingStore">edit</mat-icon></mat-card-title>
+                      <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>{{store.store_NAME}}</mat-card-title>
+                    </mat-card-header>
+                  </mat-card>
+                </div>
+                <div class="col my-col" *ngIf="!editingStore">
+                    <mat-card color="toolbar" (click)="editingStore = true" float-right style="width:120px;height: 120px;">
+                      <mat-card-header style="word-wrap: break-word;">
+                        <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px"><mat-icon>edit</mat-icon></mat-card-title>
+                        <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>Editar</mat-card-title>
+                      </mat-card-header>
+                    </mat-card>
+                  </div>
+              </div>
+              <form #storeForm="ngForm" class="my-form" (ngSubmit)="createNewStore()">
+                  <div class="row">
+                      <div class="col">
+                   <mat-form-field>
+                       <!-- <ion-label floating>Numero de la estanteria</ion-label> -->
+                       <input  matInput class="text-center" type="number" placeholder="Numero de la tienda" id="reader" autofocus name="bxxxxname" [(ngModel)]="store.store_number" required>
+                     </mat-form-field>
+                     <mat-form-field>
+                         <!-- <ion-label floating>Descripción</ion-label> -->
+                         <input  matInput class="text-center" type="text" placeholder="Descripción" id="reader" autofocus type="text" name="bxxxxdesc" [(ngModel)]="store.description" required>
+                       </mat-form-field>
+                       <mat-form-field>
+                          <!-- <ion-label floating>Descripción</ion-label> -->
+                          <input  matInput class="text-center" type="number" placeholder="Consecutivo Incial de Entrada" id="reader" autofocus type="text" name="bxxxxdesce" [(ngModel)]="store.entrada_consecutive_initial" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <!-- <ion-label floating>Descripción</ion-label> -->
+                            <input  matInput class="text-center" type="number" placeholder="Consecutivo Inicial de Salida" id="reader" autofocus type="text" name="bxxxxdescw" [(ngModel)]="store.salida_consecutive_initial" required>
+                          </mat-form-field>
+                      </div>
+                    </div>
+                    <button mat-stroked-button color="primary" type="submit" [disabled]="!storeForm.valid">Agregar/editar tienda</button>   
+                    <button mat-stroked-button color="primary" *ngIf="editingStore" (click)="cancelStore()">Cancelar edición</button>      
+                  </form>
+          </mat-tab>
+          <mat-tab label="Cajas de la tienda" *ngIf="boxes">
+              <div class="row">
+                  <div class="col my-col" *ngFor="let box of boxes">
+                      <mat-card color="toolbar" (click)="editBox(box)" float-right style="width:120px;height: 120px;">
+                        <mat-card-header style="word-wrap: break-word;">
+                          <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px"><mat-icon *ngIf="!editingBox">markunread_mailbox</mat-icon><mat-icon *ngIf="editingBox">edit</mat-icon></mat-card-title>
+                          <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>{{box.caja_NAME}}</mat-card-title>
+                        </mat-card-header>
+                      </mat-card>
+                    </div>
+
+                  <div class="col my-col" *ngIf="!editingBox">
+                      <mat-card color="toolbar" (click)="editingBox = true" float-right style="width:120px;height: 120px;">
+                        <mat-card-header style="word-wrap: break-word;">
+                          <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px"><mat-icon>edit</mat-icon></mat-card-title>
+                          <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>Editar</mat-card-title>
+                        </mat-card-header>
+                      </mat-card>
+                    </div>
+                  </div>
+                  <form #boxForm="ngForm" class="my-form" (ngSubmit)="createNewBox()">
+                      <div class="row">
+                          <div class="col">
+                       <mat-form-field>
+                           <!-- <ion-label floating>Numero de la estanteria</ion-label> -->
+                           <input  matInput class="text-center" type="number" placeholder="Numero de la caja" id="reader" autofocus name="bxxname" [(ngModel)]="box.caja_number" required>
+                         </mat-form-field>
+                         <mat-form-field>
+                             <!-- <ion-label floating>Descripción</ion-label> -->
+                             <input  matInput class="text-center" type="text" placeholder="Descripción" id="reader" autofocus type="text" name="bxxdesc" [(ngModel)]="box.description" required>
+                           </mat-form-field>
+                          </div>
+                        </div>
+                        <button mat-stroked-button color="primary" type="submit" [disabled]="!boxForm.valid">Agregar/editar caja</button>   
+                        <button mat-stroked-button color="primary" *ngIf="editingBox" (click)="cancelBox()">Cancelar edición</button>      
+                      </form>
+              </mat-tab>
+          <mat-tab label="Almacenamientos de la tienda" *ngIf="storages">
+              <div class="row">
+                  <div class="col my-col" *ngFor="let storage of storages">
+                      <mat-card color="toolbar" (click)="editStorage(storage)" float-right style="width:120px;height: 120px;">
+                        <mat-card-header style="word-wrap: break-word;">
+                          <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px"><mat-icon *ngIf="!editingStorage">inbox</mat-icon><mat-icon *ngIf="editingStorage">edit</mat-icon></mat-card-title>
+                          <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>{{storage.storage_name}}</mat-card-title>
+                        </mat-card-header>
+                      </mat-card>
+                    </div>
+                  <div class="col my-col" *ngIf="!editingStorage">
+                      <mat-card color="toolbar" (click)="editingStorage = true" float-right style="width:120px;height: 120px;">
+                        <mat-card-header style="word-wrap: break-word;">
+                          <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px"><mat-icon>edit</mat-icon></mat-card-title>
+                          <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>Editar</mat-card-title>
+                        </mat-card-header>
+                      </mat-card>
+                    </div>
+              </div>
+                  <form #storageForm="ngForm" class="my-form" (ngSubmit)="createNewStorage()">
+                      <div class="row">
+                          <div class="col">
+                       <mat-form-field>
+                           <!-- <ion-label floating>Numero de la estanteria</ion-label> -->
+                           <input  matInput class="text-center" type="number" placeholder="Numero de la estanteria" id="reader" autofocus name="bxname" [(ngModel)]="storage.storage_number" required>
+                         </mat-form-field>
+                         <mat-form-field>
+                             <!-- <ion-label floating>Descripción</ion-label> -->
+                             <input  matInput class="text-center" type="text" placeholder="Descripción" id="reader" autofocus type="text" name="bxdesc" [(ngModel)]="storage.description" required>
+                           </mat-form-field>
+                          </div>
+                        </div>
+                        <button mat-stroked-button color="primary" type="submit" [disabled]="!storageForm.valid">Agregar/editar estantería</button>   
+                        <button mat-stroked-button color="primary" *ngIf="editingStorage" (click)="cancelStorage()">Cancelar edición</button>      
+                      </form>
+            </mat-tab>
+
+</mat-tab-group>

@@ -1,0 +1,30 @@
+<div>
+    <h5 class="color-blue uk-text-bold padding-horizontal-30" style="padding-top: 20px;">Mesas</h5>
+    <div class="uk-child-width-1-5@m uk-grid-small uk-grid-match padding-horizontal-30" uk-grid>
+        <div *ngFor="let item of tableList">
+            <div *ngIf="!(item.naranja > 0 || item.azul > 0 || item.amarillo > 0 || item.rojo > 0)" class="uk-card uk-card-default uk-card-body card-table-tables" [ngStyle]="{'background-color': item.naranja > 0 ?'#f7bd83': ((item.naranja <= 0 && item.amarillo > 0)? '#fcfc9a': ((item.naranja <= 0 && item.amarillo <= 0 && item.azul) ? '#c2e5ff':(item.naranja == 0 && item.amarillo == 0 && item.azul == 0 && item.rojo > 0) ? '#ffa1a1':'#B1FFA6' ))}" uk-toggle="target: #table-20" (click)="tableClick(item)">
+                <h5 class="uk-text-bold uk-margin-remove">{{item.mesa}}</h5>
+                <h6 class="uk-text-bold uk-margin-remove" style="font-weight: 500;">Mesero: {{item.mesero}}</h6>
+                <h6 class="uk-margin-remove" style="font-weight: 500;">{{item.totalprice | currency}}</h6>
+                <h6 class="uk-margin-remove" style="font-weight: 500;">Minutos: {{getDateInMinutes(item.purchase_DATE)}}</h6>
+            </div>
+            <div *ngIf="(item.naranja > 0 || item.azul > 0 || item.amarillo > 0 || item.rojo > 0)" class="uk-card uk-card-default uk-card-body card-table-tables" [ngStyle]="{'background-color': item.naranja > 0 ?'#f7bd83': ((item.naranja <= 0 && item.amarillo > 0)? '#fcfc9a': ((item.naranja <= 0 && item.amarillo <= 0 && item.azul) ? '#c2e5ff':(item.naranja == 0 && item.amarillo == 0 && item.azul == 0 && item.rojo > 0) ? '#ffa1a1':'#B1FFA6' ))}" (click)="goToDetail(item)">
+              <h5 class="uk-text-bold uk-margin-remove">{{item.mesa}}</h5>
+              <h6 class="uk-text-bold uk-margin-remove" style="font-weight: 500;">Mesero: {{item.mesero}}</h6>
+              <h6 class="uk-margin-remove" style="font-weight: 500;">{{item.totalprice | currency}}</h6>
+              <h6 class="uk-margin-remove" style="font-weight: 500;">Minutos: {{getDateInMinutes(item.purchase_DATE)}}</h6>
+            </div>
+            <div id="table-20" style="padding-top: 15%;" uk-modal>
+                <div class="uk-modal-dialog uk-modal-body modal-card-tables">
+                    <div>
+                        <h4 class="uk-margin-remove uk-text-center color-blue uk-text-bold">¿Quieres abrir la {{tableName}}?</h4>
+                    </div>
+                    <div class="uk-flex uk-flex-center" style="margin-top: 10px;">
+                        <button class="uk-modal-close button-card-modal-tables" style="margin-right: 10px !important;" type="button" (click)="openTable(tableToOpen)">Abrir</button>
+                        <button class="uk-modal-close button-card-modal-tables" type="button">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

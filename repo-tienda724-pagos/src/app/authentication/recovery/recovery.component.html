@@ -1,0 +1,40 @@
+<div style="display: flex;height: 100vh;width: 100vw;overflow: hidden">
+  <div class="Fondo"></div>
+  <div  class="ContenedorFormato fadeInDown" style="position: absolute;width: 15%;height: 15%;left: 3%;top: 3%;" *ngIf="this.ancho >= 700">
+    <div class="wrapper">
+      <img style="height: 80%;margin: auto;" src="assets/logo.png"/>
+    </div>
+  </div>
+  <div  class="ContenedorFormato fadeInDown">
+  <ngx-loading [show]="this.ocupado" [config]="{animationType: ngxLoadingAnimationTypes.rectangleBounce, primaryColour: 'rgb(5, 53, 107)', backdropBorderRadius: '3px'}"></ngx-loading>
+  <div class="wrapper">
+    <form novalidate [formGroup]="form" style="height: 100%;display: flex;flex-direction: column">
+      <div style="margin-top: 10%">
+        <mat-label style="color: #414393;font-size: 140%;">Nueva Contraseña</mat-label>
+        <div class="ClaseInput">
+          <mat-icon style="margin: auto;width: 10%;color: #449BFF;transform: scaleX(-1)">vpn_key</mat-icon>
+          <input autocomplete="new-password" [type]="this.MostrarPass ? '':'password'"  class="menus" required="required" formControlName="newPass"/>
+          <mat-icon style="margin: auto;width: 10%;color: #449BFF;cursor: pointer;pointer-events: unset !important;" (click)="ChangePassMode()">{{this.MostrarPass ? 'visibility_off':'visibility'}}</mat-icon>
+        </div>
+      </div>
+      <div style="margin-top: 10%">
+        <mat-label style="color: #414393;font-size: 140%;">Confirme Nueva Contraseña</mat-label>
+        <div class="ClaseInput">
+          <mat-icon style="margin: auto;width: 10%;color: #449BFF;transform: scaleX(-1)">vpn_key</mat-icon>
+          <input autocomplete="new-password" [type]="this.MostrarPass ? '':'password'"  class="menus" required="required" formControlName="confirmNewPass"/>
+          <mat-icon style="margin: auto;width: 10%;color: #449BFF;cursor: pointer;pointer-events: unset !important;" (click)="ChangePassMode()">{{this.MostrarPass ? 'visibility_off':'visibility'}}</mat-icon>
+        </div>
+      </div>
+      <div class="button-container" style="margin:auto 0">
+        <button type="submit" (click)="CambiarClave()" class="fadeIn fourth BotonSubmit" [disabled]="!form.valid || this.ocupado"><span>Cambiar Contraseña</span></button>
+      </div>
+
+      <div  class="ContenedorFormato fadeInDown" style="width: 15%;height: 15%;left: 3%;top: 3%;" *ngIf="this.ancho < 700">
+        <div class="wrapper">
+          <img style="height: 80%;margin: auto;" src="assets/logo.png"/>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>

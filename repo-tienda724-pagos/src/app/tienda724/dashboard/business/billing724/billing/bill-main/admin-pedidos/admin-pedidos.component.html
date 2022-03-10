@@ -1,0 +1,219 @@
+<!-- CONTENEDOR DE TODO EL MODULO DE COMPRA-->
+<div style="">
+    <!--	EL TITULO, HEADER-->
+    <mat-card style="height: 100%;width:100%;padding:0">
+      <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+        <!--			TITULO-->
+        <mat-card-title style="font-size: 1.3em; font-weight: 700; margin-bottom:10px; color:white">Administracion de Pedidos</mat-card-title>
+        <!--			SUB TITULO-->
+        <!-- <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;color:white;margin-bottom:0">Completar el formulario para registrar una compra.</mat-card-subtitle> -->
+      </mat-card-header>
+    </mat-card>
+    <!--	EL CONTENIDO-->
+    <mat-card>
+      <mat-tab-group>
+        <mat-tab label="Eliminar Faltantes">
+          <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;width: 100%;display: flex;">
+            <div style="margin: auto;width:100%;text-align:center">
+              <h2>
+                Eliminar Faltantes
+              </h2>
+            </div>
+          </div>
+          <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;width: 100%;display: flex;">
+            <mat-form-field style="margin: auto;width:25%;">
+              <mat-label>Seleccione la tienda</mat-label>
+              <mat-select [(ngModel)]="SelectedStore" >
+                <mat-option *ngFor="let elem of stores" [value]="elem.id_STORE">
+                  {{elem.store_NAME}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div style="margin: auto;width:25%;">
+                <button style="flex-grow: 1;margin-right: 5px;width:100%" mat-stroked-button color="primary" type="button" (click)="eliminarFaltantes()" >Eliminar Faltantes</button>
+            </div>
+            <div style="margin: auto;width:25%;">
+              <button style="width:100%" mat-stroked-button color="primary" type="button" (click)="openDialogTransactionConfirmEmpty()" >Vaciar Inventario</button>
+            </div>
+            <div style="margin: auto;width:25%;">
+              <button style="width: 12%;height: 65%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="setCero()">Limpiar negativos</button>
+            </div>
+          </div>  
+        </mat-tab>
+        <mat-tab label="Asociar Productos">
+          <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;width: 100%;display: flex;">
+          
+            <mat-form-field style="margin: auto;width:100%;">
+              <input matInput class="text-center" type="number" placeholder="Factor" [(ngModel)]="factor">
+            </mat-form-field>
+            <mat-form-field style="margin: auto;width:49%;" [hidden]="true">
+              <input matInput class="text-center" type="number" placeholder="Prioridad" [(ngModel)]="prioridad">
+            </mat-form-field>
+          </div>
+          <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;width: 100%;display: flex;">
+            
+            <mat-form-field style="width: 49%;margin: auto;">
+              <input [(ngModel)]="inputForCode2" matInput type="text" placeholder="Código de producto Padre" #nameit2 (ngModelChange)="listLoad2()" [disabled]="!(this.inventoryList.length>0)">
+            </mat-form-field>
+            <mat-form-field style="width: 49%;margin: auto;">
+              <input [(ngModel)]="inputForCode" matInput type="text" placeholder="Código de producto Hijo" #nameit (ngModelChange)="listLoad()" [disabled]="!(this.inventoryList.length>0)">
+            </mat-form-field>
+
+          </div>
+          <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;width: 100%;display: flex;">
+            <div style="width: 50%;text-align: center;">
+              <div style="width: 100%;text-align: center;">
+                <h1>Producto Padre</h1>
+              </div> 
+              <div style="width: 100%;text-align: center;">
+                {{Product2.nombre}} - {{Product2.code}}
+              </div> 
+            </div> 
+            <div style="width: 50%;text-align: center;">
+              <div style="width: 100%;text-align: center;">
+                <h1>Producto Hijo</h1>
+              </div> 
+              <div style="width: 100%;text-align: center;">
+                {{Product1.nombre}} - {{Product1.code}}
+              </div> 
+            </div> 
+          </div> 
+          <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;width: 100%;display: flex;">
+            <div class="ScrollBar" style="height:25vh;overflow: auto;width: 50%;">
+              <div style="width: 100%;" *ngIf="listaElem2.length != 0">
+                <div style="margin: 0;padding: 0;text-align: center;border-bottom: solid;border-bottom-color: #d8d8d8;border-bottom-width: thin;" *ngFor="let item of listaElem2" class="example-element-row">
+                  <div style="text-align: center;font-size: 14px;" (click)="disableDoubleClickSearch ? $event.stopPropagation() : addDetailProduct2(item); disableDoubleClickSearch ? false : null">
+                    {{item.product_STORE_NAME}} - {{item.ownbarcode}} - {{item.product_STORE_CODE}}
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="listaElem2.length == 0" style="height: 100%;width: 100%;">
+                <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                  <mat-icon *ngIf="EstadoBusquedaProducto == -1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 9%;">search</mat-icon>
+                  <mat-icon *ngIf="EstadoBusquedaProducto == 1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 9%;">cached</mat-icon>
+                  <mat-icon *ngIf="EstadoBusquedaProducto == 2" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 9%;">error_outline</mat-icon>
+                </div>
+                <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                  <mat-label *ngIf="EstadoBusquedaProducto == -1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Ingrese un producto</mat-label>
+                  <mat-label *ngIf="EstadoBusquedaProducto == 1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Buscando, espere...</mat-label>
+                  <mat-label *ngIf="EstadoBusquedaProducto == 2" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">No se encontraron registros</mat-label>
+                </div>
+              </div>
+            </div>
+            <div class="ScrollBar" style="height:25vh;overflow: auto;width: 50%;">
+              <div style="width: 100%;" *ngIf="listaElem.length != 0">
+                <div style="margin: 0;padding: 0;text-align: center;border-bottom: solid;border-bottom-color: #d8d8d8;border-bottom-width: thin;" *ngFor="let item of listaElem" class="example-element-row">
+                  <div style="text-align: center;font-size: 14px;" (click)="disableDoubleClickSearch ? $event.stopPropagation() : addDetailProduct1(item); disableDoubleClickSearch ? false : null">
+                    {{item.product_STORE_NAME}} - {{item.ownbarcode}} - {{item.product_STORE_CODE}}
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="listaElem.length == 0" style="height: 100%;width: 100%;">
+                <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                  <mat-icon *ngIf="EstadoBusquedaProducto == -1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 9%;">search</mat-icon>
+                  <mat-icon *ngIf="EstadoBusquedaProducto == 1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 9%;">cached</mat-icon>
+                  <mat-icon *ngIf="EstadoBusquedaProducto == 2" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 9%;">error_outline</mat-icon>
+                </div>
+                <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                  <mat-label *ngIf="EstadoBusquedaProducto == -1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Ingrese un producto</mat-label>
+                  <mat-label *ngIf="EstadoBusquedaProducto == 1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Buscando, espere...</mat-label>
+                  <mat-label *ngIf="EstadoBusquedaProducto == 2" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">No se encontraron registros</mat-label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;width: 100%;display: flex;">
+            <div style="margin: auto;width:100%;">
+              <button style="flex-grow: 1;margin-right: 5px;width:100%;" mat-stroked-button color="primary" type="button" (click)="asociarProductos()" >Asociar Productos</button>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Umbral">
+          <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;width: 100%;display: flex;">
+            <mat-form-field style="margin: auto;width:50%;">
+              <mat-label>Seleccione la tienda</mat-label>
+              <mat-select [(ngModel)]="SelectedStore3" (selectionChange) = "getParamStores()" >
+                <mat-option *ngFor="let elem of stores" [value]="elem.id_STORE">
+                  {{elem.store_NAME}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field style="margin: auto;width:50%;">
+              <mat-label>Seleccione la tienda</mat-label>
+              <mat-select [(ngModel)]="SelectedStoreParam" >
+                <mat-option *ngFor="let elem of storesParam" [value]="elem.id_STORE">
+                  {{elem.store_NAME}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;width: 100%;display: flex;">
+            <div style="margin: auto;width:100%;">
+              <button style="flex-grow: 1;margin-right: 5px;width:100%;" mat-stroked-button color="primary" type="button" (click)="consultarAsociaciones()" >Consultar</button>
+            </div>
+          </div>
+          <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;width: 100%;display: flex;">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+              <!--- Note that these columns can be defined in any order.
+                    The actual rendered columns are set as a property on the row definition" -->
+            
+              <!-- Position Column -->
+              <ng-container matColumnDef="Codigo Barras Padre">
+                <th mat-header-cell *matHeaderCellDef> Codigo Barras Padre </th>
+                <td mat-cell *matCellDef="let element"> {{element.codigo_PADRE}} </td>
+              </ng-container>
+            
+              <!-- Name Column -->
+              <ng-container matColumnDef="Producto Padre">
+                <th mat-header-cell *matHeaderCellDef> Producto Padre </th>
+                <td mat-cell *matCellDef="let element"> {{element.producto_PADRE}} </td>
+              </ng-container>
+            
+              <!-- Weight Column -->
+              <ng-container matColumnDef="Codigo Barras Hijo">
+                <th mat-header-cell *matHeaderCellDef> Codigo Barras Hijo </th>
+                <td mat-cell *matCellDef="let element"> {{element.codigo_HIJO}} </td>
+              </ng-container>
+            
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="Producto Hijo">
+                <th mat-header-cell *matHeaderCellDef> Producto Hijo </th>
+                <td mat-cell *matCellDef="let element"> {{element.producto_HIJO}} </td>
+              </ng-container>
+              
+              <ng-container matColumnDef="Umbral">
+                <th mat-header-cell *matHeaderCellDef> Umbral </th>
+                <td mat-cell *matCellDef="let element"> 
+                  <mat-form-field style="margin: auto;width:100%;">
+                    <input matInput class="text-center" type="number" min="0" max="100" step="1" pattern="^[0-9]+.{1,}" oninput="validity.valid||(value='');" placeholder="Umbral" [(ngModel)]="element.pct_umbral">
+                  </mat-form-field>
+                </td>
+              </ng-container>
+              
+              <ng-container matColumnDef="Opciones">
+                <th mat-header-cell *matHeaderCellDef> Opciones </th>
+                <td mat-cell *matCellDef="let element">
+                  <div style="margin: auto;width:100%;">
+                    <button style="flex-grow: 1;margin-right: 5px;width:100%" mat-stroked-button color="primary" type="button" (click)="updateUmbral(element)" >Actualizar Umbral</button>
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Opciones2">
+                <th mat-header-cell *matHeaderCellDef>  </th>
+                <td mat-cell *matCellDef="let element">
+                  <div style="margin: auto;width:100%;">
+                    <button style="flex-grow: 1;margin-right: 5px;width:100%" mat-stroked-button color="primary" type="button" (click)="eliminarAsociaciones(element)" >Eliminar Asociacion</button>
+                  </div>
+                </td>
+              </ng-container>
+            
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div> 
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card>
+  </div>
+  

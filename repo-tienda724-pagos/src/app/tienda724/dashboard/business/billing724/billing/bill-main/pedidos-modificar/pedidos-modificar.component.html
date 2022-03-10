@@ -1,0 +1,193 @@
+<!-- CONTENEDOR DE TODO EL MODULO DE COMPRA-->
+<div style="">
+
+    <!--	EL CONTENIDO-->
+    <mat-card>
+      <!--            CONTENIDO DE LA PESTAÑA-->
+        <!--            CONTENEDOR DE OPCIONES-->
+        <div>
+  <!--						FILA QUE CONTIENE DATOS CLIENTE-->
+          <div style="display: flex">
+            <!--          PERTE DERECHA-->
+            <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;width: 100%;display: flex;">
+              <!--						TITULO CLIENTE-->
+              <div style="margin: 0 auto;padding: 0 5px">
+                <h5>Cliente: </h5>{{data.element.cliente}}
+              </div>
+              <!--						TELEFONO-->
+              <div style="margin: 0 auto;padding: 0 5px">
+                <h5>Telefono: </h5>{{data.element.phone}}
+              </div>
+              <!--						EMAIL-->
+              <div style="margin: 0 auto;padding: 0 5px">
+                <h5>Email: </h5>{{data.element.mail}}
+              </div>
+              <!--						DIRECCION-->
+              <div style="margin: 0 auto;padding: 0 5px">
+                <h5>Direccion: </h5>{{data.element.address}}
+              </div>
+            </div>
+          </div>
+  <!--					FILA CON DATOS DEL PRODUCTO Y BOTONES-->
+          <div style="display: flex;margin-top: 10px">
+            <!--          PARTE IZQUIERDA-->
+            <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;width: 49%;display: flex;margin-right: auto;font-size: small;">
+              <!--						BUSCAR PRODUCTOS-->
+              <button style="margin: auto" mat-stroked-button color="primary" type="button" (click)="openCategories2()">Buscar Productos</button>
+              <!--						BUSCADOR PRODUCTOS-->
+              <mat-form-field style="width: 25vw;margin: auto;">
+                <input [(ngModel)]="inputForCode" matInput type="text" placeholder="Código de producto" #nameit (keyup.enter)="addDetail($event)" (ngModelChange)="listLoad()">
+              </mat-form-field>
+            </div>
+            <!--          PARTE DERECHA-->
+            <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;width: 49%;display: flex;">
+              <!--						SELECTOR FECHA-->
+              
+              <div style="margin: 0 auto;padding: 0 5px" ngif>
+                <h5 class="text-center">Medio de pago </h5>
+                <mat-radio-group [(ngModel)]="paymentMethod">
+                  <mat-radio-button [value]="1" style="margin-left: 20px;">Efectivo</mat-radio-button>
+                  <mat-radio-button [value]="2"style="margin-left: 20px;">Tarjeta Débito</mat-radio-button>
+                  <mat-radio-button [value]="3" style="margin-left: 20px;">Tarjeta Crédito</mat-radio-button>
+                </mat-radio-group>
+              </div>  
+            </div>
+          </div>
+  <!--					FILA CON TABLA PRODUCTOS DISPONIBLES Y OBS-->
+          <div style="display: flex;height: 20vh;margin-top: 10px">
+            <!--          PARTE IZQUIERDA-->
+            <div class="ScrollBar" style="height: 90.3%;overflow: auto;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;width: 49%;display: flex;margin-right: auto;height: 100%">
+              <div style="width: 100%;" *ngIf="listaElem.length != 0">
+                <div style="margin: 0;padding: 0;text-align: center;border-bottom: solid;border-bottom-color: #d8d8d8;border-bottom-width: thin;" *ngFor="let item of listaElem" class="example-element-row">
+                  <div style="text-align: center;font-size: 14px;" (click)="addDetail2(item.ownbarcode)">
+                    {{item.product_STORE_NAME}} - {{item.ownbarcode}} - {{item.product_STORE_CODE}}
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="listaElem.length == 0" style="height: 100%;width: 100%;">
+                <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                  <mat-icon *ngIf="EstadoBusquedaProducto == -1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 9%;">search</mat-icon>
+                  <mat-icon *ngIf="EstadoBusquedaProducto == 1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 9%;">cached</mat-icon>
+                  <mat-icon *ngIf="EstadoBusquedaProducto == 2" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 9%;">error_outline</mat-icon>
+                </div>
+                <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                  <mat-label *ngIf="EstadoBusquedaProducto == -1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Ingrese un producto</mat-label>
+                  <mat-label *ngIf="EstadoBusquedaProducto == 1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Buscando, espere...</mat-label>
+                  <mat-label *ngIf="EstadoBusquedaProducto == 2" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">No se encontraron registros</mat-label>
+                </div>
+              </div>
+            </div>
+            <!--          PARTE DERECHA-->
+            <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;width: 49%;height: 100%">
+              <!--								LAS OBSERVACIONES-->
+              <div style="display: flex;width: 100%">
+                <mat-form-field style="margin: auto;width: 90%;margin-bottom: -10px;">
+                  <input matInput class="text-center" type="text" placeholder="Observaciones" [(ngModel)]="obs" >
+                </mat-form-field>
+              </div>
+              <!--								CONFIRMAR TRASACCIÓN-->
+              <div style="display: flex;width: 100%">
+                <button style="margin: auto;width: 90%" mat-stroked-button color="primary" type="button" (click)="quickConfirm()" [disabled]="this.productsObject.length==0 || this.obs.length == 0">Actualizar Pedido</button>
+              </div>
+              <!--								CANCELAR-->
+              <div style="display: flex;width: 100%;margin-top: 10px;">
+                <button style="margin: auto;width: 90%" mat-stroked-button color="primary" type="button" (click)="close()">Cancelar</button>
+              </div>
+            </div>
+          </div>
+  <!--						FILA CON VALORES TOTALES Y SUB TOTALES-->
+          <!-- <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);padding-top: 5px;display: flex;margin-right: auto;margin-top: 10px">
+            
+            <div class="col">
+              <h5 class="left-scroll">
+                Subtotal: {{calculateSubtotal() | currency  : 'USD' : 'symbol' : '1.0'}}
+              </h5>
+            </div>
+            <div class="col">
+              <h5 class="left-scroll">
+                Impuesto: {{calculateTax() | currency  : 'USD' : 'symbol' : '1.0'}}
+              </h5>
+            </div>
+            <div class="col">
+              <h5 class="left-scroll">
+                Total: {{calculateSubtotal()+calculateTax() | currency  : 'USD' : 'symbol' : '1.0'}}
+              </h5>
+            </div>
+          </div> -->
+        </div>
+  <!--      LA TABLA DE PRODUCTOS SELECCIONADOS-->
+  <div class="ScrollBar" style="margin: 0;padding: 0;height: 58%;overflow: auto;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);">
+    <table mat-table multiTemplateDataRows [dataSource]="dataSourceProductosSeleccionados" matSort class="mat-elevation-z8" style="width: 100%;box-shadow: unset;">
+      <!--              CREO LAS COLUMNAS-->
+      <!-- CODIGO-->
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;"[style.text-align]="'center'">Código</th>
+        <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'"> {{element["code"]}} </td>
+      </ng-container>
+      <!-- PRODUCTO-->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;"[style.text-align]="'center'">Producto</th>
+        <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'"> {{element["description"]}} </td>
+      </ng-container>
+      <!-- CANTIDAD-->
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;"[style.text-align]="'center'">Cantidad</th>
+        <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'">
+          <div style="display: inline-block;margin-top: 16px;">
+            <div class="row" >
+              <mat-label (click)="downQuantity(element)" style="color:#4e5fbb;cursor: pointer;font-size: x-large;"><</mat-label>
+              <mat-form-field class="row" style="width:5vw;margin-top: -15px;margin-bottom: -20px;z-index: 1">
+                <!-- suppress TypeScriptUnresolvedVariable -->
+                <input required [(ngModel)]="element.quantity" matInput type="number" step="1" id="readerQuantity" class="no-spin text-center" min="1" pattern="^[0-9]+.{1,}" oninput="validity.valid||(value='');">
+              </mat-form-field>
+              <mat-label (click)="upQuantity(element)" style="color:#4e5fbb;cursor: pointer;font-size: x-large;">></mat-label>
+            </div>
+            <mat-label class="row" (click)="individualDelete(element)" style="color:#4e5fbb;cursor: pointer;position: relative;z-index: 10"><div style="margin: auto">Quitar</div></mat-label>
+          </div>
+        </td>
+      </ng-container>
+      <!-- VALOR UNITARIO-->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;"[style.text-align]="'center'">Valor Unitario</th>
+        <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'">
+          {{element.standarPrice | currency : 'USD' : 'symbol' : '1.0' }}
+        </td>
+      </ng-container>
+      <!-- IMPUESTO-->
+      <ng-container matColumnDef="tax">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;"[style.text-align]="'center'">Impuesto</th>
+        <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'"> {{element["tax"] | percent}} </td>
+      </ng-container>
+      <!-- TOTAL-->
+      <ng-container matColumnDef="total">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;"[style.text-align]="'center'">Total</th>
+        <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'"> {{calculateTotalPrice(element) | currency : 'USD' : 'symbol' : '1.0'}} </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="GetKeys(); sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: GetKeys();"> </tr>
+    </table>
+    <div *ngIf="dataSourceProductosSeleccionados.filteredData.length == 0" style="height: 90%;background-color: white;">
+      <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+        <mat-icon style="font-size: 90px;text-align: center;width: 100%;color: gray;margin: auto auto 5%;">local_grocery_store</mat-icon>
+      </div>
+      <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+        <mat-label style="font-size: 30px;color: gray;margin: 1% auto auto;">Seleccione productos a vender</mat-label>
+      </div>
+    </div>
+  </div>
+    </mat-card>
+  </div>
+  <div class="ContenedorLoading" *ngIf="mostrandoCargando">
+    <div style="width: 30%;margin: auto;height: 30%;">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title style="font-weight: 500;">Realizando operación, espere un momento.</mat-card-title>
+          <mat-card-subtitle>{{estadoCargando}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content style="align-items: center;justify-content: center;display: flex">
+          <mat-spinner style="margin: 10px"></mat-spinner>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

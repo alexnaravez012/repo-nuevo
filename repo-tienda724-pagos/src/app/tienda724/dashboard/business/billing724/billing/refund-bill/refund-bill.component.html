@@ -1,0 +1,157 @@
+<div style="">
+  <!-- <button mat-stroked-button color="primary" type="button" (click)="openDialogClient(0)">Empresa</button>
+  <button mat-stroked-button color="primary" type="button" (click)="openDialogClient(1)">Persona</button>
+  <button mat-stroked-button color="primary" type="button" (click)="openReportes()">Reportes</button> -->
+  <!--
+  <button mat-stroked-button color="primary" type="button" (click)="openInventories()">Inventario</button>
+  <button mat-stroked-button color="primary" type="button" (click)="openStores()">Administrar Tiendas</button>
+  <button mat-stroked-button color="primary" type="button" (click)="openUpdateLegalData()">Actualizar Mis Datos Legales</button> -->
+
+
+
+
+
+
+
+  <span *ngIf="tipoFactura=='devolucion'">
+
+      <mat-card style="height: 100%;width:100%;padding:0">
+          <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+
+              <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Generar devolucion de mercancia</mat-card-title>
+              <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;text-emphasis: left; color:white;margin-bottom:0px">Llene los datos a continuacion presentados para generar la anulacion de factura por devolución.</mat-card-subtitle>
+          </mat-card-header>
+          </mat-card>
+
+
+
+        <mat-card>
+          <mat-card-content>
+                <!--            CONTENIDO DE LA PESTAÑA-->
+                <div style="padding: 10px;height: calc(100vh - 147px - 2px);">
+                  <!--            CONTENEDOR DE OPCIONES-->
+                  <div style="box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);display: flex;padding-top: 5px;">
+                    <!--      SELECTOR DE TIENDA-->
+                    <!-- <mat-form-field *ngIf="this.locStorage.getRol()[0].id_rol!=8888" style="width: 19%;margin: auto;margin-bottom: -10px;">
+                      <mat-label>Seleccione tienda</mat-label>
+                      <mat-select [(ngModel)]="SelectedStore">
+                        <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+                          {{elem.store_NAME}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field> -->
+                    <!--      SELECTOR DE TIENDA 2-->
+                    <!-- <mat-form-field *ngIf="this.locStorage.getRol()[0].id_rol==8888" style="width: 19%;margin: auto;margin-bottom: -10px;">
+                      <mat-label>Seleccione tienda</mat-label>
+                      <mat-select [(ngModel)]="SelectedStore">
+                        <mat-option [value]="storeId">
+                          Esta tienda.
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field> -->
+                    <!--      SELECTOR DE MOVIMIENTO-->
+                    <mat-form-field style="width: 33%;margin: auto;margin-bottom: -10px;">
+                      <mat-label>Seleccione movimiento</mat-label>
+                      <mat-select [(ngModel)]="tipoFactura2" (selectionChange)="clearDataSource()">
+                        <mat-option [value]="1">Venta</mat-option>
+                        <mat-option [value]="2" *ngIf="this.locStorage.getRol()[0].id_rol!=8888">Compra</mat-option>
+                        <mat-option [value]="3" *ngIf="this.locStorage.getRol()[0].id_rol!=8888">Entrada</mat-option>
+                        <mat-option [value]="4" *ngIf="this.locStorage.getRol()[0].id_rol!=8888">Salida</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <!--      SELECTOR DE FECHA INICIAL-->
+                    <mat-form-field style="width: 33%;margin: auto;margin-bottom: -10px;">
+                      <input matInput [matDatepicker]="pickerF1" placeholder="Fecha Inicial" [(ngModel)]="dateF1" (dateChange)="SelectorFechaFinal_Facturacion.open()">
+                      <mat-datepicker-toggle matSuffix [for]="pickerF1"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerF1 disabled="false"></mat-datepicker>
+                    </mat-form-field>
+                    <!--      SELECTOR FECHA FINAL-->
+                    <mat-form-field style="width: 33%;margin: auto;margin-bottom: -10px;">
+                      <input matInput [matDatepicker]="pickerF2" placeholder="Fecha Final" [(ngModel)]="dateF2">
+                      <mat-datepicker-toggle matSuffix [for]="pickerF2"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerF2 disabled="false"></mat-datepicker>
+                    </mat-form-field>
+                    
+                  </div>
+                  <!--      COLUMAS SOBRE LA TABLA-->
+                  <div style="margin-top: 10px;text-align:center;width: 100%;display: flex;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);">
+                    <mat-form-field style="width: 33%;margin: auto;margin-bottom: -10px;">
+                      <mat-label>Seleccione tienda</mat-label>
+                      <mat-select [(ngModel)]="SelectedStore" (selectionChange)="getBoxes()">
+                        <mat-option *ngFor="let elem of Stores" [value]="elem.id_STORE">
+                          {{elem.store_NAME}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+      
+      
+                    <mat-form-field *ngIf="!storesEmpty && tipoFactura2 == 1" style="width: 33%;margin: auto;margin-bottom: -10px;">
+                      <mat-label>Seleccione Caja</mat-label>
+                      <mat-select [(ngModel)]="SelectedBox">
+                        <mat-option *ngFor="let elem of Boxes" [value]="elem.id_CAJA">
+                          {{elem.caja}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <!--      BOTONES GENERAR REPORTES FACTURAS-->
+                    <button [disabled]="Boxes.length<=0" style="width: 33%;margin: auto;" mat-stroked-button color="primary" type="button" (click)="getRepBillList()">Generar Reporte</button>
+      
+                  </div>
+                  <!--      TABLA DEL REPORTE-->
+                  <div class="ScrollBar" style="overflow: auto;box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12);margin-top: 0.9%;" [style.height]="tipoFactura2==1?'67.2%':'79%'">
+                    <table #SorterTablaFacturacion="matSort" mat-table multiTemplateDataRows [dataSource]="DataSourceFacturacion" matSort class="mat-elevation-z8" style="width: 100%;box-shadow: unset;">
+                      <!--              CREO LAS COLUMNAS-->
+                      <ng-container matColumnDef="fullname">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">Consecutivo</th>
+                        <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit;cursor: pointer" [style.text-align]="'center'" (click)="generatePdfRoute(element)">{{element.fullname}}-{{element.num_DOCUMENTO}}</td>
+                      </ng-container>
+        
+                      <ng-container matColumnDef="purchase_DATE">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">Fecha Factura</th>
+                        <td  mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'">   
+                          {{element.purchase_DATE}}
+                        </td>
+                      </ng-container>
+        
+                      <ng-container matColumnDef="venta">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">Ventas</th>
+                        <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'"> {{element.venta | currency : 'USD' : 'symbol' : '1.2-2'}} </td>
+                      </ng-container>
+        
+                      <ng-container matColumnDef="cajero">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">Cajero</th>
+                        <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'">{{element.cajero}}</td>
+                      </ng-container>
+        
+                      <ng-container matColumnDef="boton">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding: 0 !important;text-align: center !important;">   </th>
+                        <td mat-cell *matCellDef="let element" style="padding: 0 !important;color: inherit" [style.text-align]="'center'">
+                          <button  mat-stroked-button color="primary" type="button" (click)="anularFacturaPorDevolucion2(element)" [disabled]="stopbutton" >Anular Movimiento</button>
+                        </td>
+                      </ng-container> 
+        
+                      <tr mat-header-row *matHeaderRowDef="ListadoColumnasParaFacturacion; sticky: true"></tr>
+                      <tr mat-row *matRowDef="let row; columns: ListadoColumnasParaFacturacion;"> </tr>
+                    </table>
+                    <!--                estado inicial-->
+                    <div *ngIf="ListReportBill.length == 0" style="height: 85%;background-color: white;">
+                      <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                        <mat-icon *ngIf="EstadoBusqueda_Facturacion == -1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">search</mat-icon>
+                        <mat-icon *ngIf="EstadoBusqueda_Facturacion == 1" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">cached</mat-icon>
+                        <mat-icon *ngIf="EstadoBusqueda_Facturacion == 2" style="margin: auto;font-size: 90px;text-align: center;width: 100%;color: gray;margin-bottom: 5%;">error_outline</mat-icon>
+                      </div>
+                      <div style="display: flex;height: 50%;width: 100%; margin: auto;">
+                        <mat-label *ngIf="EstadoBusqueda_Facturacion == -1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Realice una consulta</mat-label>
+                        <mat-label *ngIf="EstadoBusqueda_Facturacion == 1" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">Consultando, espere...</mat-label>
+                        <mat-label *ngIf="EstadoBusqueda_Facturacion == 2" style="font-size: 30px;margin: auto;color: gray;margin-top: 1%;">No se encontraron registros</mat-label>
+                      </div>
+                    </div>
+                  </div>
+                </div>              
+            </mat-card-content>
+        </mat-card>
+
+
+  </span>
+  </div>

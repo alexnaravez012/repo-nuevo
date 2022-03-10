@@ -1,0 +1,117 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div>
+    <mat-card style="height: 100%;width:100%;padding:0">
+      <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+        <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">Estas viendo el Picking de los elementos seleccionados </mat-card-title>
+      </mat-card-header>
+    </mat-card>
+    <div class="text-center">
+    <div class="row" style="height: 100%;width:100%;padding:15px">
+      <div class="col-12">
+        <button mat-stroked-button color="primary" type="button" (click)="genPdf2()" >Generar Picking Consolidado (PDF)</button>
+        <input [hidden]=true type="image" (click)="excel()" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Microsoft_Office_Excel_%282018%E2%80%93present%29.svg/1200px-Microsoft_Office_Excel_%282018%E2%80%93present%29.svg.png" height="42" width="42" />
+      </div>
+    </div>
+  </div>
+    <!-- <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                  <th class="text-center"><b>Producto</b></th>
+                  <th class="text-center"><b>Marca</b></th>
+                  <th class="text-center"><b>Categoria</b></th>
+                  <th class="text-center"><b>Linea</b></th>
+                  <th class="text-center"><b>Cantidad</b></th>
+                  <th class="text-center"><b>Fabricante</b></th>
+                  <th class="text-center"><b>Presentacion</b></th>
+                  <th class="text-center"><b>Costo</b></th>
+                  <th class="text-center"><b>Costo Total</b></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let elem of ListReportProd">
+                  <td class="text-center"> {{elem.producto}} </td>
+                  <td class="text-center"> {{elem.marca}} </td>
+                  <td class="text-center"> {{elem.categoria}} </td>
+                  <td class="text-center"> {{elem.linea}} </td>
+                  <td class="text-center"> {{elem.cantidad}} </td>
+                  <td class="text-center"> {{elem.fabricante}} </td>
+                  <td class="text-center"> {{elem.presentacion}} </td>
+                  <td class="text-center"> {{elem.costo | currency}} </td>
+                  <td class="text-center"> {{elem.costototal | currency}} </td>
+                </tr>
+              </tbody>,
+        </table>
+    </div>-->
+    <div class="row">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th class="text-center"><b>Precio Total: {{ costo | currency }} </b></th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+
+    <div *ngFor="let elem of ListaMarca">
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th class="text-center"><b> {{elem.marca}} </b></th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th class="text-center"><b>Codigo de Barras</b></th><!-- 0 -->
+                  <th class="text-center"><b>Producto</b></th> <!-- 1 -->
+                  <th class="text-center"><b>Marca</b></th> <!-- 2 -->
+                  <th class="text-center"><b>Categoria</b></th> <!-- 3 -->
+                  <th class="text-center"><b>Linea</b></th> <!-- 4 -->
+                  <th class="text-center"><b>Cantidad</b></th> <!-- 5 -->
+                  <th class="text-center"><b>Fabricante</b></th> <!-- 6 -->
+                  <th class="text-center"><b>Presentacion</b></th> <!-- 7 -->
+                  <th class="text-center"><b>Precio Total</b></th> <!-- 8 -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let elem2 of elem.detalles">
+                  <td class="text-center" > {{elem2.ownbarcode}} </td> <!-- 0 -->
+                  <td class="text-center" > {{elem2.producto}} </td> <!-- 1 -->
+                  <td class="text-center" > {{elem2.marca}} </td> <!-- 2 -->
+                  <td class="text-center" > {{elem2.categoria}} </td> <!-- 3 -->
+                  <td class="text-center" > {{elem2.linea}} </td> <!-- 4 -->
+                  <td class="text-center" > {{elem2.cantidad}} </td> <!-- 5 -->
+                  <td class="text-center" > {{elem2.fabricante}} </td> <!-- 6 -->
+                  <td class="text-center" > {{elem2.presentacion}} </td> <!-- 7 -->
+                  <td class="text-center"> {{elem2.costototal | currency}} </td> <!-- 8 -->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row" style="padding-bottom: 50px">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th class="text-center"><b>Precio Total {{elem.marca}}:</b></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center"> {{ elem.costoTotal| currency }} </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+  </div>

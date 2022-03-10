@@ -1,0 +1,15 @@
+<!--component html goes here -->
+<div class="wrapper" style="background-color: #eeeeee;">
+
+    <div class="sidebar" data-color='red' data-image="" [ngClass]="isMobileMenuNav() ? '':'AjusteNormalSidebar'">
+        <app-sidebar></app-sidebar>
+    </div>
+    <div class="main-panel" [ngClass]="isMobileMenuNav() ? '':'AjusteNormalMainPanel'">
+      <div style="height: 56px;width: 100%" *ngIf="isMobileMenuNav()">
+        <app-navbar ></app-navbar>
+      </div>
+      <div class="main-content">
+          <router-outlet></router-outlet>
+      </div>
+    </div>
+</div>

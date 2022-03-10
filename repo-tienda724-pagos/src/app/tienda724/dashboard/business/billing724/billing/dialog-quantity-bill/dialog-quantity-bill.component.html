@@ -1,0 +1,40 @@
+<form novalidate [formGroup]="form_qu" >
+    
+    <mat-card class=" row center-text text-center">
+      <mat-card-title>
+          <h2 class="text-center">{{inventoryDetailData.product.name_product}}</h2>
+          <mat-form-field class="field-full-width example-full-width">
+              <input type="number" matInput placeholder="Cantidad de {{isExit?' Salida':'Entrada'}}" 
+              formControlName="quantity"
+              min="0"
+              max="{{isExit? inventoryDetailData.detail.quantity:'999999999999999999'}}">
+        
+
+              <span matPrefix>{{isExit?'-':'+'}}&nbsp;</span>
+              <span matSuffix>{{total}} </span>
+              <mat-error *ngIf="form_qu.controls.quantity.errors && form_qu.controls.quantity.touched">
+                  <mat-error *ngIf="form_qu.controls.quantity.errors.required">
+                      la cantidad es requerida <strong>requerido</strong>
+                  </mat-error>
+                  <mat-error *ngIf="form_qu.controls.quantity.errors.max">
+
+                        la cantidad debe ser inferior a <strong>{{inventoryDetailData.detail.quantity+1}}</strong>
+                    </mat-error>
+                    <mat-error *ngIf="form_qu.controls.quantity.errors.min">
+                            
+                      la cantidad debe ser superior a <strong>0</strong>
+                   </mat-error>
+
+              </mat-error>
+            </mat-form-field>
+      </mat-card-title>
+      <mat-card-actions>
+          <button mat-fab color="primary" mat-dialog-close class="tky-left" > <mat-icon>keyboard_return</mat-icon>  </button>
+          <button mat-fab color="primary"  (click)="save()" [disabled]="!form_qu.valid"  class="tky-right" align='end'>
+             <mat-icon>save</mat-icon>   
+            </button>
+      </mat-card-actions>
+    </mat-card>
+  
+  
+</form>

@@ -1,0 +1,299 @@
+<div style="display: inline;">
+    <div class="main-modal-container-tables">
+        <!--Agregar producto-->
+        <div class="uk-flex uk-flex-middle uk-flex-wrap modal-search-specific-navbar-tables">
+            <i class="fas fa-caret-left uk-margin-remove color-blue cursor-pointer"></i>
+            <h6 class="color-blue uk-text-bold uk-margin-remove font-size-13" style="padding-left: 10px;">Añadir pedido</h6>
+            <h6 class="uk-margin-remove uk-text-light font-size-12" style="padding-left: 30px;">LaFerra/Mesas/Mesa1/Añadir Pedido</h6>
+            <div style="padding-left: 10px;" class="uk-flex uk-flex-between uk-flex-middle">
+                <input class="input-line-tables uk-text-center" style="width: 200px;" type="text" placeholder="Busqueda por nombre o código" (ngModelChange)="listLoad()" [(ngModel)]="inputForCode">
+                <button class="buttom-search-list-tables uk-text-bold" uk-toggle="target: #search-specific-list">Busqueda por lista</button>
+                <div id="search-specific-list" uk-modal>
+                    <div class="modal-list-products-tables uk-modal-dialog uk-modal-body">
+                        <div class="uk-flex uk-flex-middle modal-shadow-bottom-tables">
+                            <h4 class="uk-margin-remove uk-text-bold padding-horizontal-30 font-size-14">Añadir pedido</h4>
+                            <h4 class="uk-margin-remove uk-text-bold color-blue padding-horizontal-30 font-size-17" style="padding-left: 360px !important;">Pedido 1</h4>
+                            <button class="uk-modal-close-default" style="margin-right: 10px; margin-top: 5px; " uk-close></button>
+                        </div>
+                        <div class="uk-flex uk-flex-middle uk-flex-center modal-shadow-bottom-tables">
+                            <input type="text" class="modal-input-line-tables" placeholder="Busqueda por nombre o código" style="width: 400px;" (ngModelChange)="listLoad()" [(ngModel)]="inputForCode">
+                        </div>
+                        <div class="uk-flex uk-flex-middle uk-flex-around modal-shadow-bottom-tables" style="margin-top: 5px;">
+                            <h5 class="uk-margin-remove uk-text-bold uk-text-muted font-size-18">Lista de productos</h5>
+                            <h5 class="uk-margin-remove uk-text-bold uk-text-muted font-size-18">Productos seleccionados</h5>
+                        </div>
+                        <div class="uk-flex">
+                            <div class="uk-width-1-2">
+                                <div class="modal-list-tables">
+                                    <ul class="uk-list">
+                                        <div *ngFor="let item of listaElem">
+                                            <li *ngIf="item.inventario_DISPONIBLE == 'S' && (item.status !== 'ACTIVO')" class="modal-item-list-tables uk-margin-remove " style="color: gray;">
+                                                {{item.product_STORE_NAME}} - {{item.ownbarcode}} - {{item.product_STORE_CODE}}
+                                            </li>
+                                            <li [hidden]="item.inventario_DISPONIBLE == 'S' && (item.status !== 'ACTIVO')" class="modal-item-list-tables uk-margin-remove " (click)="addDetail2(item.ownbarcode)">
+                                                {{item.product_STORE_NAME}} - {{item.ownbarcode}} - {{item.product_STORE_CODE}}
+                                            </li>
+                                            <div class="hr-tab uk-margin-remove "></div>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="uk-width-1-2">
+                                <div class="modal-list-right-tables">
+                                    <div class="uk-flex uk-flex-between uk-flex-middle" *ngFor="let item of productsObject">
+                                        <h6 class="uk-margin-remove uk-text-bold font-size-11">{{item.description}} - {{item.ownbarcode}} - {{item.product_store_code}}</h6>
+                                        <div>
+                                            <div class="uk-flex uk-flex-middle" style="margin-top: 20px;">
+                                                <i class="fas fa-minus color-green font-size-15 cursor-pointer" (click)="downQuantity(item)"></i>
+                                                <h6 class="uk-margin-remove padding-horizontal-20 uk-text-bold color-green font-size-15">{{item.quantity}}</h6>
+                                                <i class="fas fa-plus color-green font-size-15 cursor-pointer" (click)="upQuantity(item)"></i>
+                                            </div>
+                                            <h6 class="uk-margin-remove uk-text-center font-size-10 cursor-pointer" (click)="individualDelete(item)">Quitar</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-flex uk-flex-center">
+                                    <!-- <button class="uk-text-bold modal-list-buttons-tables cursor-pointer" style="margin-right: 10px;">Aceptar</button> -->
+                                    <button class="uk-text-bold modal-list-buttons-tables cursor-pointer uk-modal-close">Aceptar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 55px; height: 45px;">
+                    <a class="padding-horizontal-10 " style="position: relative; margin-left: 30px;" uk-toggle="target: #place-order2">
+                        <img class="img-size-bag-tables" src="assets/img/data/Carrito-de-compras.png " alt=" " uk-img>
+                        <h6 class="modal-modal-text-img-bag-navbar-tables uk-text-bold" style="position: absolute; ">{{getQuantity()}}</h6>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- menu categorias vertical -->
+        <div class="modal-menu-vertical-categories-tables">
+            <ul class="uk-list">
+                <div class="uk-inline">
+                    <div>
+                        <button class="button-categories-menu-vertical-tables" (click)="setTodos()">
+                        <div class="img-categories-menu-vertical-tables uk-align-center uk-margin-remove-bottom" [ngStyle]="getStyleCate('e')" uk-img></div>
+                        <h6 class="uk-margin-remove color-blue uk-text-bold" style="font-size: 10px; padding-top: 5px;"> Todos </h6>
+                      </button>
+                    </div>
+                    <div *ngFor="let item of categories">
+                        <button class="button-categories-menu-vertical-tables">
+                            <div class="img-categories-menu-vertical-tables uk-align-center uk-margin-remove-bottom" [ngStyle]="getStyleCate(item)" uk-img></div>
+                            <h6 class="uk-margin-remove color-blue uk-text-bold" style="font-size: 10px; padding-top: 5px;"> {{item.category}} </h6>
+                        </button>
+                        <div uk-drop="pos: right-center " class="categories-menu-vertical-tables" [ngStyle]="{'width.px': 95*item.hijos.length}">
+                            <div class="uk-card uk-card-body uk-card-default box-categories-menu-vertical-tables uk-flex uk-flex-middle ">
+                                <div class="uk-inline" style="height: 110px !important;">
+                                    <button class="button-items-menu-categories-tables uk-margin-remove " *ngFor="let subitem of item.hijos" (click)="filterInventory(subitem.id_category,subitem.category)">
+                                        <div class="img-items-menu-scroll-tables uk-align-center uk-margin-remove-bottom " [ngStyle]="getStyleCate(subitem)" uk-img></div>
+                                        <h6 class="uk-margin-remove color-blue uk-text-bold " style="font-size: 9px; padding-top: 5px;"> {{subitem.category}} </h6>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+        </div>
+        <div class="modal-main-container-products-selection-tables uk-flex">
+            <div class="uk-flex uk-flex-wrap uk-grid-small uk-grid-match" style="position: relative;" uk-grid>
+                <div class="uk-card uk-card-default uk-card-body modal-card-products-add-tables uk-flex" style="position: relative;" *ngFor="let item of listaElem">
+                    <div class="uk-width-1-2" style="padding-top: 5px;">
+                        <div class="img-items-products-add-70-tables uk-align-center uk-margin-remove-bottom" [ngStyle]="getImgURL(item)" uk-img></div>
+                        <h5 class="uk-margin-remove uk-text-center font-size-12 uk-text-muted" style="padding-top: 10px;"> {{item.standard_PRICE | currency}} </h5>
+                    </div>
+                    <!-- <h6 class="modal-button-discount-card-tables" style="position: absolute;">-25%</h6> -->
+                    <div class="uk-width-1-2 uk-flex uk-flex-center">
+                        <div>
+                            <h6 class="uk-margin-remove font-size-10 color-blue uk-text-bold uk-text-center" style="width: 110px; height: 48px;"> {{item.product_STORE_NAME}} </h6>
+                            <h6 class="uk-margin-remove font-size-8 uk-text-center" style="height: 38px; width: 110;"> {{item.product_STORE_NAME}} </h6>
+                            <!-- <div class="uk-flex uk-flex-middle uk-flex-center" style="padding-top: 5px;">
+                                <i class="fas fa-minus font-size-12 cursor-pointer" (click)="downQuantity(item)"></i>
+                                <h6 class="uk-margin-remove padding-horizontal-10 color-blue font-size-11">{{item.quantity}}</h6>
+                                <i class="fas fa-plus font-size-12 cursor-pointer" (click)="upQuantity(item)"></i>
+                            </div> -->
+                            <button class="button-card-add-product-tables font-size-10 uk-text-bold cursor-pointer uk-align-center uk-margin-remove-bottom uk-margin-remove-top" (click)="addDetail2(item.ownbarcode)">Agregar</button>
+                            <!-- <div uk-toggle="target: .like-actives12">
+                                <img class="modal-like-size-card-tables like-actives12" src="assets/img/data/Like-desactivado.png" style="position: absolute;" alt="">
+                                <img class="modal-like-size-card-tables like-actives12" src="assets/img/data/Like-activado.png" style="position: absolute;" alt="" hidden>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-info-float-select-products-tables" uk-toggle="target: #place-order">
+                    <div class="uk-flex uk-flex-middle">
+                        <h5 class="uk-margin-remove uk-text-bold font-size-11 uk-text-center" style="width: 50px;"> {{getPriceTotal() | currency}} </h5>
+                        <div class="uk-text-center" style="margin-left:20px ;">
+                            <h6 class="uk-margin-remove font-size-11" style="padding-top: 10px;"> {{getQuantity()}} </h6>
+                            <h6 class="uk-margin-remove uk-text-bold font-size-8 cursor-pointer" style="padding-bottom: 5px;">Concretar pedido</h6>
+                            <div id="place-order" uk-modal>
+                                <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical modal-add-products-order-tables">
+                                    <div class="uk-flex uk-flex-middle padding-horizontal-30 padding-vertical-5" style="margin-top: 10px;">
+                                        <h4 class="uk-margin-remove color-blue uk-text-bold font-size-17">Concretar pedido</h4>
+                                        <button class="uk-modal-close-default" style="padding-right: 20px;" type="button" uk-close></button>
+                                    </div>
+                                    <div class="uk-flex uk-flex-wrap uk-flex-around modal-order-tables">
+
+                                        <div class="uk-flex uk-flex-middle uk-flex-around modal-sizes-order-tables" *ngFor="let item of productsObject">
+                                            <div class="uk-width-1-3">
+                                                <div class="img-items-products-add-90-tables" [ngStyle]="getImgURL(item)" uk-img></div>
+                                            </div>
+                                            <div class="uk-width-1-1" style="padding-left: 10px;">
+                                                <div class="uk-flex uk-flex-middle">
+                                                    <div>
+                                                        <h5 class="uk-margin-remove uk-text-bold color-blue font-size-13"> {{item.description}} </h5>
+                                                        <h5 class="uk-margin-remove font-weight-500 font-size-13">{{item.priceGen | currency}}</h5>
+                                                    </div>
+                                                    <div>
+                                                        <div class="uk-flex uk-flex-middle" style="padding-left: 20px;">
+                                                            <i class="fas fa-minus color-green font-size-15 cursor-pointer" (click)="downQuantity(item)"></i>
+                                                            <h6 class="uk-margin-remove padding-horizontal-20 uk-text-bold color-green font-size-15">{{item.quantity}}</h6>
+                                                            <i class="fas fa-plus color-green font-size-15 cursor-pointer" (click)="upQuantity(item)"></i>
+                                                        </div>
+                                                        <h6 class="uk-margin-remove uk-text-center font-size-12 cursor-pointer" style="padding-left: 25px;" (click)="individualDelete(item)">Quitar</h6>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="uk-flex uk-flex-middle" style="padding-top: 10px;">
+                                                  <div>
+                                                      <div class="uk-flex uk-flex-middle">
+                                                          <h6 class="uk-margin-remove font-weight-500">Salsa</h6>
+                                                          <i class="fas fa-caret-down cursor-pointer" style="padding-left: 5px;"></i>
+                                                      </div>
+                                                      <div class="uk-flex uk-flex-middle">
+                                                          <h6 class="uk-margin-remove font-weight-500">Adicionales</h6>
+                                                          <i class="fas fa-caret-down cursor-pointer" style="padding-left: 5px;"></i>
+                                                      </div>
+                                                  </div>
+                                                  <div style="padding-left: 20px;">
+                                                      <div class="uk-flex uk-flex-middle">
+                                                          <h6 class="uk-margin-remove font-weight-500">Verduras</h6>
+                                                          <i class="fas fa-caret-down cursor-pointer" style="padding-left: 5px;"></i>
+                                                      </div>
+                                                      <div class="uk-flex uk-flex-middle">
+                                                          <h6 class="uk-margin-remove font-weight-500">Papas</h6>
+                                                          <i class="fas fa-caret-down cursor-pointer" style="padding-left: 5px;"></i>
+                                                      </div>
+                                                  </div>
+                                              </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-total-order-shadow-tables">
+                                        <div class="uk-flex uk-flex-center uk-flex-middle">
+                                            <h3 class="uk-margin-remove uk-text-bold color-blue font-size-19" style="padding-right: 5px;">Cantidad de productos:</h3>
+                                            <h4 class=" uk-margin-remove font-weight-500  font-size-19">{{getQuantity()}}</h4>
+                                        </div>
+                                        <div class=" uk-flex uk-flex-middle uk-flex-center ">
+                                            <h3 class="uk-margin-remove uk-text-bold color-blue font-size-19" style="padding-right: 5px; ">Total:</h3>
+                                            <h4 class="uk-margin-remove font-weight-500 font-size-19">{{getPriceTotal() | currency}}</h4>
+                                        </div>
+                                        <div class="uk-flex uk-flex-center " style="padding-bottom: 20px; padding-top: 10px; ">
+                                            <button class="button-modal-accept-order-tables" (click)="postNewDetails()">Aceptar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-info-float-select-products-tables">
+                    <div class="uk-flex uk-flex-middle">
+                        <div class="uk-text-center" style="margin-left:20px;">
+                            <div id="place-order2" uk-modal>
+                                <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical modal-add-products-order-tables">
+                                    <div class="uk-flex uk-flex-middle padding-horizontal-30 padding-vertical-5" style="margin-top: 10px;">
+                                        <h4 class="uk-margin-remove color-blue uk-text-bold font-size-17">Concretar pedido</h4>
+                                        <button class="uk-modal-close-default" style="padding-right: 20px;" type="button" uk-close></button>
+                                    </div>
+                                    <div class="uk-flex uk-flex-wrap uk-flex-around modal-order-tables">
+
+                                        <div class="uk-flex uk-flex-middle uk-flex-around modal-sizes-order-tables" *ngFor="let item of productsObject">
+                                            <div class="uk-width-1-3">
+                                                <div class="img-items-products-add-90-tables" [ngStyle]="getImgURL(item)" uk-img></div>
+                                            </div>
+                                            <div class="uk-width-1-1" style="padding-left: 10px;">
+                                                <div class="uk-flex uk-flex-middle">
+                                                    <div>
+                                                        <h5 class="uk-margin-remove uk-text-bold color-blue font-size-13"> {{item.description}} </h5>
+                                                        <h5 class="uk-margin-remove font-weight-500 font-size-13">{{item.priceGen | currency}}</h5>
+                                                    </div>
+                                                    <div>
+                                                        <div class="uk-flex uk-flex-middle" style="padding-left: 20px;">
+                                                            <i class="fas fa-minus color-green font-size-15 cursor-pointer" (click)="downQuantity(item)"></i>
+                                                            <h6 class="uk-margin-remove padding-horizontal-20 uk-text-bold color-green font-size-15">{{item.quantity}}</h6>
+                                                            <i class="fas fa-plus color-green font-size-15 cursor-pointer" (click)="upQuantity(item)"></i>
+                                                        </div>
+                                                        <h6 class="uk-margin-remove uk-text-center font-size-12 cursor-pointer" style="padding-left: 25px;" (click)="individualDelete(item)">Quitar</h6>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="uk-flex uk-flex-middle" style="padding-top: 10px;">
+                                                  <div>
+                                                      <div class="uk-flex uk-flex-middle">
+                                                          <h6 class="uk-margin-remove font-weight-500">Salsa</h6>
+                                                          <i class="fas fa-caret-down cursor-pointer" style="padding-left: 5px;"></i>
+                                                      </div>
+                                                      <div class="uk-flex uk-flex-middle">
+                                                          <h6 class="uk-margin-remove font-weight-500">Adicionales</h6>
+                                                          <i class="fas fa-caret-down cursor-pointer" style="padding-left: 5px;"></i>
+                                                      </div>
+                                                  </div>
+                                                  <div style="padding-left: 20px;">
+                                                      <div class="uk-flex uk-flex-middle">
+                                                          <h6 class="uk-margin-remove font-weight-500">Verduras</h6>
+                                                          <i class="fas fa-caret-down cursor-pointer" style="padding-left: 5px;"></i>
+                                                      </div>
+                                                      <div class="uk-flex uk-flex-middle">
+                                                          <h6 class="uk-margin-remove font-weight-500">Papas</h6>
+                                                          <i class="fas fa-caret-down cursor-pointer" style="padding-left: 5px;"></i>
+                                                      </div>
+                                                  </div>
+                                              </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-total-order-shadow-tables">
+                                        <div class="uk-flex uk-flex-center uk-flex-middle">
+                                            <h3 class="uk-margin-remove uk-text-bold color-blue font-size-19" style="padding-right: 5px;">Cantidad de productos:</h3>
+                                            <h4 class=" uk-margin-remove font-weight-500  font-size-19">{{getQuantity()}}</h4>
+                                        </div>
+                                        <div class=" uk-flex uk-flex-middle uk-flex-center ">
+                                            <h3 class="uk-margin-remove uk-text-bold color-blue font-size-19" style="padding-right: 5px; ">Total:</h3>
+                                            <h4 class="uk-margin-remove font-weight-500 font-size-19">{{getPriceTotal() | currency}}</h4>
+                                        </div>
+                                        <div class="uk-flex uk-flex-center " style="padding-bottom: 20px; padding-top: 10px; ">
+                                            <button class="button-modal-accept-order-tables" (click)="postNewDetails()">Aceptar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-menu-right-vertical-tables" *ngIf="false">
+                <ul class="uk-list">
+                    <h6 class="uk-margin-remove font-size-10 uk-text-bold width-150" style="padding-left: 10px;">Productos relacionados con este artículo</h6>
+                    <div class="uk-flex uk-flex-middle">
+                        <div class=" uk-margin-remove-bottom img-menu-right-vertical-tables" style="background-image: url(assets/img/data/burguer.png); " uk-img></div>
+                        <h6 class="uk-margin-remove font-size-9" style="padding-left: 5px; width: 80px;">Hamburguesa 2</h6>
+                    </div>
+                    <div class="uk-flex uk-flex-middle">
+                        <div class=" uk-margin-remove-bottom img-menu-right-vertical-tables" style="background-image: url(assets/img/data/burguer.png); " uk-img></div>
+                        <h6 class="uk-margin-remove font-size-9" style="padding-left: 5px; width: 80px;">Hamburguesa 3</h6>
+                    </div>
+                    <div class="uk-flex uk-flex-middle">
+                        <div class=" uk-margin-remove-bottom img-menu-right-vertical-tables" style="background-image: url(assets/img/data/burguer.png); " uk-img></div>
+                        <h6 class="uk-margin-remove font-size-9" style="padding-left: 5px; width: 80px;">Hamburguesa 4</h6>
+                    </div>
+                    <div class="uk-flex uk-flex-middle">
+                        <div class=" uk-margin-remove-bottom img-menu-right-vertical-tables" style="background-image: url(assets/img/data/burguer.png); " uk-img></div>
+                        <h6 class="uk-margin-remove font-size-9" style="padding-left: 5px; width: 80px;">Hamburguesa 5</h6>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Ventana de mesas principal -->

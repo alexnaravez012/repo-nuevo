@@ -1,0 +1,30 @@
+.example-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  min-width: 300px;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.material-icons.color 
+{ color: #FF0000; }
+
+.material-icons.center {
+  margin-right: 10%;
+  margin-left: 35%;
+  display:block;
+}
+
+.material-icons.color2 
+{ color: #0000FF; }
+
+.block{
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin: 20px;
+}

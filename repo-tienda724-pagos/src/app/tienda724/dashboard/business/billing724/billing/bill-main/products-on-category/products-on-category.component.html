@@ -1,0 +1,74 @@
+
+  <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+    <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">
+      {{category}}</mat-card-title>
+    <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;text-emphasis: left; color:white;margin-bottom:0px">
+      Mis productos en categoría</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content style="padding:25px">
+    <div class="text-center" style="text-align:center; margin-bottom: 20px; ">
+      <div class="col-4" style="text-align:center; margin-bottom: 20px; ">
+        <strong>
+          Cantidad de unidades:
+        </strong>{{ getTotalCant() }}
+      </div>
+      <div class="col-4" style="text-align:center; margin-bottom: 20px; ">
+        <strong>
+          Cantidad de productos:
+        </strong>{{ getTotalProd() }}
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th style="width: 25%" class="text-center">Nombre</th>
+            <th style="width: 25%" class="text-center">Codigo</th>
+            <th style="width: 25%" class="text-center">Codigo de Barras</th>
+            <th style="width: 25%" class="text-center">Unidad de Medida</th>
+            <th style="width: 25%" class="text-center">Marca</th>
+            <th style="width: 25%" class="text-center">Cantidad</th>
+            <th style="width: 25%" class="text-center" *ngIf="false" >Agregar Precio</th>
+            <th style="width: 25%" class="text-center" *ngIf="false" >Editar Costo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let subproduct of productsOnCategory">
+            <td  style="width: 25%" class="text-center">
+              {{subproduct.product_STORE_NAME === null? "Sin Nombre" : subproduct.product_STORE_NAME}}</td>
+            <td  style="width: 25%" class="text-center">
+              {{subproduct.ownbarcode}}
+              <!-- <input *ngIf="last" id="lastDetailQuantity" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)">
+                  <input *ngIf="! last" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)"> -->
+            </td>
+            <td style="width: 25%" class="text-center">
+              {{subproduct.code}}
+              <!-- <input *ngIf="last" id="lastDetailQuantity" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)">
+                  <input *ngIf="! last" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)"> -->
+            </td>
+            <td style="width: 25%" class="text-center">
+              {{subproduct.mun}}
+              <!-- <input *ngIf="last" id="lastDetailQuantity" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)">
+                  <input *ngIf="! last" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)"> -->
+            </td>
+            <td style="width: 25%" class="text-center">
+              {{subproduct.brand}}
+              <!-- <input *ngIf="last" id="lastDetailQuantity" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)">
+                  <input *ngIf="! last" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)"> -->
+            </td>
+            <td  style="width: 25%" class="text-center">{{subproduct.quantity}}</td>
+            <td  style="width: 25%" class="text-center" *ngIf="false" >
+              <button mat-icon-button color="primary" (click)="gotoModal7(subproduct.product_STORE_NAME,subproduct.ownbarcode)">
+                <mat-icon aria-label="Example icon-button with a heart icon">note_add</mat-icon>
+              </button>
+            </td>
+            <td  style="width: 25%" class="text-center" *ngIf="false" >
+              <button mat-icon-button color="primary" (click)="editCost(subproduct.product_STORE_NAME,subproduct.ownbarcode)">
+                <mat-icon aria-label="Example icon-button with a heart icon">attach_money</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-card-content>

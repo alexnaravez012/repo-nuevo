@@ -1,0 +1,241 @@
+
+  <mat-card-header style="background-color:rgb(5, 53, 107);margin:0;padding:20px">
+    <mat-card-title style="font-family: Roboto;font-size: 1.3em; font-weight: 700; margin-bottom:15px; color:white">
+      Estas asociando un codigo de barras nuevo de la categoria {{categoryTitle}}</mat-card-title>
+    <mat-card-subtitle style="font-size: 0.8em;font-weight: 300;text-emphasis: left; color:white;margin-bottom:0px">
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content style="padding:25px">
+    <!-- <h4>
+      Productos Genéricos
+    </h4>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th style="width: 70%" class="text-center">Nombre</th>
+            <th style="width: 30%" class="text-center">Opciones</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <span *ngFor="let result of products">
+      <div class="table-responsive">
+        <table class="table table-hover" style="text-align: center">
+          <tbody>
+            <tr>
+              <td style="width: 70%" class="text-center">{{result.product}}</td>
+              <td style="width: 30%" class="text-center">
+                <div>
+                  <button mat-icon-button color="primary" (click)="result.submenu = !result.submenu">
+                    <mat-icon aria-label="Example icon-button with a heart icon" *ngIf="!result.submenu">
+                      keyboard_arrow_down
+                    </mat-icon>
+                    <mat-icon *ngIf="result.submenu" aria-label="Example icon-button with a heart icon">
+                      keyboard_arrow_up
+                    </mat-icon>
+                  </button>
+                  <button mat-icon-button color="primary" (click)="gotoModal7(result,null)">
+                    <mat-icon aria-label="Example icon-button with a heart icon">note_add</mat-icon>
+                  </button>
+              <button mat-icon-button color="primary" (click)="editProduct(result)"> -->
+                    <!-- <mat-icon aria-label="Example icon-button with a heart icon">edit</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div> -->
+<!--
+      <span *ngIf="result.submenu">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th style="width: 25%" class="text-center">Nombre</th>
+                <th style="width: 25%" class="text-center">Presentación</th>
+                <th style="width: 25%" class="text-center">Precio</th>
+                <th style="width: 25%" class="text-center">Opciones</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="table-responsive" style="margin-bottom: 25px" *ngFor="let subproduct of result.subproduct">
+          <table class="table table-hover" style="text-align: center">
+            <tbody>
+              <tr>
+                <td style="width: 25%" class="text-center">{{subproduct.product_NAME}}</td>
+                <td style="width: 25%" class="text-center">Presentacion: {{subproduct.unidad}}</td>
+                <td style="width: 25%" class="text-center">
+                  Precio: {{subproduct.suggested_PRICEE}}
+                  <input *ngIf="last" id="lastDetailQuantity" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)">
+                <input *ngIf="! last" type="number" min="1" [(ngModel)]="productsObject[key].quantity" (keyup.enter)="readNew($event)"> -->
+                <!-- </td>
+                <td style="width: 25%" class="text-center">
+                  <div>
+                    <button mat-icon-button color="primary" (click)="gotoModal7(result,subproduct)">
+                      <mat-icon aria-label="Example icon-button with a heart icon">edit</mat-icon>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </span>
+    </span> -->
+    <!-- <div class="row" style="margin-top:10px">
+      <div class="col">
+        <form #prodForm="ngForm" class="my-form" (ngSubmit)="createProduct()">
+          <mat-form-field>
+            <input matInput class="text-center" type="text" placeholder="Nombre" id="reader" autofocus type="text"
+              name="prodname" [(ngModel)]="productToPost.productName" required>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput class="text-center" type="text" placeholder="Descripcion" id="reader" autofocus type="text"
+              name="proddesc" [(ngModel)]="productToPost.productDescription" required>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Impuestos</mat-label>
+            <mat-select matInput class="text-center" type="text" placeholder="Url de la imagen" id="reader" autofocus
+              type="text" [(value)]="productToPost.id_tax" required>
+              <mat-option *ngFor="let tax of taxes" [value]="tax.id">{{tax.value}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-stroked-button color="primary" type="submit" [disabled]="!prodForm.valid"><span
+              *ngIf="!editingProduct">Agregar</span><span *ngIf="editingProduct">Editar</span> Producto
+            Generico</button>
+          <button mat-stroked-button color="primary" *ngIf="editingProduct"
+            (click)="cancelEditingProduct()">Cancelar</button>
+        </form>
+      </div>
+    </div>  -->
+
+<!--
+    <button mat-stroked-button color="primary" type="submit" (click)="addGenericProduct()">Agregar Producto
+    Generico</button> -->
+
+
+
+    <span *ngIf="addingCode">
+      <div class="row" style="margin-top:10px">
+        <div class="col">
+          <form #codeForm="ngForm" class="my-form" (ngSubmit)="createCode()">
+            <mat-form-field>
+              <input matInput class="text-center" type="number" placeholder="Precio Sugerido" id="reader" autofocus
+                type="text" name="prodname" [(ngModel)]="code.suggested_price" required>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput class="text-center" type="text" placeholder="Codigo de Barras" id="reader" autofocus
+                type="text" name="proddesc" [(ngModel)]="code.code" required>
+            </mat-form-field>
+            <mat-form-field hidden="true">
+              <input matInput class="text-center" type="text" placeholder="Marca" id="reader" autofocus type="text"
+                name="proddescxx" [(ngModel)]="code.id_brand" required disabled>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput class="text-center" type="text" placeholder="Marca" id="reader" autofocus type="text"
+                name="proddescxxx" [(ngModel)]="brandProduct" required disabled>
+            </mat-form-field>
+            <mat-form-field padding>
+              <mat-label>Unidad de medida</mat-label>
+              <mat-select name="prodtax" [(value)]="code.id_measure_unit" required>
+                <mat-option *ngFor="let measure of measures" [value]="measure.id_MEASURE_UNIT">{{measure.measure_UNIT}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button mat-stroked-button color="primary" type="submit" style="text-transform: none;" type="submit"
+              [disabled]="!codeForm.valid">Agregar/editar Codigo</button>
+            <button mat-stroked-button color="primary" *ngIf="editingCode"
+              (click)="editingProduct = false">Cancelar</button>
+          </form>
+        </div>
+      </div>
+      <div class="card card-nav-tabs">
+
+
+
+        <div class="row">
+          <div class="col my-col" *ngIf="lastBrand && lastBrand.length > 0">
+            <mat-card color="toolbar" (click)="gotoFatherBrand()" float-right style="width:120px;height: 120px;">
+              <mat-card-header style="word-wrap: break-word;">
+                <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px">
+                  <mat-icon>backspace</mat-icon>
+                </mat-card-title>
+                <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>Volver</mat-card-title>
+              </mat-card-header>
+            </mat-card>
+          </div>
+          <div class="col my-col" *ngFor="let brand of brands">
+            <mat-card color="toolbar" float-right style="width:120px;height: 120px;overflow: hidden"
+              (click)="gotoSubBrand(brand)">
+              <mat-card-header style="word-wrap: break-word;">
+<!--                <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px">-->
+<!--                  <mat-icon *ngIf="!editingBrand">shopping-cart</mat-icon>-->
+<!--                  <mat-icon *ngIf="editingBrand">edit</mat-icon>-->
+<!--                </mat-card-title>-->
+                <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap matTooltip={{brand.brand}}>
+                  {{brand.brand}}</mat-card-title>
+              </mat-card-header>
+            </mat-card>
+          </div>
+          <!-- <div class="col my-col">
+            <mat-card color="toolbar" (click)="gotoAddBrand()" float-right style="width:120px;height: 120px;">
+              <mat-card-header style="word-wrap: break-word;">
+                <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px">
+                  <mat-icon>add</mat-icon>
+                </mat-card-title>
+                <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>Agregar</mat-card-title>
+              </mat-card-header>
+            </mat-card>
+          </div> -->
+          <!-- <div class="col my-col">
+    <mat-card color="toolbar" (click)="gotoModal5()" float-right style="width:120px;height: 120px;">
+      <mat-card-header style="word-wrap: break-word;">
+        <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px"><mat-icon>add</mat-icon></mat-card-title>
+        <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>Agregar</mat-card-title>
+      </mat-card-header>
+    </mat-card>
+  </div> -->
+          <!-- <div class="col my-col" *ngIf="!editingBrand">
+            <mat-card color="toolbar" (click)="editingBrand = true;" float-right style="width:120px;height: 120px;">
+              <mat-card-header style="word-wrap: break-word;">
+                <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px">
+                  <mat-icon>edit</mat-icon>
+                </mat-card-title>
+                <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>Editar</mat-card-title>
+              </mat-card-header>
+            </mat-card>
+          </div> -->
+        </div>
+      </div>
+      <!-- <div class="row">
+        <div class="col my-col" *ngIf="lastBrand && lastBrand.length > 0 && !editingBrand" >
+          <mat-card color="toolbar" (click)="gotoFatherBrand()" float-right style="width:100px;height: 100px;">
+            <mat-card-header style="word-wrap: break-word;">
+              <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px"><mat-icon>backspace</mat-icon></mat-card-title>
+              <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>Volver</mat-card-title>
+            </mat-card-header>
+          </mat-card>
+        </div>
+        <div class="col my-col" *ngFor="let brand of brands">
+          <mat-card color="toolbar" float-right style="width:120px;height: 120px;" (click)="gotoSubBrand(brand)">
+            <mat-card-header style="word-wrap: break-word;">
+              <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px"><mat-icon *ngIf="!editingBrand">shopping-cart</mat-icon><mat-icon *ngIf="editingBrand">edit</mat-icon></mat-card-title>
+              <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>{{brand.brand}}</mat-card-title>
+            </mat-card-header>
+          </mat-card>
+        </div>
+        <div class="col my-col">
+          <mat-card color="toolbar" (click)="gotoModal5()" float-right style="width:120px;height: 120px;">
+            <mat-card-header style="word-wrap: break-word;">
+              <mat-card-title style="font-size: 2em; padding-bottom: 0px; padding-top: 10px"><mat-icon>add</mat-icon></mat-card-title>
+              <mat-card-title style="padding-top: 0px;font-size: 1em;" text-wrap>Agregar</mat-card-title>
+            </mat-card-header>
+          </mat-card>
+        </div>
+      </div>   -->
+
+    </span>
+  </mat-card-content>
