@@ -1,0 +1,321 @@
+<div class="web">
+    <div style="display: inline;">
+        <div class="main-container-login">
+            <div class="container-inputs-login uk-position-center uk-box-shadow-medium">
+                <img class="logo-login uk-align-center" src="./assets/images/Logo-Tienda-724-sin-slogan.png" alt="">
+                <div class="uk-flex uk-flex-column">
+                    <input class="inputs-login uk-text-center font-size-12" placeholder="Usuario" type="text" name="" id="" [(ngModel)]="usuario">
+                    <input class="inputs-login uk-text-center font-size-12" placeholder="Contraseña" type="password" [(ngModel)]="clave">
+                </div>
+                <button class="button-login uk-align-center uk-margin-remove-top uk-margin-remove-bottom" style=" margin-top: 20px !important; " (click)="login() ">INICIAR SESIÓN</button>
+                <h6 class="uk-margin-remove font-size-10 uk-text-center color-red cursor-pointer " style="padding-top: 10px; ">¿Olvidaste tu contraseña?</h6>
+            </div>
+            <img class="image-background-login uk-position-bottom-right " src="./assets/images/recurso-fondo-tienda-724.jpg " alt=" ">
+        </div>
+    </div>
+    <!-- Recuperar la contraseña -->
+    <div style="display: none; ">
+        <div class="main-container-login ">
+            <div class="container-inputs-login uk-position-center uk-box-shadow-medium ">
+                <h6 class="uk-margin-remove font-size-12 uk-text-center font-weight-600 color-grey " style="padding-top: 20px; ">Recuperar contraseña</h6>
+                <img class="logo-login-reset-password uk-align-center " src="./assets/images/Logo-Tienda-724-sin-slogan.png " alt=" ">
+                <h6 class="uk-margin-remove font-size-12 uk-text-center font-weight-600 ">Ingresa tu usuario</h6>
+                <div>
+                    <div class="uk-flex uk-flex-column uk-position-absolute ">
+                        <input class="inputs-login-eyes uk-text-center font-size-12 " placeholder="Usuario " type="text " name=" " id=" " [(ngModel)]="usuario ">
+                        <div uk-toggle="target: .eyes-active " class="uk-position-relative icons-eyes ">
+                            <img class="image-eyes eyes-active " src="./assets/icons/Ojo-inactivo.png " alt=" " hidden>
+                            <img class="image-eyes eyes-active " src="./assets/icons/Ojo-activo.png " alt=" ">
+                        </div>
+                    </div>
+                </div>
+                <button class="button-send uk-align-center uk-margin-remove-bottom " uk-toggle="target: #modal-email ">Enviar</button>
+                <div id="modal-email " uk-modal>
+                    <div class="uk-modal-dialog modal-email uk-box-shadow-medium ">
+                        <h6 class="uk-margin-remove font-size-12 uk-text-italic font-weight-700 color-green ">Te enviamos un correo</h6>
+                        <div class="uk-flex uk-flex-middle ">
+                            <h6 class="uk-margin-remove font-size-12 font-weight-700 uk-text-italic color-green ">a</h6>
+                            <h6 class="uk-margin-remove font-size-12 font-weight-700 uk-text-italic padding-horizontal-5 color-green ">*****ero@gmail.com</h6>
+                        </div>
+                    </div>
+                </div>
+                <h6 class="uk-margin-remove font-size-10 uk-text-center padding-vertical-15 color-red cursor-pointer ">Regresar</h6>
+            </div>
+            <img class="image-background-login uk-position-bottom-right " src="./assets/images/recurso-fondo-tienda-724.jpg " alt=" ">
+        </div>
+    </div>
+    <!-- El usuario no existe -->
+    <div style="display: none; ">
+        <div class="main-container-login ">
+            <div class="container-inputs-login uk-position-center uk-box-shadow-medium ">
+                <h6 class="uk-margin-remove font-size-12 uk-text-center font-weight-600 color-grey " style="padding-top: 20px; ">Recuperar contraseña</h6>
+                <img class="logo-login-reset-password uk-align-center " src="./assets/images/Logo-Tienda-724-sin-slogan.png " alt=" ">
+                <h6 class="uk-margin-remove font-size-12 uk-text-center font-weight-600 ">Ingresa tu usuario</h6>
+                <div>
+                    <div class="uk-flex uk-flex-column uk-position-absolute ">
+                        <input class="inputs-login-eyes uk-text-center font-size-12 " placeholder="Usuario " type="text " name=" " id=" " [(ngModel)]="usuario ">
+                        <div uk-toggle="target: .eyes-active " class="uk-position-relative icons-eyes ">
+                            <img src="./assets/icons/Signo-de-admiracion.png " class="uk-position-relative icon-error " alt=" ">
+                            <img class="image-eyes eyes-active " src="./assets/icons/Ojo-inactivo.png " alt=" " hidden>
+                            <img class="image-eyes eyes-active " src="./assets/icons/Ojo-activo.png " alt=" ">
+                        </div>
+                    </div>
+                    <h6 class="uk-margin-remove font-size-9 color-red uk-text-center " style="padding-top: 55px; ">El usuario que ingresaste no existe</h6>
+                </div>
+                <button class="button-send-two uk-align-center uk-margin-remove-bottom " uk-toggle="target: #modal-email ">Enviar</button>
+                <div id="modal-email " uk-modal>
+                    <div class="uk-modal-dialog modal-email uk-box-shadow-medium ">
+                        <h6 class="uk-margin-remove font-size-12 uk-text-italic font-weight-700 color-green ">Te enviamos un correo</h6>
+                        <div class="uk-flex uk-flex-middle ">
+                            <h6 class="uk-margin-remove font-size-12 font-weight-700 uk-text-italic color-green ">a</h6>
+                            <h6 class="uk-margin-remove font-size-12 font-weight-700 uk-text-italic padding-horizontal-5 color-green ">*****ero@gmail.com</h6>
+                        </div>
+                    </div>
+                </div>
+                <h6 class="uk-margin-remove font-size-10 uk-text-center padding-vertical-15 color-red cursor-pointer ">Regresar</h6>
+            </div>
+            <img class="image-background-login uk-position-bottom-right " src="./assets/images/recurso-fondo-tienda-724.jpg " alt=" ">
+        </div>
+    </div>
+    <!-- Escribir nueva contraseña -->
+    <div style="display: none; ">
+        <div class="main-container-login ">
+            <div class="container-inputs-reset-pass uk-position-center uk-box-shadow-medium ">
+                <h6 class="uk-margin-remove font-size-12 uk-text-center font-weight-600 color-grey " style="padding-top: 20px; ">Recuperar contraseña</h6>
+                <img class="logo-login-reset-password uk-align-center " src="./assets/images/Logo-Tienda-724-sin-slogan.png " alt=" ">
+                <div class="uk-flex uk-flex-column ">
+                    <h6 class="uk-margin-remove font-size-12 font-weight-600 uk-text-center ">Escribe tu nueva contraseña</h6>
+                    <div>
+                        <div class="uk-flex uk-flex-column uk-position-absolute ">
+                            <input class="inputs-login-reset-pass uk-text-center font-size-12 " placeholder="********* " type="text " name=" " id=" " [(ngModel)]="clave ">
+                            <div uk-toggle="target: .eyes-active " class="uk-position-relative icons-eyes ">
+                                <img class="image-eyes eyes-active " src="./assets/icons/Ojo-inactivo.png " alt=" " hidden>
+                                <img class="image-eyes eyes-active " src="./assets/icons/Ojo-activo.png " alt=" ">
+                            </div>
+                        </div>
+                    </div>
+                    <h6 class="uk-margin-remove font-size-12 font-weight-600 uk-text-center " style="padding-top: 70px; ">Confirma tu nueva contraseña</h6>
+                    <div>
+                        <div class="uk-flex uk-flex-column uk-position-absolute ">
+                            <input class="inputs-login-reset-pass-two uk-text-center font-size-12 " placeholder="********* " type="text " name=" " id=" " [(ngModel)]="clave ">
+                            <div uk-toggle="target: .eyes-active " class="uk-position-relative icons-eyes ">
+                                <img class="image-eyes eyes-active " src="./assets/icons/Ojo-inactivo.png " alt=" " hidden>
+                                <img class="image-eyes eyes-active " src="./assets/icons/Ojo-activo.png " alt=" ">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="button-send-two uk-align-center uk-margin-remove-bottom " uk-toggle="target: #modal-pass-change " style="margin-top: 100px; ">Enviar</button>
+                <div id="modal-pass-change " uk-modal>
+                    <div class="uk-modal-dialog modal-email uk-box-shadow-medium ">
+                        <h6 class="uk-margin-remove font-size-12 uk-text-italic font-weight-700 color-green ">Contraseña actualizada,</h6>
+                        <h6 class="uk-margin-remove font-size-12 font-weight-700 uk-text-italic color-green " style="padding-left: 10px; ">regresando al inicio</h6>
+                    </div>
+                </div>
+            </div>
+            <img class="image-background-login uk-position-bottom-right " src="./assets/images/recurso-fondo-tienda-724.jpg " alt=" ">
+        </div>
+    </div>
+    <!-- Escribir nueva contraseña -->
+    <div style="display: none; ">
+        <div class="main-container-login ">
+            <div class="container-inputs-reset-pass uk-position-center uk-box-shadow-medium ">
+                <h6 class="uk-margin-remove font-size-12 uk-text-center font-weight-600 color-grey " style="padding-top: 20px; ">Recuperar contraseña</h6>
+                <img class="logo-login-reset-password uk-align-center " src="./assets/images/Logo-Tienda-724-sin-slogan.png " alt=" ">
+                <div class="uk-flex uk-flex-column ">
+                    <h6 class="uk-margin-remove font-size-12 font-weight-600 uk-text-center ">Escribe tu nueva contraseña</h6>
+                    <div>
+                        <div class="uk-flex uk-flex-column uk-position-absolute ">
+                            <input class="inputs-login-reset-pass uk-text-center font-size-12 " placeholder="********* " type="text " name=" " id=" " [(ngModel)]="clave ">
+                            <div uk-toggle="target: .eyes-active " class="uk-position-relative icons-eyes ">
+                                <img class="image-eyes eyes-active " src="./assets/icons/Ojo-inactivo.png " alt=" " hidden>
+                                <img class="image-eyes eyes-active " src="./assets/icons/Ojo-activo.png " alt=" ">
+                            </div>
+                        </div>
+                    </div>
+                    <h6 class="uk-margin-remove font-size-12 font-weight-600 uk-text-center " style="padding-top: 70px; ">Confirma tu nueva contraseña</h6>
+                    <div>
+                        <div class="uk-flex uk-flex-column uk-position-absolute ">
+                            <input class="inputs-login-reset-pass-two uk-text-center font-size-12 " placeholder="********* " type="text " name=" " id=" " [(ngModel)]="clave ">
+                            <div uk-toggle="target: .eyes-active " class="uk-position-relative icons-eyes " style="left: 258px !important; ">
+                                <img src="./assets/icons/Signo-de-admiracion.png " class="uk-position-relative icon-error " alt=" ">
+                                <img class="image-eyes eyes-active " src="./assets/icons/Ojo-inactivo.png " alt=" " hidden>
+                                <img class="image-eyes eyes-active " src="./assets/icons/Ojo-activo.png " alt=" ">
+                            </div>
+                        </div>
+                    </div>
+                    <h6 class="uk-margin-remove font-size-9 color-red uk-text-center " style="padding-top: 55px; ">Las contraseñas no coinciden</h6>
+                </div>
+                <button class="button-send-two uk-align-center uk-margin-remove-bottom " uk-toggle="target: #modal-pass-change " style="margin-top: 40px; ">Enviar</button>
+                <h6 class="uk-margin-remove font-size-10 uk-text-center padding-vertical-15 color-red cursor-pointer ">Regresar</h6>
+                <div id="modal-pass-change " uk-modal>
+                    <div class="uk-modal-dialog modal-email uk-box-shadow-medium ">
+                        <h6 class="uk-margin-remove font-size-12 uk-text-italic font-weight-700 color-green ">Contraseña actualizada,</h6>
+                        <h6 class="uk-margin-remove font-size-12 font-weight-700 uk-text-italic color-green " style="padding-left: 10px; ">regresando al inicio</h6>
+                    </div>
+                </div>
+            </div>
+            <img class="image-background-login uk-position-bottom-right " src="./assets/images/recurso-fondo-tienda-724.jpg " alt=" ">
+        </div>
+    </div>
+</div>
+<div class="mobile ">
+    <div style="display: inline; ">
+        <div class="main-container-login ">
+            <div class="container-inputs-login-responsive uk-position-top-center ">
+                <img class="logo-login-responsive uk-align-center " src="./assets/images/Logo-Tienda-724-sin-slogan.png " alt=" ">
+                <div class="container-dates-resp ">
+                    <div class="uk-flex uk-flex-column ">
+                        <input class="inputs-login-responsive uk-text-center font-size-15 " placeholder="Usuario " type="text " name=" " id=" " [(ngModel)]="usuario ">
+                        <input class="inputs-login-responsive uk-text-center font-size-15 " placeholder="Contraseña " type="password " [(ngModel)]="clave " (keyup.enter)="login() ">
+                    </div>
+                    <button class="button-login-responsive uk-align-center uk-margin-remove-bottom uk-margin-remove-top " (click)="login() ">INICIAR SESIÓN</button>
+                    <h6 class="uk-margin-remove font-size-13 uk-text-center color-red cursor-pointer " style="padding-top: 20px; ">¿Olvidaste tu contraseña?</h6>
+                </div>
+            </div>
+            <img class="image-background-login uk-position-bottom-right " src="./assets/images/recurso-fondo-tienda-724-R-1.jpg " alt=" ">
+        </div>
+    </div>
+    <!-- Recuperar la contraseña -->
+    <div style="display: none; ">
+        <div class="main-container-login ">
+            <div class="container-inputs-login-responsive uk-position-top-center ">
+                <h6 class="uk-margin-remove font-size-15 uk-text-center font-weight-600 color-grey " style="padding-top: 20px; ">Recuperar contraseña</h6>
+                <img class="logo-login-reset-password-responsive uk-align-center " src="./assets/images/Logo-Tienda-724-sin-slogan.png " alt=" ">
+                <h6 class="uk-margin-remove font-size-15 uk-text-center font-weight-600 " style="padding-top: 15px; ">Ingresa tu usuario</h6>
+                <div>
+                    <div class="uk-flex uk-flex-column uk-position-absolute ">
+                        <input class="inputs-login-eyes-responsive uk-text-center font-size-15 " placeholder="Usuario " type="text " name=" " id=" " [(ngModel)]="usuario ">
+                        <div uk-toggle="target: .eyes-active " class="uk-position-relative icons-eyes-responsive ">
+                            <img class="image-eyes-responsive eyes-active " src="./assets/icons/Ojo-inactivo.png " alt=" " hidden>
+                            <img class="image-eyes-responsive eyes-active " src="./assets/icons/Ojo-activo.png " alt=" ">
+                        </div>
+                    </div>
+                </div>
+                <button class="button-send-responsive uk-align-center uk-margin-remove-bottom " uk-toggle="target: #modal-email ">Enviar</button>
+                <div id="modal-email " uk-modal>
+                    <div class="uk-modal-dialog modal-email-responsive uk-box-shadow-medium ">
+                        <h4 class="uk-margin-remove uk-text-italic font-weight-700 color-green ">Te enviamos un correo</h4>
+                        <div class="uk-flex uk-flex-middle ">
+                            <h4 class="uk-margin-remove font-weight-700 uk-text-italic color-green ">a</h4>
+                            <h4 class="uk-margin-remove font-weight-700 uk-text-italic padding-horizontal-5 color-green ">*****ero@gmail.com</h4>
+                        </div>
+                    </div>
+                </div>
+                <h6 class="uk-margin-remove font-size-13 uk-text-center padding-vertical-15 color-red cursor-pointer ">Regresar</h6>
+            </div>
+            <img class="image-background-login uk-position-bottom-right " src="./assets/images/recurso-fondo-tienda-724-R.jpg " alt=" ">
+        </div>
+    </div>
+    <!-- El usuario no existe -->
+    <div style="display: none; ">
+        <div class="main-container-login ">
+            <div class="container-inputs-login-responsive uk-position-top-center ">
+                <h6 class="uk-margin-remove font-size-15 uk-text-center font-weight-600 color-grey " style="padding-top: 20px; ">Recuperar contraseña</h6>
+                <img class="logo-login-reset-password-responsive uk-align-center " src="./assets/images/Logo-Tienda-724-sin-slogan.png " alt=" ">
+                <h6 class="uk-margin-remove font-size-15 uk-text-center font-weight-600 " style="padding-top: 15px ; ">Ingresa tu usuario</h6>
+                <div>
+                    <div class="uk-flex uk-flex-column uk-position-absolute ">
+                        <input class="inputs-login-eyes-responsive uk-text-center font-size-15 " placeholder="Usuario " type="text " name=" " id=" " [(ngModel)]="usuario ">
+                        <div uk-toggle="target: .eyes-active " class="uk-position-relative icons-eyes-responsive ">
+                            <img src="./assets/icons/Signo-de-admiracion.png " class="uk-position-relative icon-error " alt=" ">
+                            <img class="image-eyes-responsive eyes-active " src="./assets/icons/Ojo-inactivo.png " alt=" " hidden>
+                            <img class="image-eyes-responsive eyes-active " src="./assets/icons/Ojo-activo.png " alt=" ">
+                        </div>
+                    </div>
+                    <h6 class="uk-margin-remove font-size-9 color-red uk-text-center " style="padding-top: 55px; ">El usuario que ingresaste no existe</h6>
+                </div>
+                <button class="button-send-two-responsive uk-align-center uk-margin-remove-bottom " uk-toggle="target: #modal-email-error ">Enviar</button>
+                <div id="modal-email-error " uk-modal>
+                    <div class="uk-modal-dialog modal-email-responsive uk-box-shadow-medium " style="padding-right: 30px; ">
+                        <h6 class="uk-margin-remove uk-text-center font-size-12 font-weight-700 color-red ">Error</h6>
+                        <h4 class="uk-margin-remove uk-text-center font-weight-700 uk-text-italic color-red ">El usuario que</h4>
+                        <h4 class="uk-margin-remove uk-text-center font-weight-700 uk-text-italic padding-horizontal-5 color-red ">ingresaste no existe</h4>
+                    </div>
+                </div>
+                <h6 class="uk-margin-remove font-size-13 uk-text-center padding-vertical-15 color-red cursor-pointer ">Regresar</h6>
+            </div>
+            <img class="image-background-login uk-position-bottom-right " src="./assets/images/recurso-fondo-tienda-724-R.jpg " alt=" ">
+        </div>
+    </div>
+    <!-- Escribir nueva contraseña -->
+    <div style="display: none; ">
+        <div class="main-container-login ">
+            <div class="container-inputs-reset-pass-responsive uk-position-top-center ">
+                <h6 class="uk-margin-remove font-size-15 uk-text-center font-weight-600 uk-text-muted " style="padding-top: 20px; ">Recuperar contraseña</h6>
+                <img class="logo-login-reset-password-responsive uk-align-center " src="./assets/images/Logo-Tienda-724-sin-slogan.png " alt=" ">
+                <div class="uk-flex uk-flex-column ">
+                    <h6 class="uk-margin-remove font-size-15 font-weight-600 uk-text-center ">Escribe tu nueva contraseña</h6>
+                    <div>
+                        <div class="uk-flex uk-flex-column uk-position-absolute ">
+                            <input class="inputs-login-reset-pass-responsive uk-text-center font-size-15 " placeholder="********* " type="text " name=" " id=" " [(ngModel)]="clave ">
+                            <div uk-toggle="target: .eyes-active " class="uk-position-relative icons-eyes-responsive ">
+                                <img class="image-eyes-responsive eyes-active " src="./assets/icons/Ojo-inactivo.png " alt=" " hidden>
+                                <img class="image-eyes-responsive eyes-active " src="./assets/icons/Ojo-activo.png " alt=" ">
+                            </div>
+                        </div>
+                    </div>
+                    <h6 class="uk-margin-remove font-size-15 font-weight-600 uk-text-center " style="padding-top: 75px; ">Confirma tu nueva contraseña</h6>
+                    <div>
+                        <div class="uk-flex uk-flex-column uk-position-absolute ">
+                            <input class="inputs-login-reset-pass-two-responsive uk-text-center font-size-15 " placeholder="********* " type="text " name=" " id=" " [(ngModel)]="clave ">
+                            <div uk-toggle="target: .eyes-active " class="uk-position-relative icons-eyes-responsive ">
+                                <img class="image-eyes-responsive eyes-active " src="./assets/icons/Ojo-inactivo.png " alt=" " hidden>
+                                <img class="image-eyes-responsive eyes-active " src="./assets/icons/Ojo-activo.png " alt=" ">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="button-send-two-responsive uk-align-center uk-margin-remove-bottom " uk-toggle="target: #modal-pass-change " style="margin-top: 85px; ">Enviar</button>
+                <div id="modal-pass-change " uk-modal>
+                    <div class="uk-modal-dialog modal-email-responsive uk-box-shadow-medium " style="top: 530px !important; ">
+                        <h4 class="uk-margin-remove uk-text-italic font-weight-700 color-green ">Contraseña actualizada,</h4>
+                        <h4 class="uk-margin-remove font-weight-700 uk-text-italic color-green " style="padding-left: 18px; ">regresando al inicio</h4>
+                    </div>
+                </div>
+            </div>
+            <img class="image-background-login uk-position-bottom-right " src="./assets/images/recurso-fondo-tienda-724-R.jpg " alt=" ">
+        </div>
+    </div>
+    <!-- la contraseña no coincide-->
+    <div style="display: none; ">
+        <div class="main-container-login ">
+            <div class="container-inputs-reset-pass-responsive uk-position-top-center ">
+                <h6 class="uk-margin-remove font-size-15 uk-text-center font-weight-600 color-grey " style="padding-top: 20px; ">Recuperar contraseña</h6>
+                <img class="logo-login-reset-password-responsive uk-align-center " src="./assets/images/Logo-Tienda-724-sin-slogan.png " alt=" ">
+                <div class="uk-flex uk-flex-column ">
+                    <h6 class="uk-margin-remove font-size-15 font-weight-600 uk-text-center ">Escribe tu nueva contraseña</h6>
+                    <div>
+                        <div class="uk-flex uk-flex-column uk-position-absolute ">
+                            <input class="inputs-login-reset-pass-responsive uk-text-center font-size-15 " placeholder="********* " type="text " name=" " id=" " [(ngModel)]="clave ">
+                            <div uk-toggle="target: .eyes-active " class="uk-position-relative icons-eyes-responsive ">
+                                <img class="image-eyes-responsive eyes-active " src="./assets/icons/Ojo-inactivo.png " alt=" " hidden>
+                                <img class="image-eyes-responsive eyes-active " src="./assets/icons/Ojo-activo.png " alt=" ">
+                            </div>
+                        </div>
+                    </div>
+                    <h6 class="uk-margin-remove font-size-15 font-weight-600 uk-text-center " style="padding-top: 75px; ">Confirma tu nueva contraseña</h6>
+                    <div>
+                        <div class="uk-flex uk-flex-column uk-position-absolute ">
+                            <input class="inputs-login-reset-pass-two-responsive uk-text-center font-size-15 " placeholder="********* " type="text " name=" " id=" " [(ngModel)]="clave ">
+                            <div uk-toggle="target: .eyes-active " class="uk-position-relative icons-eyes-responsive " style="left: 326px !important; ">
+                                <img src="./assets/icons/Signo-de-admiracion.png " class="uk-position-relative icon-error " alt=" ">
+                                <img class="image-eyes-responsive eyes-active " src="./assets/icons/Ojo-inactivo.png " alt=" " hidden>
+                                <img class="image-eyes-responsive eyes-active " src="./assets/icons/Ojo-activo.png " alt=" ">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="button-send-two-responsive uk-align-center uk-margin-remove-bottom " uk-toggle="target: #modal-pass-error " style="margin-top: 80px; ">Enviar</button>
+                <div id="modal-pass-error " uk-modal>
+                    <div class="uk-modal-dialog modal-email-responsive uk-box-shadow-medium " style="padding-right: 30px; top: 530px !important; ">
+                        <h6 class="uk-margin-remove uk-text-center font-size-12 font-weight-700 color-red ">Error</h6>
+                        <h4 class="uk-margin-remove uk-text-center font-weight-700 uk-text-italic color-red ">Las contraseñas</h4>
+                        <h4 class="uk-margin-remove uk-text-center font-weight-700 uk-text-italic padding-horizontal-5 color-red ">No coinciden</h4>
+                    </div>
+                </div>
+            </div>
+            <img class="image-background-login uk-position-bottom-right " src="./assets/images/recurso-fondo-tienda-724-R.jpg " alt=" ">
+        </div>
+    </div>
+</div>

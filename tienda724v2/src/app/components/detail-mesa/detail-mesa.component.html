@@ -1,0 +1,676 @@
+<div class="web">
+    <!--Estado de orden-->
+    <div>
+        <!--Navbar-->
+        <div class="uk-flex uk-flex-between navbar-tables">
+            <div class="uk-flex uk-flex-middle">
+                <!-- <div uk-toggle="target: .menu-vertical-tables; cls: show" class="padding-horizontal-20">
+                    <i class="fas fa-bars font-size-20 color-red cursor-pointer" style="margin-left: 10px;" uk-toggle="target: .main-container-tables; cls: width-menu-vertical-tables"></i>
+                </div> -->
+                <i class="fas fa-home font-size-25 cursor-pointer color-red padding-horizontal-20" style="margin-left: 10px;" (click)="goMenu()"></i>
+                <div>
+                    <img src="./assets/data/tienda724.png" class="logo-size-tables" alt="">
+                </div>
+                <div class="cursor-pointer uk-flex uk-flex-middle" style="margin-left: 60px;">
+                    {{getStoreName()}}
+                </div>
+            </div>
+            <div class="uk-inline cursor-pointer padding-horizontal-30 uk-flex uk-flex-middle">
+              <button class="button-data-user-tables uk-flex uk-flex-middle">
+                <img class="logo-user-size-tables" src="./assets/data/icono-de-usuario.png" alt=" ">
+                <h4 class="uk-text-bold uk-margin-remove color-red" style="padding-right: 5px;"> {{clientName}} </h4>
+                <i class="fas fa-caret-down "></i>
+              </button>
+                <div uk-drop="mode: click">
+                    <div class="uk-card uk-card-body uk-card-default uk-box-shadow-large drop-data-user-tables">
+                        <div class="padding-vertical-10">
+                            <h5 class="uk-text-bold uk-margin-remove">Roles activados:</h5>
+                            <h5 class="uk-margin-remove "> {{getRolString()}} </h5>
+                        </div>
+                        <div class="hr-tab"></div>
+                        <div class="padding-vertical-10">
+                            <h5 class="uk-text-bold uk-margin-remove">Id de usuario:</h5>
+                            <h5 class="uk-margin-remove "> {{username}} </h5>
+                        </div>
+                        <div class="hr-tab"></div>
+                        <div class="padding-vertical-10">
+                            <button class="button-outside" (click)="logOut()">Cerrar Sesión</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Menu vertical ERP-->
+        <div style="position: relative;">
+            <div class="menu-vertical-tables">
+                <ul class="uk-list" style="padding-bottom: 20px;">
+                    <div class="uk-flex uk-flex-between">
+                        <div style="margin-left: 33px;">
+                            <h4 class="uk-margin-remove color-red uk-text-bold">ERP</h4>
+                            <h4 class="uk-margin-remove color-red uk-text-bold">Dashboard</h4>
+                        </div>
+                        <div style="padding-right: 5px;">
+                            <div uk-toggle="target: .menu-vertical-tables; cls: show" style="margin-right: 10px;">
+                                <i class=" fas fa-times font-size-17 color-red cursor-pointer"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data/Iconografía/Inventario.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Inventario</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data/Iconografía/Reportes.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Reportes</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data/Iconografía/Terceros.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Tercero</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data//Iconografía/Contabilidad.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Contabilidad</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data//Iconografía/Pedidos.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Pedidos</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data//Iconografía/Crear-producto.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Crear producto</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data//Iconografía/Opciones-de-caja.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Opciones de caja</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data//Iconografía/Domicilios.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Domicilios</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data//Iconografía/administracion-de-pedidos.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12" style="width: 100px;">Administracion de pedidos</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data//Iconografía/Domicilios.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Mesas</h4>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <div class="main-container-tables">
+            <div class="container-open-table">
+                <div class="uk-flex uk-flex-between">
+                    <div class="uk-flex uk-flex-middle">
+                        <div class="uk-flex uk-flex-middle cursor-pointer" (click)="regresarAMesas()">
+                            <i class="fas fa-caret-left uk-margin-remove"></i>
+                            <h6 class="uk-text-light uk-margin-remove font-weight-700 font-size-13" style="padding-left: 10px;">Mesas</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-flex uk-flex-middle uk-flex-between">
+                    <!-- <div class="uk-flex uk-flex-middle padding-horizontal-17" style="margin-top: 30px;">
+                        <h6 class="uk-margin-remove font-size-12 font-weight-700">Función:</h6>
+                        <h6 class="uk-margin-remove font-size-12 padding-horizontal-10 cursor-pointer">Mesero <i class="fas fa-caret-down"></i> </h6>
+                    </div> -->
+                    <div class="uk-flex uk-flex-middle padding-horizontal-17" style="margin-right: 120px; margin-top: 30px;">
+                        <!-- <i class="fas fa-ellipsis-v cursor-pointer font-size-18" uk-toggle="#option-processes"></i> -->
+                        <div id="option-processes" uk-modal>
+                            <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical menu-processes-order-tables">
+                                <div class="uk-flex uk-flex-center">
+                                    <h3 class=" color-red uk-text-bold">Procesos de pedido</h3>
+                                </div>
+                                <div class="uk-flex uk-flex-around">
+                                    <button uk-toggle="target: #sure-cancel-order-tables" class="button-card-modal-tables" style="background-color: rgba(124, 124, 124, 0.836); color: white;">Cancelar pedido</button>
+                                    <div id="sure-cancel-order-tables" uk-modal>
+                                      <div class="uk-modal-dialog uk-margin-auto-vertical uk-modal-body menu-processes-order-tables" style="width: 450px !important;">
+                                          <h3 class="uk-text-center color-red uk-text-bold">Esta apunto de cancelar el pedido, ¿Esta seguro que quiere continuar?</h3>
+                                          <div class="uk-flex uk-flex-center" style="padding-top: 20px;">
+                                              <button class="button-card-modal-tables uk-modal-close" style="background-color: rgba(124, 124, 124, 0.836); color: white;" (click)="cancelTable()">Cancelar</button>
+                                          </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-flex uk-flex-middle uk-flex-between">
+                    <div>
+                        <div class="uk-flex uk-flex-middle" style="padding-top: 20px; margin-left: 18px;">
+                            <h4 class="uk-text-bold uk-margin-remove width-300">{{objMesa.mesa}}</h4>
+                            <div class="uk-flex uk-flex-middle uk-flex-between width-300">
+                                <div class="uk-flex uk-flex-middle">
+                                    <h6 class="uk-margin-remove font-size-13 font-weight-700">Tiempo:</h6>
+                                    <h6 class="uk-margin-remove font-size-13 padding-horizontal-10">{{getDateInMinutes(objMesa.purchase_DATE)}} minutos</h6>
+                                </div>
+                                <h6 class="uk-margin-remove font-size-13">{{objMesa.totalprice | currency}}</h6>
+                            </div>
+                            <div class="uk-flex uk-flex-middle uk-flex-between width-400">
+                                <div class="uk-flex uk-flex-middle" style="margin-left: 50px;">
+                                    <h6 class="uk-margin-remove font-size-13 font-weight-700">Mesero:</h6>
+                                    <h6 class="uk-margin-remove font-size-13 padding-horizontal-10">{{objMesa.mesero}}</h6>
+                                </div>
+                                <!-- <h6 class="uk-margin-remove cursor-pointer uk-text-muted font-weight-700 font-size-12">Cambiar mesero</h6> -->
+                            </div>
+                        </div>
+                        <!-- <div class="uk-flex uk-flex-middle uk-flex-wrap" style="padding-top: 10px; margin-left: 18px;">
+                            <h6 class="uk-text-muted uk-margin-remove font-size-13 width-300 font-weight-700">Información del cliente</h6>
+                            <div class="uk-flex">
+                                <h6 class="uk-margin-remove font-size-12 font-weight-700">Documento del cliente:</h6>
+                                <input class="input-line-tables" type="text">
+                            </div>
+                            <div class="uk-flex" style="margin-left: 50px;">
+                                <h6 class="uk-margin-remove font-weight-700 font-size-12">Notas del cliente:</h6>
+                                <input class="input-line-tables" type="text" style="width: 250px;">
+                            </div>
+                        </div> -->
+                    </div>
+                    <!-- <div style="margin-top: 25px; margin-right: 45px;">
+                        <button class="button-add-product-tables font-weight-700">Buscar</button>
+                    </div> -->
+                </div>
+            </div>
+            <div class="uk-flex uk-flex-middle container-open-table-add-product">
+                <h5 class="uk-text-bold uk-margin-remove">Productos añadidos</h5>
+                <div style="margin-left: 155px;">
+                    <button class="button-add-product-tables uk-text-bold" (click)="goToAddProducts()">Agregar Producto</button>
+                    <!-- <button class="button-add-product-tables uk-text-bold" style="background-color: #caffa6 ;" uk-toggle="target: #facturar-tables">Facturar</button> -->
+                    <button uk-toggle="target: #sure-cancel-order-tables" class="button-card-modal-tables" style="background-color: rgba(124, 124, 124, 0.836); color: white;">Cancelar pedido</button>
+
+                    <div id="facturar-tables" uk-modal>
+                        <div class="uk-modal-dialog modal-facturados-tables">
+                            <button class="uk-modal-close-default" type="button" uk-close></button>
+                            <h3 class="uk-margin-remove color-red uk-text-bold padding-horizontal-20" style="padding-top: 20px; padding-bottom: 10px;">Facturación</h3>
+                            <div style="margin-top: 10px;">
+                                <div *ngFor="let element of productListToShow" class="uk-flex uk-flex-middle uk-flex-between lista-colores-facturacion-red">
+                                    <h6 class="uk-margin-remove font-weight-600">6 Latas de aguila light 330cm</h6>
+                                    <h6 class="uk-margin-remove font-weight-600">CANCELADO</h6>
+                                </div>
+
+                            </div>
+                            <div class="box-shadow-down-tables"></div>
+                            <div class="uk-flex uk-flex-middle uk-flex-between padding-horizontal-70" style="margin-top: 30px;">
+                                <div>
+                                    <div class="uk-flex uk-flex-middle">
+                                        <h6 class="uk-margin-remove font-size-13 width-55 font-weight-600">Subtotal</h6>
+                                        <h6 class="uk-margin-remove font-size-13 width-55 uk-text-right">$8.000</h6>
+                                    </div>
+                                    <div class="uk-flex uk-flex-middle">
+                                        <h6 class="uk-margin-remove font-size-13 width-55 font-weight-600">Impuesto</h6>
+                                        <h6 class="uk-margin-remove font-size-13 width-55 uk-text-right">$500</h6>
+                                    </div>
+                                </div>
+                                <div class="uk-flex uk-flex-middle">
+                                    <h4 class="uk-margin-remove font-weight-600">Total</h4>
+                                    <h4 class="uk-margin-remove width-150 uk-text-right">$8,500</h4>
+                                </div>
+                            </div>
+                            <div class="uk-position-bottom-right" style="margin-bottom: 0px; margin-right: 70px;">
+                                <div style="margin-bottom: 30px;">
+                                    <button class="botones-modal-facturacion font-size-15" style="color: green;">Rápida</button>
+                                    <button class="botones-modal-facturacion font-size-13">Rápida con factura</button>
+                                    <button class="botones-modal-facturacion font-size-13" uk-toggle="target: #manual">Manual</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="manual" uk-modal>
+                        <div class="uk-modal-dialog modal-manual">
+                            <div class="padding-horizontal-30 box-shadow-tables" style="padding-top: 10px;">
+                                <h4 class="uk-margin-remove color-blue uk-text-bold padding-vertical-10">Transacción Manual</h4>
+                                <div class="uk-flex uk-flex-middle">
+                                    <div style="margin-right: 20px;">
+                                        <h6 class="uk-margin-remove uk-text-light font-size-13">Tipo de cliente:</h6>
+                                    </div>
+                                    <div class="select-clients-tables">
+                                        <select>
+                                      <option>Cliente específico</option>
+                                      <option>Cliente casual</option>
+                                  </select>
+                                        <div class="select_arrow-clients-tables">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-flex">
+                                    <div style="margin-bottom: 3px;">
+                                        <div class="uk-flex uk-flex-middle padding-vertical-10">
+                                            <div>
+                                                <h6 class="uk-margin-remove font-size-11 color-grey">Cédula del cliente:</h6>
+                                            </div>
+                                            <div>
+                                                <input class="inputs-manual-billing-tables" style="margin-left: 10px; margin-right: 10px;" type="text">
+                                            </div>
+                                            <div>
+                                                <button class="buttons-close-cash-tables" style="font-size: 10px; height: 23px !important; width: 55px;">Buscar</button>
+                                            </div>
+                                        </div>
+                                        <div class="uk-flex uk-flex-middle" style="margin-top: 25px;">
+                                            <div style="margin-right: 40px;">
+                                                <h6 class="uk-margin-remove uk-text-bold">Subtotal</h6>
+                                                <h6 class="uk-margin-remove font-size-11 color-grey">Porcentaje descuento</h6>
+                                                <input class="inputs-manual-billing-tables" type="text">
+                                            </div>
+                                            <div>
+                                                <h6 class="uk-margin-remove uk-text-bold">$9,267</h6>
+                                                <h6 class="uk-margin-remove font-size-11 color-grey">Valor descuento</h6>
+                                                <input class="inputs-manual-billing-tables" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="uk-flex uk-flex-middle padding-vertical-10">
+                                            <div style="margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                                                <h6 class="uk-margin-remove uk-text-light font-size-13">Método de pago:</h6>
+                                            </div>
+                                            <div class="select-cash-tables">
+                                                <select>
+                                                  <option>Efectivo</option>
+                                                  <option>Tarjeta débito</option>
+                                                  <option>Tarjeta crédito</option>
+                                          </select>
+                                                <div class="select_arrow-cash-tables">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="margin-left: 50px; margin-top: 13px;">
+                                        <h5 class="uk-margin-remove uk-text-bold">LUIS CARLOS MOLANO</h5>
+                                        <div class="uk-flex" style=" margin-top: 32px;">
+                                            <h4 class="uk-margin-remove uk-text-bold">Total</h4>
+                                            <h6 class="uk-margin-remove font-size-11 color-grey padding-horizontal-5" style="padding-top: 11px;">Con descuento</h6>
+                                        </div>
+                                        <h3 class="uk-margin-remove uk-text-bold">$8,800</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- pago en efectivo -->
+                            <div style="display: inline;">
+                                <div style="margin-top: 20px;">
+                                    <div style="margin-left:30px ;">
+                                        <img class="image-bill-icons-tables" src="./assets/data/money/anverso-1000.png" alt="">
+                                        <img class="image-bill-icons-tables" src="./assets/data/money/anverso2000.jpg" alt="">
+                                        <img class="image-bill-icons-tables" src="./assets/data/money/anverso5000.png" alt="">
+                                        <img class="image-bill-icons-tables" src="./assets/data/money/anverso10000.jpg" alt="">
+                                        <img class="image-bill-icons-tables" src="./assets/data/money/anverso20000.png" alt="">
+                                        <img class="image-bill-icons-tables" src="./assets/data/money/anverso50000.png" alt="">
+                                    </div>
+                                    <div style="margin-left:30px ;">
+                                        <img class="image-coin-icons-tables" src="./assets/data/money/50.png" alt="">
+                                        <img class="image-coin-icons-tables" src="./assets/data/money/100.png" alt="">
+                                        <img class="image-coin-icons-tables" style="height: 52px; width:52px ;" src="./assets/data/money/200.png" alt="">
+                                        <img class="image-coin-icons-tables" style="height: 50px; width:50px ;" src="./assets/data/money/500.png" alt="">
+                                        <img class="image-coin-icons-tables" style="height: 54px; width:54px ;" src="./assets/data/money/1000.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="uk-flex uk-flex-middle uk-flex-between padding-horizontal-30" style="margin-top: 10px;">
+                                    <div class="uk-flex uk-flex-middle">
+                                        <h6 class="uk-margin-remove uk-text-light font-size-13">Cantidad recibida:</h6>
+                                        <h4 class="uk-margin-remove uk-text-bold padding-horizontal-5">$0</h4>
+                                    </div>
+                                    <div class="uk-flex uk-flex-middle">
+                                        <h6 class="uk-margin-remove uk-text-light font-size-13">Cambio:</h6>
+                                        <h4 class="uk-margin-remove uk-text-bold padding-horizontal-5">$0</h4>
+                                    </div>
+                                    <div>
+                                        <button class="buttons-close-cash-tables" style="width: 120px;">Limpiar recibido</button>
+                                    </div>
+                                </div>
+                                <div class="padding-horizontal-30" style="margin-top: 20px;">
+                                    <h6 class="uk-margin-remove font-size-11 color-grey">Agregar observaciones</h6>
+                                    <input class="inputs-manual-billing-tables" style="width: 100%;" type="text">
+                                </div>
+                                <div class="uk-position-bottom-right" style="margin-bottom: 20px;  margin-right: 30px;">
+                                    <button class="buttons-close-cash-tables uk-modal-close" type="button">Cancelar</button>
+                                    <!-- Boton Completar pago -->
+                                    <div style="display: inline;">
+                                        <button class="buttons-close-cash-tables" style="color: grey !important" type="button">Completar pago</button>
+                                    </div>
+                                    <!-- Boton agregar pago -->
+                                    <div style="display: none;">
+                                        <button class="buttons-close-cash-tables" type="button" uk-toggle="target: #modal-agregar-pago">Agregar pago</button>
+                                    </div>
+                                    <div id="modal-agregar-pago" uk-modal>
+                                        <div class="uk-modal-dialog modal-alert-partial-payment-tables">
+                                            <div class="uk-flex uk-flex-center">
+                                                <h6 class="uk-margin-remove uk-text-center width-150 uk-text-bold">Está a punto de hacer un pago parcial</h6>
+                                            </div>
+                                            <div class="uk-flex uk-flex-center padding-vertical-10">
+                                                <div>
+                                                    <button class="buttons-modal-alert-partial-payment-tables" type="button" uk-toggle="target: #manual">Cancelar</button>
+                                                    <button class="buttons-modal-alert-partial-payment-tables" style="margin-left: 10px; background-color: #B1FFA6;" type="button">Confirmar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Agregar tarjeta debito/credito -->
+                            <div style="display: none;">
+                                <div style="margin-top: 20px; margin-left: 30px;">
+                                    <div style="margin-bottom: 20px;">
+                                        <h6 class="uk-margin-remove uk-text-bold" style="padding-bottom: 10px;">Inscripción de tarjeta Master Card</h6>
+                                        <h6 class="uk-margin-remove uk-text-muted font-size-12">INFORMACIÓN DE FACTURACIÓN</h6>
+                                        <h6 class="uk-margin-remove uk-text-muted font-size-12">No se te hará ningún cargo hasta que realices una compra.</h6>
+                                    </div>
+                                    <div class="uk-flex uk-flex-middle" style="margin-bottom: 10px;">
+                                        <div class="uk-flex uk-flex-middle">
+                                            <h6 class="uk-margin-remove font-size-12">Nombre:</h6>
+                                            <input class="inputs-register-debit-card-tables uk-text-center" type="text" placeholder="Nombre en la tarjeta">
+                                        </div>
+                                        <div class="uk-flex uk-flex-middle" style="margin-left: 25px;">
+                                            <h6 class="uk-margin-remove font-size-12">Numero de tarjeta:</h6>
+                                            <input class="inputs-register-debit-card-tables uk-text-center" style="width: 80px;" type="text" placeholder="--">
+                                        </div>
+                                    </div>
+                                    <div class="uk-flex uk-flex-middle" style="margin-bottom: 10px;">
+                                        <div class="uk-flex uk-flex-middle">
+                                            <h6 class="uk-margin-remove font-size-12">Tipo:</h6>
+                                            <div class="uk-flex uk-flex-middle inputs-register-debit-card-tables" style="width: 50px; padding-left: 15px;">
+                                                <h6 class="uk-margin-remove font-size-11 color-grey">CC</h6>
+                                                <i class="fas fa-caret-down color-grey" style="padding-left: 10px;"></i>
+                                            </div>
+                                            <input class="inputs-register-debit-card-tables uk-text-center" style="width: 160px;" type="text" placeholder="Número de documento">
+                                        </div>
+                                        <div class="uk-flex uk-flex-middle" style="margin-left: 25px;">
+                                            <h6 class="uk-margin-remove font-size-12">Caduca el:</h6>
+                                            <input class="inputs-register-debit-card-tables uk-text-center" style="width: 80px;" type="text" placeholder="MM/AAAA">
+                                        </div>
+                                    </div>
+                                    <div class="uk-flex uk-flex-middle">
+                                        <h6 class="uk-margin-remove font-size-12">CVV:</h6>
+                                        <input class="inputs-register-debit-card-tables uk-text-center" style="width: 80px;" type="text" placeholder="ccv">
+                                    </div>
+                                    <div class="uk-position-bottom-right">
+                                        <button class="buttons-modal-alert-partial-payment-tables uk-text-bold uk-modal-close" style="font-size: 11px; height: 25px; width: 100px; margin-bottom: 25px; margin-right: 15px;">Cancelar</button>
+                                        <button class="buttons-modal-alert-partial-payment-tables uk-text-bold" style="font-size: 11px; height: 25px; width: 100px; margin-bottom: 20px; margin-right: 25px; background-color: #B1FFA6;">Guardar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Mostrando los datos introducirdos y los botones de pago parcial y pago completo. -->
+                            <div style="display: none;">
+                                <div style="padding-left: 30px; padding-top: 20px; padding-right: 30px;">
+                                    <div>
+                                        <h6 class="uk-margin-remove uk-text-bold">Tarjea de débito/crédito</h6>
+                                    </div>
+                                    <div class="uk-flex uk-flex-middle">
+                                        <img class="image-debit-card-tables" src="./assets/data/master-card.png" alt="">
+                                        <h6 class="uk-margin-remove">MASTERCARD--xxxx</h6>
+                                    </div>
+                                    <div style="margin-top: 20px;">
+                                        <h6 class="uk-margin-remove font-size-11 color-grey">Agregar observaciones</h6>
+                                        <input class="inputs-manual-billing-tables" style="width: 100%;" type="text">
+                                    </div>
+                                    <div class="uk-position-bottom-right uk-flex" style="margin-right: 20px; margin-bottom: 20px;">
+                                        <div style="padding-top: 41px; margin-right: 15px;">
+                                            <button class="buttons-options-payments-tables uk-modal-close">Cancelar</button>
+                                        </div>
+                                        <div class="uk-flex uk-flex-column">
+                                            <button class="buttons-options-payments-tables" style="margin-bottom: 10px;">Pago parcial</button>
+                                            <button class="buttons-options-payments-tables">Pago completo</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngFor="let element of productListToShow" class="button-status-tables uk-margin-remove-vertical uk-padding-remove-vertical " [ngStyle]="{'background-color': element.ownbarcode == '45000198' ? 'white':(element.color == 'AZUL' ? '#71b8eb': (element.color == 'AMARILLO' ? '#ebeb5e': (element.color == 'ROJO'  ? '#eb5e5e':'#f59e47' )))}"
+                style="margin-top:10px !important; " uk-alert>
+                <div class="uk-flex uk-flex-middle uk-flex-between">
+                    <div class="uk-flex uk-flex-middle">
+                        <h6 class="uk-margin-remove font-weight-600 uk-text-truncate width-300 font-size-13">{{element.producto}}</h6>
+                        <div class="uk-flex uk-flex-middle">
+                            <h6 class="uk-margin-remove font-size-12">Estado: </h6>
+                            <h6 class="uk-margin-remove font-weight-600 padding-horizontal-10 width-230 font-size-13">{{element.estado}}</h6>
+                            <i class="fas fa-play font-size-10 cursor-pointer" (click)="nextStatus(element)"></i>
+                        </div>
+                    </div>
+                    <div class="width-150">
+                        <img class="img-setup-size-tables cursor-pointer" uk-toggle="target: #status-1" src="./assets/data/setup.png " alt=" " (click)="setProductToEdit(element)">
+                        <div id="status-1" uk-modal>
+                            <div class="uk-flex uk-flex-middle uk-margin-auto-vertical uk-modal-dialog uk-modal-body" style="border-radius: 20px; ">
+                                <div class="uk-width-1-1 ">
+                                    <div>
+                                        <h4 class="uk-margin-remove color-red uk-text-bold ">Editar Pedido</h4>
+                                        <div class="uk-flex uk-flex-middle" style="margin-top: 10px;">
+                                            <h6 class="uk-text-bold uk-margin-remove font-size-13" style="padding-right:5px ;">Fecha de pedido:</h6>
+                                            <h6 class="uk-margin-remove font-size-13" style="padding-top: 5px; ">{{productToEdit.fecha_EVENTO}}</h6>
+                                        </div>
+                                        <h6 class="uk-margin-remove uk-text-bold font-size-13" style="padding-top: 5px; ">{{productToEdit.producto}}</h6>
+                                    </div>
+                                    <h6 class="uk-margin-remove font-size-11" style="padding-top: 20px;">Seleccione Estado:</h6>
+                                    <div class=" uk-flex uk-flex-middle ">
+                                        <div>
+                                            <select class="form-select-tables" style="width: 70% !important; " [(ngModel)]="setStatus">
+                                            <option class="select-items-tables-responsive " value="1501">EN PROCESO</option>
+                                            <option class="select-items-tables-responsive " value="1502">ENTREGADO A MESERO</option>
+                                            <option class="select-items-tables-responsive " value="1503">ENTREGADO EN MESA</option>
+                                            <option class="select-items-tables-responsive " value="1599">CANCELADO</option>
+                                          </select>
+                                        </div>
+                                        <input class="input-line-tables" placeholder="Notas " type="text " style="width: 150px; " [(ngModel)]="nota">
+                                    </div>
+                                </div>
+                                <div class="uk-width-1-2 ">
+                                    <div class="uk-flex uk-flex-column ">
+                                        <button class="button-card-modal-tables uk-modal-close cursor-pointer font-weight-500" (click)="send()">Aceptar</button>
+                                        <button class="button-card-modal-tables uk-modal-close cursor-pointer font-weight-500" style="margin-top: 10px; background-color: rgb(131, 129, 129);">Cancelar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mobile" id="body-height">
+    <!-- Navbar -->
+    <div class="uk-flex uk-flex-middle" style="padding-top: 5px;">
+        <i class="fas fa-angle-double-left padding-horizontal-5 uk-text-muted"></i>
+        <div class="uk-link-muted" (click)="regresarAMesas()">Ver Mesas</div>
+    </div>
+    <div class="uk-flex uk-flex-middle uk-flex-between uk-box-shadow-medium">
+        <img style="width: 220px; padding: 15px;" src="./assets/data/tienda724.png" alt="">
+        <div class="uk-flex uk-flex-middle">
+        </div>
+    </div>
+    <!--Menu users-->
+    <div id="menu-options-tables-responsive" class="background-menus-tables-responsive">
+        <div class="uk-margin-remove-right style-menu-bars-tables-responsive">
+            <ul>
+                <ul class="uk-nav-default" uk-nav>
+                    <li class="uk-active">
+                        <a href="#">
+                            <h4 class="uk-text-bold">Juan Carlos Botero Balcazar</h4>
+                        </a>
+                        <li class="uk-parent">
+                            <a href="#" style="text-decoration: none;">
+                                <div class="uk-flex uk-flex-between uk-flex-middle">
+                                    <h4 class="uk-margin-remove">Sysware</h4>
+                                    <i class="fas fa-caret-down" style="font-size: 20px;"></i>
+                                </div>
+                            </a>
+                            <ul class="uk-nav-sub">
+                                <li>
+                                    <h4 class="uk-margin-remove"><a href="#" style="text-decoration: none;">Tienda Don Lauro</a></h4>
+                                </li>
+                                <li>
+                                    <h4 class="uk-margin-remove"><a href="#" style="text-decoration: none;">JDS BIKES CAÑAS GORDAS</a></h4>
+                                </li>
+                                <li>
+                                    <h4 class="uk-margin-remove"><a href="#" style="text-decoration: none;">Sysware</a></h4>
+                                </li>
+                                <li>
+                                    <h4 class="uk-margin-remove"><a href="#" style="text-decoration: none;">Ciudad 2000</a></h4>
+                                </li>
+                                <li>
+                                    <h4 class="uk-margin-remove"><a href="#" style="text-decoration: none;">Rapitin</a></h4>
+                                </li>
+                                <li>
+                                    <h4 class="uk-margin-remove"><a href="#" style="text-decoration: none;">+Kota Gourmet</a></h4>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="uk-parent">
+                            <a href="#">
+                                <div class="uk-flex uk-flex-between uk-flex-middle">
+                                    <h4 class="uk-margin-remove">Información de usuario</h4>
+                                    <i class="fas fa-caret-down" style="font-size: 20px;"></i>
+                                </div>
+                            </a>
+                            <ul class="uk-nav-sub">
+                                <li><a href="#">Sub item</a></li>
+                                <li><a href="#">Sub item</a></li>
+                            </ul>
+                        </li>
+                </ul>
+            </ul>
+        </div>
+    </div>
+    <!-- navbar tienda, caja -->
+    <div>
+        <div class="uk-flex uk-flex-middle uk-box-shadow-medium">
+            <h5 class="uk-margin-remove padding-vertical-10" style="padding-left: 20px; padding-top: 15px;"> {{getStoreName()}} </h5>
+        </div>
+    </div>
+    <!-- menu informacion -->
+    <div id="menu-information-tables-responsive" class="background-menus-tables-responsive">
+        <ul class="uk-nav-default style-menu-information-tables-responsive" style="padding-left: 20px; padding-top: 5px;" uk-nav>
+            <div>
+                <ul class="uk-nav-default uk-nav-parent-icon " uk-nav>
+                    <li class=" uk-margin-remove uk-flex uk-flex-middle">
+                        <h5 class="uk-text-bold uk-margin-remove ">Facturas:</h5>
+                        <p style="font-size: 120%; ">1</p>
+                    </li>
+                    <div class="uk-text-middle margin-top-20 ">
+                        <h5 class="uk-text-bold uk-margin-remove ">Modo:</h5>
+                        <h5 class="uk-text-bold uk-margin-remove " style="color: #19bb21 ">ONLINE</h5>
+                    </div>
+                    <hr>
+                    <div class="uk-text-middle margin-top-20 ">
+                        <h5 class="uk-text-bold uk-margin-remove ">Offline</h5>
+                    </div>
+                    <hr>
+                    <div class="uk-text-middle margin-top-20 ">
+                        <h5 class="uk-text-bold uk-margin-remove ">Opciones de caja</h5>
+                    </div>
+                    <hr>
+                    <div class="uk-text-middle margin-top-20" style="padding-bottom:20px ;">
+                        <h5 class="uk-text-bold uk-margin-remove">Productos mas vendidos</h5>
+                    </div>
+                </ul>
+            </div>
+        </ul>
+    </div>
+    <!--estado de compra-->
+    <div>
+        <div class="container-open-table-responsive">
+            <div class="uk-flex uk-flex-between" style="padding-bottom: 20px;">
+                <div class="uk-flex uk-flex-middle ">
+                    <div class="uk-flex uk-flex-middle cursor-pointer">
+                        <h6 class="uk-text-light uk-margin-remove color-blue uk-text-bold" style="padding-left: 0px; "> {{objMesa.mesa}} / {{objMesa.mesa_NUMBER}} </h6>
+                    </div>
+                </div>
+                <div style="margin-right: 20px;">
+                    <i class="fas fa-ellipsis-v cursor-pointer font-size-18" uk-toggle="#modal-procesos"></i>
+                    <div id="modal-procesos" uk-modal>
+                        <div class="uk-modal-dialog uk-modal-body modal-process-order-responsive uk-margin-auto-vertical">
+                            <div class="uk-flex uk-flex-center ">
+                                <h3 class="color-blue uk-text-bold ">Procesos de pedido</h3>
+                            </div>
+                            <div class="uk-flex uk-flex-around ">
+                                <button class="button-modal-cancel-responsive uk-modal-close" (click)="cancelTable()">Cancelar Pedido</button>
+                            </div>
+                            <!-- <div class="uk-flex uk-flex-around " style="padding-top: 5%;">
+                            <button class="button-modal-cancel-responsive" (click)="cancelTable()">Facturar Pedido</button>
+                          </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-flex uk-flex-middle">
+                <h4 class="uk-text-bold uk-margin-remove "> {{objMesa.mesa}} </h4>
+                <h5 class="uk-margin-remove uk-text-bold padding-horizontal-20" style="padding-top: 2px;">Tiempo: {{getDateInMinutes(objMesa.purchase_DATE)}} minutos</h5>
+                <h5 class="uk-margin-remove uk-text-bold" style="padding-top: 2px;"> {{objMesa.totalprice | currency}} </h5>
+            </div>
+            <div class="uk-flex uk-flex middle " style="padding-top: 20px; ">
+                <h5 class="uk-margin-remove font-size-15"> <span class="uk-text-bold ">Mesero:</span> {{objMesa.mesero}} </h5>
+                <!-- <i class="fas fa-caret-down uk-margin-remove font-size-18 " style="padding-left: 5px; "></i> -->
+            </div>
+            <div>
+                <div style="padding-top: 20px; " *ngIf="false">
+                    <h5 class="uk-text-muted uk-margin-remove ">Información del cliente</h5>
+                    <div class="uk-flex padding-vertical-10 ">
+                        <h6 class="uk-margin-remove uk-text-bold " style="padding-right: 10px ; ">Documento del cliente:</h6>
+                        <input class="input-line-status-order-tables-responsive" type="text ">
+                    </div>
+                    <div class="uk-flex ">
+                        <h6 class="uk-margin-remove uk-text-bold " style="padding-right: 10px; ">Notas del cliente:</h6>
+                        <input class="input-line-responsive" type="text " style="width: 207px; ">
+                    </div>
+                </div>
+                <div class="uk-flex uk-flex-center " style="padding-top: 20px; " (click)="goToAddProducts()">
+                    <button class="button-add-product-responsive uk-text-bold ">Agregar Producto</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="order-status-navbar-tables-responsive">
+            <div class="uk-flex uk-flex-middle uk-flex-around padding-vertical-10 ">
+                <h5 class="uk-margin-remove uk-text-bold color-blue width-600 uk-text-center ">Producto</h5>
+                <h5 class="uk-margin-remove uk-text-bold color-blue width-300 uk-text-left " style="padding-left: 20px; ">Estado</h5>
+                <h5 class="uk-margin-remove uk-text-bold color-blue width-100 "></h5>
+                <h5 class="uk-margin-remove uk-text-bold color-blue uk-text-center width-50 "></h5>
+                <h5 class="uk-margin-remove uk-text-bold color-blue uk-text-center width-50 "></h5>
+            </div>
+        </div>
+        <div *ngFor="let element of productListToShow">
+            <div class="button-status-responsive uk-margin-remove-vertical uk-padding-remove-vertical " style="margin-top:10px !important; " [ngStyle]="{'background-color': element.ownbarcode == '45000198' ? 'white':(element.color == 'AZUL' ? '#71b8eb': (element.color == 'AMARILLO' ? '#ebeb5e': (element.color == 'ROJO'  ? '#eb5e5e':'#f59e47' )))}"
+                uk-alert>
+                <div class="uk-flex uk-flex-middle uk-flex-around " style="padding-top: 8px; ">
+                    <h6 class=" uk-margin-remove uk-text-bold width-600 uk-text-center font-size-11"> {{element.producto}} </h6>
+                    <div class="width-300 uk-flex uk-flex-middle ">
+                        <h6 class="uk-margin-remove uk-text-bold uk-text-center font-size-12" style="padding-right: 5px; "> {{element.estado}} </h6>
+                        <i class="far fa-play-circle font-size-18 cursor-pointer uk-text-center uk-margin-remove " (click)="nextStatus(element)"></i>
+                    </div>
+                    <div class="uk-text-center ">
+                        <img class="img-setup-size-responsive cursor-pointer width-100 " uk-toggle="target: #change-status" src="./assets/data/setup.png " alt=" " (click)="setProductToEdit(element)">
+                        <div id="change-status" uk-modal>
+                            <div class="modal-process-order-responsive uk-modal-dialog uk-modal-body uk-margin-auto-vertical" style="border-radius: 20px; ">
+                                <div>
+                                    <h4 class="uk-margin-remove color-red uk-text-bold ">Cambiar estado de producto</h4>
+                                    <div class="uk-flex uk-flex-middle " style="padding-top: 10px; ">
+                                        <h5 class="uk-text-bold uk-margin-remove " style="padding-right:5px ; ">Fecha de pedido:</h5>
+                                        <h5 class="uk-margin-remove " style="padding-top: 5px; ">{{productToEdit.fecha_EVENTO}}</h5>
+                                    </div>
+                                    <h6 class="uk-margin-remove uk-text-bold " style="padding-top: 5px; "> {{productToEdit.producto}} </h6>
+                                </div>
+                                <div style="margin-top: 10px; ">
+                                    <div>
+                                        <select class="form-select-tables-responsive" style="width: 70% !important; font-size: 15px; " [(ngModel)]="setStatus">
+                                        <option class="select-items-tables-responsive " value="1501">En proceso</option>
+                                        <option class="select-items-tables-responsive " value="1502">Entregado a mesero</option>
+                                        <option class="select-items-tables-responsive " value="1503">Entregado en mesao</option>
+                                        <option class="select-items-tables-responsive " value="1599">Cancelado</option>
+                                      </select>
+                                    </div>
+                                    <input class="input-line-responsive font-size-18 " placeholder="Notas " type="text " style="width: 223px; padding-top: 10px; " [(ngModel)]="nota">
+                                </div>
+                                <div>
+                                    <div class="uk-flex uk-flex-around " style="padding-top: 10px; ">
+                                        <button class="button-modal-cancel-tables-responsive cursor-pointer uk-modal-close" style="width: 115px; margin-right: 5px; background-color: #19bb21;" (click)="send()">Aceptar</button>
+                                        <button class="button-modal-cancel-tables-responsive uk-modal-close cursor-pointer ">Cancelar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

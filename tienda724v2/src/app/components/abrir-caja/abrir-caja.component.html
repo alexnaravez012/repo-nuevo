@@ -1,0 +1,264 @@
+<div class="web">
+  <div class="uk-flex uk-flex-between navbar-optionbox">
+      <div class="uk-flex uk-flex-middle">
+        <i class="fas fa-home font-size-25 cursor-pointer color-red padding-horizontal-20" style="margin-left: 10px;" (click)="goMenu()"></i>
+          <div>
+              <img src="./assets/data/tienda724.png" class="logo-size-optionbox" alt="">
+          </div>
+          <div class="uk-inline">
+            <div class="cursor-pointer uk-flex uk-flex-middle" style="margin-left: 60px;">
+              {{getStoreName()}}
+            </div>
+              <div uk-drop="mode: click">
+                  <div style="position: relative;">
+                      <div class="drop-store-optionbox">
+                          <!-- <ul class="uk-list " style="padding-bottom: 20px;">
+                              <h6 class="uk-margin-remove font-size-10" style="width: 65px; padding-bottom: 10px;">Documento del proveedor</h6>
+                              <div class="hr-tab"></div>
+                              <button class="button-search-supplier-optionbox uk-text-bold">Buscar proveedor</button>
+                              <h6 class=" uk-margin-remove font-size-10">Seleccione tienda proveedora</h6>
+                              <div class="select-supplier-optionbox">
+                                  <select>
+                                      <option>--</option>
+                                      <option>opción 1</option>
+                                      <option>opción 2</option>
+                                      <option>opción 3</option>
+                                      <option>opción 4</option>
+                                  </select>
+                                  <div class="select_arrow-supplier-optionbox">
+                                  </div>
+                              </div>
+                              <div class="padding-vertical-10">
+                                  <h6 class="uk-margin-remove uk-text-bold font-size-12">Proveedor:</h6>
+                                  <h6 class="uk-margin-remove font-size-12">--</h6>
+                              </div>
+                              <div class="padding-vertical-10">
+                                  <h6 class="uk-margin-remove uk-text-bold font-size-12">Documento:</h6>
+                                  <h6 class="uk-margin-remove font-size-12">--000</h6>
+                              </div>
+                              <div class="padding-vertical-10">
+                                  <h6 class="uk-margin-remove uk-text-bold font-size-12">Teléfono:</h6>
+                                  <h6 class="uk-margin-remove font-size-12">000</h6>
+                              </div>
+                              <div class="padding-vertical-10">
+                                  <h6 class="uk-margin-remove uk-text-bold font-size-12">Dirección:</h6>
+                                  <h6 class="uk-margin-remove font-size-12">N/A</h6>
+                              </div>
+                          </ul> -->
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="uk-inline cursor-pointer padding-horizontal-30 uk-flex uk-flex-middle">
+          <button class="button-data-user-optionbox uk-flex uk-flex-middle">
+              <img class="logo-user-size-optionbox" src="./assets/data/icono-de-usuario.png" alt=" ">
+              <h4 class="uk-text-bold uk-margin-remove color-red" style="padding-right: 5px;"> {{clientName}} </h4>
+              <i class="fas fa-caret-down "></i>
+          </button>
+          <div uk-drop="mode: click">
+              <div class="uk-card uk-card-body uk-card-default uk-box-shadow-large drop-data-user-optionbox">
+                  <div class="padding-vertical-10">
+                      <h5 class="uk-text-bold uk-margin-remove">Roles activados:</h5>
+                      <h5 class="uk-margin-remove ">{{getRolString()}}</h5>
+                  </div>
+                  <div class="hr-tab"></div>
+                  <div class="padding-vertical-10">
+                      <h5 class="uk-text-bold uk-margin-remove">Id de usuario:</h5>
+                      <h5 class="uk-margin-remove ">{{username}}</h5>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!--Menu vertical ERP-->
+  <!-- <div style="position: relative;">
+      <div class="menu-vertical-optionbox">
+          <ul class="uk-list" style="padding-bottom: 20px;">
+              <div class="uk-flex uk-flex-between">
+                  <div style="margin-left: 33px;">
+                      <h4 class="uk-margin-remove color-red uk-text-bold">ERP</h4>
+                      <h4 class="uk-margin-remove color-red uk-text-bold">Dashboard</h4>
+                  </div>
+                  <div style="padding-right: 5px;">
+                      <div uk-toggle="target: .menu-vertical-optionbox; cls: show" style="margin-right: 10px;">
+                          <i class=" fas fa-times font-size-17 color-red cursor-pointer"></i>
+                      </div>
+                  </div>
+              </div>
+          </ul>
+      </div>
+  </div> -->
+  <!-- Movimiento de caja-->
+  <div>
+      <!-- Contenido -->
+      <div class="main-container-optionbox">
+          <div class="uk-position-absolute" style="margin-left: 37px; margin-top: 10px; z-index: 10;">
+              <h4 class="uk-margin-remove uk-text-bold color-red-3 width-180">Apertura de Caja</h4>
+          </div>
+          <div class="uk-flex uk-flex-middle navbar-search-products-optionbox uk-position-relative" style="height: 50px; padding-left: 220px; z-index: 5;" *ngIf="!hasOpenBox()">
+              <div class="padding-horizontal-10">
+                  <h6 class="uk-margin-remove uk-text-bold">Seleccionar Caja:</h6>
+              </div>
+              <div class="uk-margin">
+                  <div uk-form-custom="target: > * > span:first-child">
+                      <select (change)="setStore()" [(ngModel)]="selectedBox" >
+                          <option [value]="item.id_CAJA" *ngFor="let item of boxList"> {{item.caja}} - {{item.store}} </option>
+                      </select>
+                      <button class="button-select-box" type="button" tabindex="-1">
+                          <span></span>
+                          <span uk-icon="icon: chevron-down" style="width: 15px;"></span>
+                      </button>
+                  </div>
+              </div>
+          </div>
+          <div style="margin-top: 10px; margin-left: 35px;">
+              <div class="padding-vertical-20">
+                  <h4 class="uk-margin-remove uk-text-bold">{{clientName}}</h4>
+              </div>
+              <div class="uk-flex uk-flex-middle">
+                  <h6 class="uk-margin-remove uk-text-bold">Nombre de Tienda:</h6>
+                  <h6 class="uk-margin-remove padding-horizontal-10">{{getStoreName()}}</h6>
+              </div>
+              <div class="padding-vertical-20">
+                  <button class="buttons-cac-box" *ngIf="hasOpenBox()" (click)="continueWithOpenBox()">Continuar con la caja abierta</button>
+                  <button class="buttons-cac-box" style="background-color: #0c7036" *ngIf="!hasOpenBox()" (click)="openBox()">Abrir caja nueva</button>
+                  <button class="buttons-cac-box" style="background-color: #d32512; color: white;" (click)="goMenu()">Cancelar</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="mobile">
+  <!--Navbar-->
+  <div class="uk-flex uk-flex-between navbar-optionbox">
+      <div class="uk-flex uk-flex-middle">
+          <!-- <div uk-toggle="target: .menu-vertical-optionbox; cls: show" class="padding-horizontal-20">
+          <img class="icon-menu-dashed" src="./assets/data/menu.png" alt="">
+      </div> -->
+          <div>
+              <img src="./assets/data/tienda724.png" class="logo-size-optionbox-resp" alt="">
+          </div>
+
+      </div>
+      <div class="uk-inline cursor-pointer uk-flex uk-flex-middle">
+          <button class="button-data-user-optionbox uk-flex uk-flex-middle">
+          <img class="logo-user-size-optionbox-resp" src="./assets/data/icono-de-usuario.png" alt=" ">
+      </button>
+          <div uk-drop="mode: click">
+              <div class="uk-card uk-card-body uk-card-default uk-box-shadow-large drop-data-user-optionbox">
+                  <div class="padding-vertical-10">
+                      <h5 class="uk-text-bold uk-margin-remove">Roles activados:</h5>
+                      <h5 class="uk-margin-remove ">{{getRolString()}}</h5>
+                  </div>
+                  <div class="hr-tab"></div>
+                  <div class="padding-vertical-10">
+                      <h5 class="uk-text-bold uk-margin-remove">Id de usuario:</h5>
+                      <h5 class="uk-margin-remove ">{{username}}</h5>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!--Menu vertical ERP-->
+  <div style="position: relative;">
+      <div class="menu-vertical-optionbox">
+          <ul class="uk-list" style="padding-bottom: 20px;">
+              <div class="uk-flex uk-flex-between">
+                  <div style="margin-left: 33px;">0
+                      <h4 class="uk-margin-remove color-red uk-text-bold">ERP</h4>
+                      <h4 class="uk-margin-remove color-red uk-text-bold">Dashboard</h4>
+                  </div>
+                  <div style="padding-right: 5px;">
+                      <div uk-toggle="target: .menu-vertical-optionbox; cls: show" style="margin-right: 10px;">
+                          <i class=" fas fa-times font-size-17 color-red cursor-pointer"></i>
+                      </div>
+                  </div>
+              </div>
+              <div>
+                  <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-optionbox">
+                      <img class="img-menu-vertical-size-optionbox" src="./assets/data/Iconografía/Inventario.png" alt="">
+                      <h4 class="uk-margin-remove uk-text-bold font-size-12">Inventario</h4>
+                  </div>
+                  <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-optionbox">
+                      <img class="img-menu-vertical-size-optionbox" src="./assets/data/Iconografía/Reportes.png" alt="">
+                      <h4 class="uk-margin-remove uk-text-bold font-size-12">Reportes</h4>
+                  </div>
+                  <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-optionbox">
+                      <img class="img-menu-vertical-size-optionbox" src="./assets/data/Iconografía/Terceros.png" alt="">
+                      <h4 class="uk-margin-remove uk-text-bold font-size-12">Tercero</h4>
+                  </div>
+                  <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-optionbox">
+                      <img class="img-menu-vertical-size-optionbox" src="./assets/data/Iconografía/Contabilidad.png" alt="">
+                      <h4 class="uk-margin-remove uk-text-bold font-size-12">Contabilidad</h4>
+                  </div>
+                  <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-optionbox">
+                      <img class="img-menu-vertical-size-optionbox" src="./assets/data/Iconografía/Pedidos.png" alt="">
+                      <h4 class="uk-margin-remove uk-text-bold font-size-12">Pedidos</h4>
+                  </div>
+                  <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-optionbox">
+                      <img class="img-menu-vertical-size-optionbox" src="./assets/data/Iconografía/Crear-producto.png" alt="">
+                      <h4 class="uk-margin-remove uk-text-bold font-size-12">Crear producto</h4>
+                  </div>
+                  <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-optionbox">
+                      <img class="img-menu-vertical-size-optionbox" src="./assets/data/Iconografía/Opciones-de-caja.png" alt="">
+                      <h4 class="uk-margin-remove uk-text-bold font-size-12">Opciones de caja</h4>
+                  </div>
+                  <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-optionbox">
+                      <img class="img-menu-vertical-size-optionbox" src="./assets/data/Iconografía/Domicilios.png" alt="">
+                      <h4 class="uk-margin-remove uk-text-bold font-size-12">Domicilios</h4>
+                  </div>
+                  <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-optionbox">
+                      <img class="img-menu-vertical-size-optionbox" src="./assets/data/Iconografía/administracion-de-pedidos.png" alt="">
+                      <h4 class="uk-margin-remove uk-text-bold font-size-12" style="width: 100px;">Administracion de pedidos</h4>
+                  </div>
+                  <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-optionbox">
+                      <img class="img-menu-vertical-size-optionbox" src="./assets/data/Iconografía/Domicilios.png" alt="">
+                      <h4 class="uk-margin-remove uk-text-bold font-size-12">Mesas</h4>
+                  </div>
+              </div>
+          </ul>
+      </div>
+  </div>
+  <div class="main-container-optionbox-resp">
+      <div class="" style="margin-left: 15px; margin-top: 10px; z-index: 10;">
+          <h4 class="uk-margin-remove uk-text-bold color-red-3 width-180">Apertura de Caja</h4>
+      </div>
+      <div class="uk-flex uk-flex-middle navbar-search-products-optionbox" style="height: 50px; padding-left: 15px;" *ngIf="!hasOpenBox()">
+          <div>
+              <h6 class="uk-margin-remove uk-text-bold" style="padding-right: 10px;">Seleccionar Caja:</h6>
+          </div>
+          <div class="uk-margin">
+              <div uk-form-custom="target: > * > span:first-child">
+                  <select>
+                      <option value="" *ngFor="let item of boxList"> {{item.caja}} - {{item.store}} </option>
+                  </select>
+                  <button class="button-select-box" type="button" tabindex="-1">
+                      <span></span>
+                      <span uk-icon="icon: chevron-down" style="width: 15px;"></span>
+                  </button>
+              </div>
+          </div>
+      </div>
+      <div style="margin-top: 10px; margin-left: 15px;">
+          <div class="padding-vertical-20">
+              <h4 class="uk-margin-remove uk-text-bold">Juan Carlos Botero</h4>
+          </div>
+          <div class="uk-flex uk-flex-middle">
+              <h6 class="uk-margin-remove uk-text-bold">Nombre de Tienda:</h6>
+              <h6 class="uk-margin-remove padding-horizontal-10">Sysware</h6>
+          </div>
+          <div class="padding-vertical-20">
+              <div *ngIf="hasOpenBox()">
+                  <button class="buttons-cac-box" (click)="continueWithOpenBox()">Continuar con la caja abierta</button>
+              </div>
+              <div class="padding-vertical-5" *ngIf="!hasOpenBox()">
+                  <button class="buttons-cac-box" style="background-color: #0c7036" (click)="openBox()" >Abrir caja nueva</button>
+              </div>
+              <div>
+                  <button class="buttons-cac-box" style="background-color: #d32512; color: white;" (click)="goMenu()">Cancelar</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

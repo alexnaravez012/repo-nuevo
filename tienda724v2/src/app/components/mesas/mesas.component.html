@@ -1,0 +1,328 @@
+<div class="web">
+    <!-- Ventana de mesas principal -->
+    <div style="display: inline;">
+        <!--Navbar-->
+        <div class="uk-flex uk-flex-between navbar-tables">
+            <div class="uk-flex uk-flex-middle">
+                <!-- <div uk-toggle="target: .menu-vertical-tables; cls: show" class="padding-horizontal-20">
+                  <img class="icon-menu-tables" src="./assets/data/menu.png" alt="">
+              </div> -->
+                <i class="fas fa-home font-size-25 cursor-pointer color-red padding-horizontal-20" style="margin-left: 10px;" (click)="goMenu()"></i>
+                <div>
+                    <img src="./assets/data/tienda724.png" class="logo-size-tables" alt="">
+                </div>
+                <div class="cursor-pointer uk-flex uk-flex-middle" style="margin-left: 60px;">
+                    {{getStoreName()}}
+                </div>
+            </div>
+            <div class="uk-inline cursor-pointer padding-horizontal-30 uk-flex uk-flex-middle">
+                <button class="button-data-user-tables uk-flex uk-flex-middle">
+                  <img class="logo-user-size-tables" src="./assets/data/icono-de-usuario.png" alt=" ">
+                  <h4 class="uk-text-bold uk-margin-remove color-red" style="padding-right: 5px;">{{clientName}}</h4>
+                  <i class="fas fa-caret-down "></i>
+                </button>
+                <div uk-drop="mode: click">
+                    <div class="uk-card uk-card-body uk-card-default uk-box-shadow-large drop-data-user-tables">
+                        <div class="padding-vertical-10">
+                            <h5 class="uk-text-bold uk-margin-remove">Roles activados:</h5>
+                            <h5 class="uk-margin-remove ">{{getRolString()}}</h5>
+                        </div>
+                        <div class="hr-tab"></div>
+                        <div class="padding-vertical-10">
+                            <h5 class="uk-text-bold uk-margin-remove">Id de usuario:</h5>
+                            <h5 class="uk-margin-remove ">{{username}}</h5>
+                        </div>
+                        <div class="hr-tab"></div>
+                        <div class="padding-vertical-10">
+                            <button class="button-outside" (click)="logOut()">Cerrar Sesión</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Menu vertical ERP-->
+        <div style="position: relative;">
+            <div class="menu-vertical-tables">
+                <ul class="uk-list" style="padding-bottom: 20px;">
+                    <div class="uk-flex uk-flex-between">
+                        <div style="margin-left: 33px;">
+                            <h4 class="uk-margin-remove color-red uk-text-bold">ERP</h4>
+                            <h4 class="uk-margin-remove color-red uk-text-bold">Dashboard</h4>
+                        </div>
+                        <div style="padding-right: 5px;">
+                            <div uk-toggle="target: .menu-vertical-tables; cls: show" style="margin-right: 10px;">
+                                <i class=" fas fa-times font-size-17 color-red cursor-pointer"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data/Iconografía/Inventario.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Inventario</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data/Iconografía/Reportes.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Reportes</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data/Iconografía/Terceros.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Tercero</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data//Iconografía/Contabilidad.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Contabilidad</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data//Iconografía/Pedidos.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Pedidos</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data//Iconografía/Crear-producto.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Crear producto</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data//Iconografía/Opciones-de-caja.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Opciones de caja</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data//Iconografía/Domicilios.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Domicilios</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data//Iconografía/administracion-de-pedidos.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12" style="width: 100px;">Administracion de pedidos</h4>
+                        </div>
+                        <div class="uk-flex uk-flex-middle cursor-pointer items-menu-vertical-tables">
+                            <img class="img-menu-vertical-size-tables" src="./assets/data//Iconografía/Domicilios.png" alt="">
+                            <h4 class="uk-margin-remove uk-text-bold font-size-12">Mesas</h4>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <div class="main-container-tables">
+            <h6 class="color-red-two uk-text-bold padding-horizontal-30" style="padding-top: 20px;">Mesas</h6>
+            <div class="uk-child-width-1-5@m uk-grid-small uk-grid-match padding-horizontal-30 uk-flex uk-flex-wrap" uk-grid>
+                <div *ngFor="let item of tableList">
+                    <div *ngIf="(item.naranja> 0 || item.azul > 0 || item.amarillo > 0 || item.rojo > 0)">
+                        <button class="card-table-tables" (click)="goToDetail(item)" [ngStyle]="{'background-color': item.naranja > 0 ?'#f7bd83': ((item.naranja <= 0 && item.amarillo > 0)? '#fcfc9a': ((item.naranja <= 0 && item.amarillo <= 0 && item.azul) ? '#c2e5ff':(item.naranja == 0 && item.amarillo == 0 && item.azul == 0 && item.rojo > 0) ? '#ffa1a1':'#B1FFA6' ))}">
+                            <div class="uk-flex uk-flex-middle uk-flex-between">
+                                <h4 class="uk-text-bold uk-margin-remove">{{item.mesa}}</h4>
+                                <h6 class="uk-margin-remove font-size-13" style="font-weight: 600;">{{item.totalprice|currency}}</h6>
+                            </div>
+                            <div class="uk-flex uk-flex-middle" style="margin-top: 10px;">
+                                <h6 class="uk-margin-remove font-size-13" style="font-weight: 600;">Mesero:</h6>
+                                <h6 class="uk-margin-remove padding-horizontal-10 font-size-13">{{item.mesero}}</h6>
+                            </div>
+                            <div class="uk-flex uk-flex-middle" style="margin-top: 5px;">
+                                <h6 class="uk-margin-remove font-size-13" style="font-weight: 600;">Minutos:</h6>
+                                <h6 class="uk-margin-remove padding-horizontal-10 font-size-13">{{getDateInMinutes(item.purchase_DATE)}} minutos</h6>
+                            </div>
+                        </button>
+                    </div>
+                    <div *ngIf="!(item.naranja > 0 || item.azul > 0 || item.amarillo > 0 || item.rojo > 0)">
+                        <button class="card-table-tables" uk-toggle="target: #table-1" [ngStyle]="{'background-color': item.naranja > 0 ?'#f7bd83': ((item.naranja <= 0 && item.amarillo > 0)? '#fcfc9a': ((item.naranja <= 0 && item.amarillo <= 0 && item.azul) ? '#c2e5ff':(item.naranja == 0 && item.amarillo == 0 && item.azul == 0 && item.rojo > 0) ? '#ffa1a1':'#B1FFA6' ))}"
+                            (click)="tableClick(item)">
+                  <div class="uk-flex uk-flex-middle uk-flex-between">
+                      <h4 class="uk-text-bold uk-margin-remove">{{item.mesa}}</h4>
+                      <h6 class="uk-margin-remove font-size-13" style="font-weight: 600;">{{item.totalprice|currency}}</h6>
+                  </div>
+                  <div class="uk-flex uk-flex-middle" style="margin-top: 10px;">
+                      <h6 class="uk-margin-remove font-size-13" style="font-weight: 600;">Mesero:</h6>
+                      <h6 class="uk-margin-remove padding-horizontal-10 font-size-13">{{item.mesero}}</h6>
+                  </div>
+                  <div class="uk-flex uk-flex-middle" style="margin-top: 5px;">
+                      <h6 class="uk-margin-remove font-size-13" style="font-weight: 600;">Minutos:</h6>
+                      <h6 class="uk-margin-remove padding-horizontal-10 font-size-13">{{getDateInMinutes(item.purchase_DATE)}} minutos</h6>
+                  </div>
+                </button>
+                    </div>
+                    <div id="table-1" style="padding-top: 15%;" uk-modal>
+                        <div class="uk-modal-dialog uk-modal-body modal-card-tables">
+                            <div>
+                                <h4 class="uk-margin-remove uk-text-center color-red uk-text-bold">¿Quieres abrir {{tableName}}?</h4>
+                            </div>
+                            <div class="uk-flex uk-flex-center" style="margin-top: 10px;">
+                                <button (click)="openTable(tableToOpen)" class="uk-modal-close button-card-modal-tables" style="margin-right: 10px !important;" type="button">Abrir</button>
+                                <button class="uk-modal-close button-card-modal-tables" style="background-color: rgb(160, 160, 160); color: white;" type="button">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mobile" id="body-height">
+    <!-- Navbar -->
+    <div class="uk-flex uk-flex-middle" style="padding-top: 5px;">
+        <i class="fas fa-angle-double-left padding-horizontal-5 uk-text-muted"></i>
+        <a class="uk-link-muted" href="#">Menu Principal</a>
+    </div>
+    <div class="uk-flex uk-flex-middle uk-flex-between uk-box-shadow-medium">
+        <img style="width: 220px; padding: 15px;" src="./assets/data/tienda724.png" alt="">
+        <div class="uk-flex uk-flex-middle">
+        </div>
+    </div>
+    <!--Menu bars-->
+    <div id="menu-users-tables-responsive" class="background-menus-tables-responsive">
+        <div class="style-menu-users-tables-responsive">
+            <!--Menu bars overflow-->
+            <ul class="uk-padding-remove">
+                <div class="uk-flex">
+                    <div class="style-overflow-ventas-tables-responsive" id="div-scroll-tables-responsive" onscroll="repeatMenu()">
+                        <ul class="uk-list" id="list-user-tables-responsive">
+                            <div>
+                                <li class=" uk-margin-remove uk-flex uk-flex-middle cursor-pointer items-menu-tables-responsive">
+                                    <img src="./assets/data/1.png " alt=" ">
+                                    <h4 class="uk-text-bold uk-margin-remove color-blue">Ventas</h4>
+                                </li>
+                            </div>
+                            <li class=" uk-margin-remove uk-flex uk-flex-middle cursor-pointer items-menu-tables-responsive padding-top-20 ">
+                                <img class="padding-right-30 " src="./assets/data/2.png " alt=" ">
+                                <h4 class="uk-text-bold uk-margin-remove color-blue ">Compras</h4>
+                            </li>
+                            <li class=" uk-margin-remove uk-flex uk-flex-middle cursor-pointer items-menu-tables-responsive padding-top-20 ">
+                                <img class="padding-right-30 " src="./assets/data/3.png " alt=" ">
+                                <h4 class="uk-text-bold uk-margin-remove color-blue ">Entradas</h4>
+                            </li>
+                            <li class=" uk-margin-remove uk-flex uk-flex-middle cursor-pointer items-menu-tables-responsive padding-top-20 ">
+                                <img class="padding-right-30 " src="./assets/data/4.png " alt=" ">
+                                <h4 class="uk-text-bold uk-margin-remove color-blue ">Salidas</h4>
+                            </li>
+                            <li class=" uk-margin-remove uk-flex uk-flex-middle cursor-pointer items-menu-tables-responsive padding-top-20 ">
+                                <img class="padding-right-30 " src="./assets/data/5.png " alt=" ">
+                                <h4 class="uk-text-bold uk-margin-remove color-blue ">Devoluciones</h4>
+                            </li>
+                            <li class=" uk-margin-remove uk-flex uk-flex-middle cursor-pointer items-menu-tables-responsive padding-top-20 ">
+                                <img class="padding-right-30 " src="./assets/data/6.png " alt=" ">
+                                <h4 class="uk-text-bold uk-margin-remove color-blue ">Catalogo de productos</h4>
+                            </li>
+                            <li class=" uk-margin-remove uk-flex uk-flex-middle cursor-pointer items-menu-tables-responsive padding-top-20 ">
+                                <img class="padding-right-30 " src="./assets/data/7.png " alt=" ">
+                                <h4 class="uk-text-bold uk-margin-remove color-blue ">Inventario</h4>
+                            </li>
+                            <li class=" uk-margin-remove uk-flex uk-flex-middle cursor-pointer items-menu-tables-responsive padding-top-20 ">
+                                <img class="padding-right-30 " src="./assets/data/8.png " alt=" ">
+                                <h4 class="uk-text-bold uk-margin-remove color-blue ">Reportes</h4>
+                            </li>
+                            <li class=" uk-margin-remove uk-flex uk-flex-middle cursor-pointer items-menu-tables-responsive padding-top-20 ">
+                                <img class="padding-right-30 " src="./assets/data/9.png " alt=" ">
+                                <h4 class="uk-text-bold uk-margin-remove color-blue ">Terceros</h4>
+                            </li>
+                            <li class=" uk-margin-remove uk-flex uk-flex-middle cursor-pointer items-menu-tables-responsive padding-top-20 ">
+                                <img class="padding-right-30 " src="./assets/data/10.png " alt=" ">
+                                <h4 class="uk-text-bold uk-margin-remove color-blue ">Contabilidad</h4>
+                            </li>
+                            <li class=" uk-margin-remove uk-flex uk-flex-middle cursor-pointer items-menu-tables-responsive padding-top-20 ">
+                                <img class="padding-right-30 " src="./assets/data/14.png " alt=" ">
+                                <h4 class="uk-text-bold uk-margin-remove color-blue ">Mesas</h4>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </ul>
+        </div>
+    </div>
+    <!--Menu users-->
+    <div id="menu-options-tables-responsive" class="background-menus-tables-responsive">
+        <div class="uk-margin-remove-right style-menu-bars-tables-responsive">
+            <ul>
+                <ul class="uk-nav-default" uk-nav>
+                    <li class="uk-active">
+                        <a href="#">
+                            <h4 class="uk-text-bold">Juan Carlos Botero Balcazar</h4>
+                        </a>
+                        <li class="uk-parent">
+                            <a href="#" style="text-decoration: none;">
+                                <div class="uk-flex uk-flex-between uk-flex-middle">
+                                    <h4 class="uk-margin-remove">Sysware</h4>
+                                    <i class="fas fa-caret-down" style="font-size: 20px;"></i>
+                                </div>
+                            </a>
+                            <ul class="uk-nav-sub">
+                                <li>
+                                    <h4 class="uk-margin-remove"><a href="#" style="text-decoration: none;">Tienda Don Lauro</a></h4>
+                                </li>
+                                <li>
+                                    <h4 class="uk-margin-remove"><a href="#" style="text-decoration: none;">JDS BIKES CAÑAS GORDAS</a></h4>
+                                </li>
+                                <li>
+                                    <h4 class="uk-margin-remove"><a href="#" style="text-decoration: none;">Sysware</a></h4>
+                                </li>
+                                <li>
+                                    <h4 class="uk-margin-remove"><a href="#" style="text-decoration: none;">Ciudad 2000</a></h4>
+                                </li>
+                                <li>
+                                    <h4 class="uk-margin-remove"><a href="#" style="text-decoration: none;">Rapitin</a></h4>
+                                </li>
+                                <li>
+                                    <h4 class="uk-margin-remove"><a href="#" style="text-decoration: none;">+Kota Gourmet</a></h4>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="uk-parent">
+                            <a href="#">
+                                <div class="uk-flex uk-flex-between uk-flex-middle">
+                                    <h4 class="uk-margin-remove">Información de usuario</h4>
+                                    <i class="fas fa-caret-down" style="font-size: 20px;"></i>
+                                </div>
+                            </a>
+                            <ul class="uk-nav-sub">
+                                <li><a href="#">Sub item</a></li>
+                                <li><a href="#">Sub item</a></li>
+                            </ul>
+                        </li>
+                </ul>
+            </ul>
+        </div>
+    </div>
+    <!-- navbar tienda, caja -->
+    <div>
+        <div class="uk-flex uk-flex-middle uk-box-shadow-medium">
+            <h5 class="uk-margin-remove padding-vertical-10" style="padding-left: 20px; padding-top: 15px;"> {{getStoreName()}} </h5>
+        </div>
+    </div>
+    <!--Mesas-->
+    <div style="display: inline;">
+        <div class="uk-grid-small uk-child-width-1-2 uk-text-center uk-flex padding-horizontal-10" uk-grid>
+            <div *ngFor="let item of tableList">
+                <div *ngIf="(item.naranja> 0 || item.azul > 0 || item.amarillo > 0 || item.rojo > 0)">
+                    <button class="uk-card uk-card-default uk-card-body cards-tables-responsive" [ngStyle]="{'background-color': item.naranja > 0 ?'#f7bd83': ((item.naranja <= 0 && item.amarillo > 0)? '#fcfc9a': ((item.naranja <= 0 && item.amarillo <= 0 && item.azul) ? '#c2e5ff':(item.naranja == 0 && item.amarillo == 0 && item.azul == 0 && item.rojo > 0) ? '#ffa1a1':'#B1FFA6' ))}"
+                        (click)="goToDetail(item)">
+                    <div class="uk-flex uk-flex-middle uk-flex-between">
+                        <h5 class="uk-text-bold uk-margin-remove"> {{item.mesa}} </h5>
+                        <h5 class="uk-margin-remove" style="font-weight: 500;">{{getDateInMinutes(item.purchase_DATE)}} minutos</h5>
+                    </div>
+                     <h5 class="uk-text-bold uk-margin-remove" style="font-weight: 500; padding-top: 10px;">Mesero:</h5>
+                     <h5 class="uk-margin-remove" style="font-weight: 500; "> {{item.mesero}} </h5>
+                     <h5 style="font-weight: 500; margin-top: 10px;"> {{item.totalprice|currency}} </h5>
+                </button>
+                </div>
+                <div *ngIf="!(item.naranja > 0 || item.azul > 0 || item.amarillo > 0 || item.rojo > 0)">
+                    <button class="uk-card uk-card-default uk-card-body cards-tables-responsive" [ngStyle]="{'background-color': item.naranja > 0 ?'#f7bd83': ((item.naranja <= 0 && item.amarillo > 0)? '#fcfc9a': ((item.naranja <= 0 && item.amarillo <= 0 && item.azul) ? '#c2e5ff':(item.naranja == 0 && item.amarillo == 0 && item.azul == 0 && item.rojo > 0) ? '#ffa1a1':'#B1FFA6' ))}"
+                        uk-toggle="target: #modal-1" (click)="tableClick(item)">
+                  <div class="uk-flex uk-flex-middle uk-flex-between">
+                      <h5 class="uk-text-bold uk-margin-remove"> {{item.mesa}} </h5>
+                      <h5 class="uk-margin-remove" style="font-weight: 500;">{{getDateInMinutes(item.purchase_DATE)}} minutos</h5>
+                  </div>
+                   <h5 class="uk-text-bold uk-margin-remove" style="font-weight: 500; padding-top: 10px;">Mesero:</h5>
+                   <h5 class="uk-margin-remove" style="font-weight: 500; "> {{item.mesero}} </h5>
+                   <h5 style="font-weight: 500; margin-top: 10px;"> {{item.totalprice|currency}} </h5>
+              </button>
+                    <div id="modal-1" style="padding-top: 18%;" uk-modal>
+                        <div class="uk-modal-dialog uk-modal-body modal-cards-tables-responsive">
+                            <div>
+                                <h4 class="uk-margin-remove uk-text-center color-blue uk-text-bold">¿Quieres abrir {{tableName}}?</h4>
+                            </div>
+                            <div class="uk-flex uk-flex-center" style="margin-top: 10px;">
+                                <button (click)="openTable(tableToOpen)" class="uk-modal-close button-modal-tables-responsive" style="margin-right: 10px !important;" type="button">Abrir</button>
+                                <button class="uk-modal-close button-modal-tables-responsive" type="button">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
